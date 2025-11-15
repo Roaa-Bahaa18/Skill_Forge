@@ -5,8 +5,6 @@ public class User {
     protected String email;
     protected String passwordHash;
 
-    public User(){}
-
     public User(String userId,String role,String username,String email,String passwordHash) {
         this.userId=userId;
         this.role=role;
@@ -22,9 +20,5 @@ public class User {
 
 
     public void setUserPassword(String passwordHash){this.passwordHash=passwordHash;}
-    public void setUserId(String id){this.userId=id;}
-    public void setUserName(String name){this.username=name;}
-    public void setUserRole(String role){this.role=role;}
-    public void setUserEmail(String email){this.email=email;}
 
 }
