@@ -191,7 +191,7 @@ public class course {
                 JSONObject studentObj = new JSONObject();
                 studentObj.put("studentId", s.getUserId());
                 studentObj.put("studentName", s.getUsername());
-                studentObj.put("email", s.getEmail());
+                studentObj.put("email", s.getUserEmail());
 
                 JSONArray lessonsArray = new JSONArray();
                 for (lesson l : c.getLessons()) {
@@ -214,6 +214,11 @@ public class course {
             e.printStackTrace();
         }
     }
+    @Override
+    public String toString(){
+        return "(" + this.getCourseId() + ") " + this.getCourseTitle();
+    }
+
 }
 
 

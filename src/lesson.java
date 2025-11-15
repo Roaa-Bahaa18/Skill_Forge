@@ -60,7 +60,8 @@ public class lesson {
         return this.lessonId + " " + this.lessonTitle + " " + this.content;
     }
 
-
-
-
+    @Override
+    public String toString(){
+        return "(" + this.lessonId + ") " + this.lessonTitle;
+    }
 }
