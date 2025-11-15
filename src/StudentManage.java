@@ -28,9 +28,18 @@ public class StudentManage {
             student.setEnrolledCourses(enrolled);
             //savetofile(); -->users
             c.addStudent(student);
-           // course.saveToFile(); ???
-            return true;
+            /*ArrayList<course> courses = course.readFromFile();
+            for(int i=0;i<courses.size();i++)
+            {
+                if (courses.get(i).getCourseId()==c.getCourseId())
+                {
+                   courses.set(i,c);
+                   course.saveToFile(courses,);
+                   return true;
+                }
+            }*/
         }
+        return false;
     }
     //Lesson Access w progress tracking w a mark lessons as complete kman
     public float[] progressTrack()
