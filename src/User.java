@@ -4,8 +4,14 @@ public class User {
     protected String username;
     protected String email;
     protected String passwordHash;
-    public User() {
+    public User(String userId,String role,String username,String email,String passwordHash) {
+        this.userId=userId;
+        this.role=role;
+        this.username=username;
+        this.email=email;
+        this.passwordHash=passwordHash;
     }
+    public User(){}
     public String getUserId(){return userId;}
     public String getUsername(){return username;}
     public String getUserEmail(){return email;}
