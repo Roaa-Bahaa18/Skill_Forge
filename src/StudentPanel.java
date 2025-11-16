@@ -71,14 +71,14 @@ public class StudentPanel extends JFrame {
             }
             case "Track Progress": {
                 course[] courses = s.viewEnrolledCourse();
-                float[] progress = s.progressTrack();
                 courselist.setListData(courses);
                 courselist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                 courselist.addListSelectionListener(e ->
                 {
                     course c = courselist.getSelectedValue();
                     if (c != null) {
-                        JOptionPane.showMessageDialog(StudentPanel.this, "This course is" + progress[courselist.getSelectedIndex()] + "completed");
+                        float progress=s.progressTrack(c);
+                        JOptionPane.showMessageDialog(StudentPanel.this, "This course is" + progress + "completed");
                     }
                 });
                 break;

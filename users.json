@@ -2,16 +2,16 @@
   "users": [
     {
       "enrolledCourseIds": [
-        "C001",
-        "C002"
+        "C002",
+        "C001"
       ],
       "lessonProgress": {
         "C002": [
-          false,
-          false
+          true,
+          true
         ],
         "C001": [
-          false,
+          true,
           false
         ]
       },

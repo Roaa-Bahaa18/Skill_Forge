@@ -57,28 +57,22 @@ public class StudentManage {
         return true;
     }
     //Lesson Access w progress tracking w a mark lessons as complete kman
-    public float[] progressTrack() {
+    public float progressTrack(course c) {
         ArrayList<String> enrolledIds = student.getEnrolledCourseIds();
-        if (enrolledIds.isEmpty()) return null;
-
-        float[] progressArr = new float[enrolledIds.size()];
-
+        float progress=0;
         for (int i = 0; i < enrolledIds.size(); i++) {
             String courseId = enrolledIds.get(i);
-
-            ArrayList<Boolean> lessonStatuses = student.getProgress().get(courseId);
-            if (lessonStatuses == null || lessonStatuses.isEmpty()) {
-                progressArr[i] = 0f;
-                continue;
+            if(courseId.equals(c.getCourseId()))
+            {
+                ArrayList<Boolean> lessonStatuses = student.getProgress().get(courseId);
+                if (lessonStatuses == null || lessonStatuses.isEmpty()) {break;}
+                int completed = 0;
+                for (Boolean status : lessonStatuses) {if (status) completed++;}
+                progress = (completed * 100f) / lessonStatuses.size();
+                break;
             }
-            int completed = 0;
-            for (Boolean status : lessonStatuses) {
-                if (status) completed++;
-            }
-            progressArr[i] = (completed * 100f) / lessonStatuses.size();
         }
-
-        return progressArr;
+        return progress;
     }
     // Complete a lesson for this student
     public boolean completeLesson(course c, lesson l) {
