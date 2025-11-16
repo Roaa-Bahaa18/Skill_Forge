@@ -15,28 +15,14 @@
           "lessonId": "L2",
           "lessonTitle": "OOP Concepts",
           "status": false
-        }
-      ],
-      "studentIds": [
-        "9692",
-        "9439",
-        "9303"
-      ]
-    },
-    {
-      "courseId": "C002",
-      "courseTitle": "Data Structures",
-      "courseDescription": "Learn core data structures.",
-      "instructorId": "1",
-      "lessons": [
-        {
-          "lessonId": "L1",
-          "lessonTitle": "Arrays",
-          "status": false
         },
         {
-          "lessonId": "L2",
-          "lessonTitle": "Linked Lists",
+          "lessonId": "154877",
+          "lessonTitle": "UML design",
+          "content": "nope",
+          "resources": [
+            "nope"
+          ],
           "status": false
         }
       ],
@@ -44,6 +30,32 @@
         "9692",
         "9439"
       ]
+    },
+    {
+      "courseId": "136129",
+      "courseTitle": "Machine Learning",
+      "courseDescription": "3m el nas kollaha",
+      "instructorId": "1",
+      "lessons": [],
+      "studentIds": []
+    },
+    {
+      "courseId": "110804",
+      "courseTitle": "Deep learning",
+      "courseDescription": "3ammy w 3m 3yaly",
+      "instructorId": "1",
+      "lessons": [
+        {
+          "lessonId": "166716",
+          "lessonTitle": "Neural network",
+          "content": "7agat s3ba shwya",
+          "resources": [
+            "mafesh"
+          ],
+          "status": false
+        }
+      ],
+      "studentIds": []
     }
   ]
 }

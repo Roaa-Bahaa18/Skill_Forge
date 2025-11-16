@@ -2,16 +2,12 @@
   "users": [
     {
       "enrolledCourseIds": [
-        "C002",
         "C001"
       ],
       "lessonProgress": {
-        "C002": [
-          true,
-          true
-        ],
         "C001": [
           true,
+          false,
           false
         ]
       },
@@ -23,17 +19,13 @@
     },
     {
       "enrolledCourseIds": [
-        "C001",
-        "C002"
+        "C001"
       ],
       "lessonProgress": {
-        "C002": [
-          false,
-          false
-        ],
         "C001": [
           false,
-          true
+          true,
+          false
         ]
       },
       "userId": "9439",
@@ -51,15 +43,8 @@
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     },
     {
-      "enrolledCourseIds": [
-        "C001"
-      ],
-      "lessonProgress": {
-        "C001": [
-          true,
-          true
-        ]
-      },
+      "enrolledCourseIds": [],
+      "lessonProgress": {},
       "userId": "9303",
       "role": "Student",
       "username": "Roaa Bahaa",

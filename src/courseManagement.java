@@ -66,28 +66,52 @@ public abstract class courseManagement {
 
     public static boolean deleteCourse(String courseId) {
         ArrayList<course> list = loadCourses();
-        for(course c:list){
-            if(c.getCourseId().matches(courseId))
-            {
-                list.remove(c);
-                saveCourses(list);
-                return true;
+        course courseToRemove = null;
+        for(course c:list){if(c.getCourseId().matches(courseId)) {courseToRemove = c;break;}}
+        if (courseToRemove == null) {return false;}
+
+        ArrayList<String> studentIds = courseToRemove.getStudentIds();
+        if (studentIds != null && !studentIds.isEmpty()) {
+            List<User> users = userService.loadUsers();
+            for (User u : users) {
+                if (u instanceof Student) {
+                    Student s = (Student) u;
+                    if (s.getEnrolledCourseIds().contains(courseId)) {
+                        s.getEnrolledCourseIds().remove(courseId);
+                        s.getProgress().remove(courseId);
+                    }
+                }
             }
+            userService.saveUsers(users);
         }
-        return false;
+        list.remove(courseToRemove);
+        saveCourses(list);
+        return true;
     }
 
     public static boolean addLesson(String courseId,lesson lesson) {
         ArrayList<course> list = loadCourses();
-        for(course c:list) {
-            if(c.getCourseId().matches(courseId))
-            {
-                c.getLessons().add(lesson);
-                saveCourses(list);
-                return true;
+        course reqCourse = null;
+        for (course c : list) {if (c.getCourseId().matches(courseId)) {reqCourse = c;break;}}
+        if (reqCourse == null) {return false;}
+
+        ArrayList<String> studentIds = reqCourse.getStudentIds();
+        if (studentIds != null && !studentIds.isEmpty()) {
+            List<User> users = userService.loadUsers();
+            for (User u : users) {
+                if (u instanceof Student) {
+                    Student s = (Student) u;
+                    ArrayList<Boolean> progress = s.getProgress().get(courseId);
+                    if (progress != null) {
+                        progress.add(false);
+                    }
+                }
             }
+            userService.saveUsers(users);
         }
-        return false;
+        reqCourse.getLessons().add(lesson);
+        saveCourses(list);
+        return true;
     }
 
     public static boolean editLesson(String courseId,String lessonId, lesson newLesson) {
@@ -100,32 +124,54 @@ public abstract class courseManagement {
                     if(l.getLessonId().matches(lessonId)){
                         ArrayList<lesson> lessons = c.getLessons();
                         lessons.set(i, newLesson);
-                        break;
+                        saveCourses(list);
+                        return true;
                     }
                     i++;
                 }
-                return true;
             }
         }
         return false;
+
     }
 
     public static boolean removeLesson(String courseId,String lessonId) {
         ArrayList<course> list = loadCourses();
+        course targetCourse = null;
+        int lessonIndex = -1;
         for(course c:list) {
             if(c.getCourseId().matches(courseId))
             {
-                for(lesson l : c.getLessons()){
-                    if(l.getLessonId().matches(lessonId)){
-                        c.getLessons().remove(l);
-                        saveCourses(list);
-                        return true;
+                targetCourse = c;
+                int i = 0;
+                for (lesson l : c.getLessons()) {
+                    if (l.getLessonId().matches(lessonId)) {
+                        lessonIndex = i;
+                        break;
                     }
                 }
-
+                i++;
             }
+            if (lessonIndex != -1) break;
         }
-        return false;
-    }
+        if (targetCourse == null || lessonIndex == -1) {return false;}
 
+        ArrayList<String> studentIds = targetCourse.getStudentIds();
+        if (studentIds != null && !studentIds.isEmpty()) {
+            List<User> users = userService.loadUsers();
+            for (User u : users) {
+                if (u instanceof Student) {
+                    Student s = (Student) u;
+                    ArrayList<Boolean> progress = s.getProgress().get(courseId);
+                    if (progress != null && progress.size() > lessonIndex) {
+                        progress.remove(lessonIndex);
+                    }
+                }
+            }
+            userService.saveUsers(users);
+        }
+        targetCourse.getLessons().remove(lessonIndex);
+        saveCourses(list);
+        return true;
+    }
 }
