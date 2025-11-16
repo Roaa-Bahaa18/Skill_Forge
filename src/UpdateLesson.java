@@ -73,8 +73,13 @@ public class UpdateLesson extends JFrame{
 
     private void editLesson(Instructor instructor){
         InstructorManagement manage = new InstructorManagement(instructor);
+        String resourcesText = resourcesField.getText().trim();
         ArrayList<String> resources = new ArrayList<>();
-        resources.add(resourcesField.getText());
+        if (!resourcesText.isEmpty()) {
+            for (String r : resourcesText.split(",")) {
+                resources.add(r.trim());
+            }
+        }
         manage.editLesson(courseId, lesson.getLessonId(), titleField.getText(), contentField.getText(), resources);
 
         JOptionPane.showMessageDialog(this, "Lesson Edited Successfully");
