@@ -78,14 +78,6 @@ public abstract class userService {
         */
     }
 
-    public static User getStudent(String ID)
-    {
-        List<User> users = loadUsers();
-        for (User u : users) {
-            if(u.getUserId().equals(ID)) return u;
-        }
-        return null;
-    }
 
 }
 

@@ -19,7 +19,7 @@ public class LessonPanel extends JFrame {
             lesson l = lessonlist.getSelectedValue();
             if (l != null) {
                 String lessondetails = "Lesson ID:" + l.getLessonId() +"\nLesson Title:" + l.getLessonTitle() + "\nContent:" +l.getContent()+"\n";
-                if(l.getCompleted())
+                if(l.getStatus())
                 {
                     JOptionPane.showMessageDialog(null, lessondetails + "Status: Completed");
                 }

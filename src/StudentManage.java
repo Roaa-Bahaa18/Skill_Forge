@@ -1,4 +1,6 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StudentManage {
     private Student student;
@@ -7,43 +9,48 @@ public class StudentManage {
     }
 
     //Course browsing --> aka available courses
-    public course[] viewAvailableCourse()
-    {
-        //ArrayList<course> available = course.readFromFile();
+    public course[] viewAvailableCourse() {
+        ArrayList<course> available = courseManagement.loadCourses();
         available.removeAll(student.getEnrolledCourses());
         return available.toArray(new course[0]);
     }
-
+    //view enrolled courses
+    public course[] viewEnrolledCourse() {
+        return student.getEnrolledCourses().toArray(new course[0]);
+    }
     //Course enrollment --> this function won't call unless it's available
-    public boolean enrollCourse(course c)
-    {
+    public boolean enrollCourse(course c) {
         ArrayList<course> enrolled = student.getEnrolledCourses();
-        if(enrolled.contains(c))
-        {
+        ArrayList<Student> students= c.getStudents();
+        if(enrolled.contains(c)) {
             return false;
         }
-        else
-        {
+        else {
+            List<User> list= userService.loadUsers();
             enrolled.add(c);
             student.setEnrolledCourses(enrolled);
-            //savetofile(); -->users
-            c.addStudent(student);
-            /*ArrayList<course> courses = course.readFromFile();
-            for(int i=0;i<courses.size();i++)
-            {
-                if (courses.get(i).getCourseId()==c.getCourseId())
+            for(int i=0;i<list.size();i++) {
+                if(list.get(i).getUserId().equals(student.getUserId()))
                 {
-                   courses.set(i,c);
-                   course.saveToFile(courses,);
-                   return true;
+                    list.set(i,student);
+                    userService.saveUsers(list);
                 }
-            }*/
+            }
+
+            ArrayList<course> courses= courseManagement.loadCourses();
+            students.add(student);
+            c.setStudents(students);
+            for(int i=0;i<courses.size();i++) {
+                if (courses.get(i).getCourseId().equals(c.getCourseId())) {
+                    courses.set(i, c);
+                    courseManagement.saveCourses(courses);
+                }
+            }
         }
-        return false;
+        return true;
     }
     //Lesson Access w progress tracking w a mark lessons as complete kman
-    public float[] progressTrack()
-    {
+    public float[] progressTrack() {
         ArrayList<course> courses = student.getEnrolledCourses();
         if(courses.isEmpty()) return null;
         float[] progress = new float[courses.size()];
@@ -54,7 +61,7 @@ public class StudentManage {
             ArrayList<lesson> lessons = c.getLessons();
             for(lesson l: lessons)
             {
-                if(l.getCompleted()) percent++;
+                if(l.getStatus()) percent++;
             }
             progress[i] = (float) (percent*100)/lessons.size();
             i++;
@@ -62,30 +69,30 @@ public class StudentManage {
         return progress;
     }
 
-    public boolean completeLesson(course c,lesson l)
-    {
-       ArrayList<lesson> lessons = c.getLessons();
-        for(lesson l2: lessons)
-        {
-            if((l2.getLessonId())==(l.getLessonId()))
-            {
-                if(!l2.getCompleted()) {
-                    l2.setCompleted(true);
-                     //savetofile();
-                    return true;
+    public boolean completeLesson(course c, lesson l) {
+
+        List<User> students = userService.loadUsers();
+        for (User u : students) {
+            if (u.getUserId().equals(student.getUserId())) {
+                ArrayList<course> enrolled = student.getEnrolledCourses();
+                for (course sc : enrolled) {
+                    if (sc.getCourseId().equals(c.getCourseId())) {
+                        ArrayList<lesson> lessons = sc.getLessons();
+                        for (lesson studentLesson : lessons) {
+                            if (studentLesson.getLessonId().equals(l.getLessonId())) {
+                                if (studentLesson.getStatus()) return false;
+                                studentLesson.setStatus(true);
+
+                                userService.saveUsers(students);
+                                return true;
+                            }
+                        }
+                    }
                 }
-                else return false;
             }
         }
+
         return false;
     }
-
-    //view enrolled courses
-    public course[] viewEnrolledCourse()
-    {
-        return student.getEnrolledCourses().toArray(new course[0]);
-    }
-
-
 
 }
