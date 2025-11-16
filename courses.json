@@ -44,17 +44,18 @@
       "studentIds": []
     },
     {
-      "courseId": "110804",
-      "courseTitle": "Deep learning",
-      "courseDescription": "3ammy w 3m 3yaly",
-      "instructorId": "1",
+      "courseId": "139996",
+      "courseTitle": "Probability and statistics",
+      "courseDescription": "ahmed yehya yom el sabt",
+      "instructorId": "9687",
       "lessons": [
         {
-          "lessonId": "166716",
-          "lessonTitle": "Neural network",
-          "content": "7agat s3ba shwya",
+          "lessonId": "184820",
+          "lessonTitle": "Poisson",
+          "content": "kan fe exponentioal w lamda",
           "resources": [
-            "mafesh"
+            "mafesh",
+            "ymkn feh idk"
           ],
           "status": false
         }

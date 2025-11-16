@@ -11,9 +11,9 @@ public class InstructorManagement {
 
     public void createCourse(String title, String courseDescription){
         Random ran = new Random();
-        String courseId = Integer.toString(ran.nextInt(99999) + 100000);
+        String courseId = Integer.toString(ran.nextInt(99) + 100);
         while(!Validations.isValidCourseID(courseId)){
-            courseId = Integer.toString(ran.nextInt(99999) + 100000);
+            courseId = Integer.toString(ran.nextInt(99) + 100);
         }
         ArrayList<String> studentsIDs = new ArrayList<>();
         ArrayList<lesson> lessons = new ArrayList<>();
