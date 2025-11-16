@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Signup extends JFrame{
     private JPanel Signup;
@@ -74,8 +75,8 @@ public class Signup extends JFrame{
             User user;
             if("Student".equals(role))
             {
-                ArrayList<course> enrolledCourses= new ArrayList<>();
-                ArrayList<Float> progress= new ArrayList<>();
+                ArrayList<String> enrolledCourses= new ArrayList<>();
+                HashMap<String, ArrayList<Boolean>> progress= new HashMap<>();
                 user= new Student(name,password,id,email,enrolledCourses,progress);
             }
             else

@@ -1,38 +1,24 @@
 {
   "users": [
     {
-      "enrolledCourses": [],
-      "progress": [],
+      "enrolledCourseIds": [
+        "C001",
+        "C002"
+      ],
+      "lessonProgress": {
+        "C002": [
+          false,
+          false
+        ],
+        "C001": [
+          false,
+          false
+        ]
+      },
       "userId": "9692",
       "role": "Student",
       "username": "Heba Tarek",
       "email": "heba@gmail.com",
-      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
-    },
-    {
-      "enrolledCourses": [],
-      "progress": [],
-      "userId": "9439",
-      "role": "Student",
-      "username": "Habiba Ahmed",
-      "email": "habiba@gmail.com",
-      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
-    },
-    {
-      "createdCourses": [],
-      "userId": "1",
-      "role": "Instructor",
-      "username": "Ahmed El Tarras",
-      "email": "tarras@gmail.com",
-      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
-    },
-    {
-      "enrolledCourses": [],
-      "progress": [],
-      "userId": "9303",
-      "role": "Student",
-      "username": "Roaa Bahaa",
-      "email": "roaa@gmail.com",
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     }
   ]

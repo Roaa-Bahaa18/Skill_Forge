@@ -1,17 +1,19 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Student extends User{
-    private ArrayList<course> enrolledCourses;
-    private ArrayList<Float> progress;
+    private ArrayList<String> enrolledCourseIds = new ArrayList<>();
+    private HashMap<String, ArrayList<Boolean>> lessonProgress = new HashMap<>();
 
-    public Student(String username, String password, String userID, String email,ArrayList<course> enroll, ArrayList<Float> progress) {
+    public Student(String username, String password, String userID, String email,ArrayList<String> enroll, HashMap<String, ArrayList<Boolean>> lessonProgress) {
         super(userID,"Student",username,email,password);
-        this.enrolledCourses = enroll;
-        this.progress=progress;
+        this.enrolledCourseIds = enroll;
+        this.lessonProgress=lessonProgress;
     }
-    public void setEnrolledCourses(ArrayList<course> courses) {this.enrolledCourses = courses;}
-    public ArrayList<course> getEnrolledCourses(){return enrolledCourses;}
-    public ArrayList<Float> getProgress() {return progress;}
+    public void setEnrolledCourseIds(ArrayList<String> enrolledCourseIds){this.enrolledCourseIds=enrolledCourseIds;}
+    public ArrayList<String> getEnrolledCourseIds() {return enrolledCourseIds;}
+    public void addCourse(String courseId) {enrolledCourseIds.add(courseId);}
+    public HashMap<String, ArrayList<Boolean>> getProgress() {return lessonProgress;}
 
-    public void setProgress(ArrayList<Float> progress) {this.progress = progress;}
+    public void setProgress(HashMap<String, ArrayList<Boolean>> lessonProgress) {this.lessonProgress = lessonProgress;}
 }

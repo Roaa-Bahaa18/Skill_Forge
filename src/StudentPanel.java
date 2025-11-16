@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class StudentPanel extends JFrame {
     private JLabel Welcome;
@@ -8,7 +10,7 @@ public class StudentPanel extends JFrame {
     private JComboBox options;
     private JPanel viewpanel;
     private JButton logoutButton;
-
+    private JList<course> courselist;
     public StudentPanel(Student student) {
         setTitle("StudentDashBoard");
         setSize(400, 400);
@@ -39,24 +41,24 @@ public class StudentPanel extends JFrame {
         {
             case "Browse Courses": {
                 course[] courses = s.viewAvailableCourse();
-                JList<course> courseList = new JList<>(courses);
-                courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                courseList.addListSelectionListener(e ->
+                courselist.setListData(courses);
+                courselist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                courselist.addListSelectionListener(e ->
                 {
-                    course c = courseList.getSelectedValue();
+                    course c = courselist.getSelectedValue();
                     if (c != null) {
-                        new CoursePanel(s,c);
-                    }
+                    new CoursePanel(s,c);
+                }
                 });
                 break;
             }
             case "Show Enrolled Courses": {
                 course[] courses = s.viewEnrolledCourse();
-                JList<course> courseList = new JList<>(courses);
-                courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                courseList.addListSelectionListener(e ->
+                courselist.setListData(courses);
+                courselist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                courselist.addListSelectionListener(e ->
                 {
-                    course c = courseList.getSelectedValue();
+                    course c = courselist.getSelectedValue();
                     if (c != null) {
                         new LessonPanel(s, c);
                     }
@@ -67,13 +69,13 @@ public class StudentPanel extends JFrame {
             case "Track Progress": {
                 course[] courses = s.viewEnrolledCourse();
                 float[] progress = s.progressTrack();
-                JList<course> courseList = new JList<>(courses);
-                courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                courseList.addListSelectionListener(e ->
+                courselist.setListData(courses);
+                courselist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                courselist.addListSelectionListener(e ->
                 {
-                    course c = courseList.getSelectedValue();
+                    course c = courselist.getSelectedValue();
                     if (c != null) {
-                        JOptionPane.showMessageDialog(StudentPanel.this, "This course is" + progress[courseList.getSelectedIndex()] + "completed");
+                        JOptionPane.showMessageDialog(StudentPanel.this, "This course is" + progress[courselist.getSelectedIndex()] + "completed");
                     }
                 });
                 break;

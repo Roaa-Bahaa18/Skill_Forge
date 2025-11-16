@@ -14,14 +14,14 @@ public class course {
     private String courseDescription;
     private String instructorId;
     private ArrayList<lesson> lessons = new ArrayList<>();
-    private ArrayList<Student> students = new ArrayList<>();
+    private ArrayList<String> studentIds = new ArrayList<>();
 
-    public course(String courseId, String courseTitle, String courseDescription, String instructorId, ArrayList<Student> students, ArrayList<lesson> lessons) {
+    public course(String courseId, String courseTitle, String courseDescription, String instructorId, ArrayList<String> students, ArrayList<lesson> lessons) {
         this.courseId = courseId;
         this.courseTitle = courseTitle;
         this.courseDescription = courseDescription;
         this.instructorId = instructorId;
-        this.students = students;
+        this.studentIds = students;
         this.lessons = lessons;
     }
 
@@ -30,9 +30,9 @@ public class course {
     public String getCourseDescription() { return courseDescription;}
     public String getInstructorId() {return instructorId;}
     public ArrayList<lesson> getLessons() {return lessons;}
-    public ArrayList<Student> getStudents() {return students;}
 
-    public void setStudents(ArrayList<Student> students){this.students=students;}
+    public ArrayList<String> getStudentIds() {return studentIds;}
+    public void addStudent(String studentId) {studentIds.add(studentId);}
 
     @Override
     public String toString(){return "(" + this.getCourseId() + ") " + this.getCourseTitle();}

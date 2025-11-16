@@ -13,7 +13,6 @@ public class CoursePanel extends JFrame {
         setSize(400, 400);
         setVisible(true);
         setContentPane(courseview);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         String[] details = new String[4];
         details[0] = "Course ID:" + c.getCourseId();

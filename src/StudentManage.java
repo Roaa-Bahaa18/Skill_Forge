@@ -10,107 +10,107 @@ public class StudentManage {
 
     //Course browsing --> aka available courses
     public course[] viewAvailableCourse() {
-        ArrayList<course> available = courseManagement.loadCourses();
-        available.removeAll(student.getEnrolledCourses());
-        return available.toArray(new course[0]);
+        ArrayList<course> allCourses = courseManagement.loadCourses();
+        ArrayList<String> enrolledIds = student.getEnrolledCourseIds();
+        allCourses.removeIf(c -> enrolledIds.contains(c.getCourseId()));
+        return allCourses.toArray(new course[0]);
     }
     //view enrolled courses
     public course[] viewEnrolledCourse() {
-        return student.getEnrolledCourses().toArray(new course[0]);
+        ArrayList<String> enrolledIds = student.getEnrolledCourseIds();
+        ArrayList<course> allCourses = courseManagement.loadCourses();
+        ArrayList<course> enrolled = new ArrayList<>();
+        for (course c : allCourses) {
+            if (enrolledIds.contains(c.getCourseId())) {
+                enrolled.add(c);
+            }
+        }
+        return enrolled.toArray(new course[0]);
     }
     //Course enrollment --> this function won't call unless it's available
     public boolean enrollCourse(course c) {
-        ArrayList<course> enrolled = student.getEnrolledCourses();
-        ArrayList<Student> students= c.getStudents();
-        if(enrolled.contains(c)) {
-            return false;
-        }
-        else {
-            List<User> list= userService.loadUsers();
-            enrolled.add(c);
-            student.getProgress().add(0f);
-            student.setEnrolledCourses(enrolled);
-            for(int i=0;i<list.size();i++) {
-                if(list.get(i).getUserId().equals(student.getUserId()))
-                {
-                    list.set(i,student);
-                    userService.saveUsers(list);
-                }
-            }
+        String courseId = c.getCourseId();
+        String studentId = student.getUserId();
 
-            ArrayList<course> courses= courseManagement.loadCourses();
-            students.add(student);
-            c.setStudents(students);
-            for(int i=0;i<courses.size();i++) {
-                if (courses.get(i).getCourseId().equals(c.getCourseId())) {
-                    courses.set(i, c);
-                    courseManagement.saveCourses(courses);
-                }
+        ArrayList<String> enrolledCourses = student.getEnrolledCourseIds();
+        if (enrolledCourses.contains(courseId)) return false;
+
+        enrolledCourses.add(courseId);
+        student.setEnrolledCourseIds(enrolledCourses);
+        ArrayList<Boolean> lessonStatuses = new ArrayList<>();
+        for (int i = 0; i < c.getLessons().size(); i++) {
+            lessonStatuses.add(false);
+        }
+        student.getProgress().put(courseId, lessonStatuses);
+        List<User> users = userService.loadUsers();
+
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUserId().equals(studentId)) {
+                users.set(i, student);
             }
         }
+        userService.saveUsers(users);
+
+        ArrayList<course> courses = courseManagement.loadCourses();
+        for (course cc : courses) {
+            if (cc.getCourseId().equals(courseId)) {
+                cc.getStudentIds().add(studentId);
+            }
+        }
+        courseManagement.saveCourses(courses);
         return true;
     }
     //Lesson Access w progress tracking w a mark lessons as complete kman
     public float[] progressTrack() {
-        ArrayList<course> courses = student.getEnrolledCourses();
-        if(courses.isEmpty()) return null;
-        float[] progress = new float[courses.size()];
-        int i=0;
-        for(course c : courses)
-        {
-            int percent=0;
-            ArrayList<lesson> lessons = c.getLessons();
-            for(lesson l: lessons)
-            {
-                if(l.getStatus()) percent++;
+        ArrayList<String> enrolledIds = student.getEnrolledCourseIds();
+        if (enrolledIds.isEmpty()) return null;
+
+        float[] progressArr = new float[enrolledIds.size()];
+
+        for (int i = 0; i < enrolledIds.size(); i++) {
+            String courseId = enrolledIds.get(i);
+
+            ArrayList<Boolean> lessonStatuses = student.getProgress().get(courseId);
+            if (lessonStatuses == null || lessonStatuses.isEmpty()) {
+                progressArr[i] = 0f;
+                continue;
             }
-            progress[i] = (float) (percent*100)/lessons.size();
-            i++;
+            int completed = 0;
+            for (Boolean status : lessonStatuses) {
+                if (status) completed++;
+            }
+            progressArr[i] = (completed * 100f) / lessonStatuses.size();
         }
-        return progress;
+
+        return progressArr;
     }
+    // Complete a lesson for this student
     public boolean completeLesson(course c, lesson l) {
+        String courseId = c.getCourseId();
+        ArrayList<Boolean> lessonStatuses = student.getProgress().get(courseId);
+        if (lessonStatuses == null) return false;
 
-        List<User> students = userService.loadUsers();
-        for (User u : students) {
-            if (u.getUserId().equals(student.getUserId())) {
-                ArrayList<course> enrolled = student.getEnrolledCourses();
-                for (course sc : enrolled) {
-                    if (sc.getCourseId().equals(c.getCourseId())) {
-                        ArrayList<lesson> lessons = sc.getLessons();
-                        for (lesson studentLesson : lessons) {
-                            if (studentLesson.getLessonId().equals(l.getLessonId())) {
-                                if (studentLesson.getStatus()) return false;
-                                studentLesson.setStatus(true);
-                                updateCourseProgress(student, c);
-                                userService.saveUsers(students);
-                                return true;
-                            }
-                        }
-                    }
-                }
+        int lessonIndex = -1;
+        ArrayList<lesson> lessons = c.getLessons();
+        for (int i = 0; i < lessons.size(); i++) {
+            if (lessons.get(i).getLessonId().equals(l.getLessonId())) {
+                lessonIndex = i;
+                break;
             }
         }
+        if (lessonIndex == -1) return false;
 
-        return false;
-    }
-    public void updateCourseProgress(Student student, course c) {
-        ArrayList<course> courses = student.getEnrolledCourses();
-        ArrayList<Float> progress = student.getProgress();
+        if (lessonStatuses.get(lessonIndex)) return false;
 
-        for (int i = 0; i < courses.size(); i++) {
-            if (courses.get(i).getCourseId().equals(c.getCourseId())) {
-                ArrayList<lesson> lessons = c.getLessons();
-                int completed = 0;
-                for (lesson l : lessons) {
-                    if (l.getStatus()) completed++;
-                }
-                float percent = (completed * 100f) / lessons.size();
-                progress.set(i, percent);
-                student.setProgress(progress);
-                return;
+        lessonStatuses.set(lessonIndex, true);
+        student.getProgress().put(courseId, lessonStatuses);
+        List<User> users = userService.loadUsers();
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUserId().equals(student.getUserId())) {
+                users.set(i, student);
             }
         }
+        userService.saveUsers(users);
+        return true;
     }
-
 }

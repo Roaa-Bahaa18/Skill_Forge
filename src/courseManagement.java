@@ -31,7 +31,7 @@ public abstract class courseManagement {
         return list;
     }
 
-    public static void saveCourses(List<course> courses) {
+    public static void saveCourses(ArrayList<course> courses) {
         try {
             JsonObject root = new JsonObject();
             JsonArray arr = new JsonArray();
