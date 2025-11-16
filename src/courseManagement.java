@@ -149,8 +149,9 @@ public abstract class courseManagement {
                         lessonIndex = i;
                         break;
                     }
+                    i++;
                 }
-                i++;
+
             }
             if (lessonIndex != -1) break;
         }
