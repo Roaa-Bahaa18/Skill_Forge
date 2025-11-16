@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 public class LessonPanel extends JFrame {
-    private JList lessonlist;
+    private JList<lesson> lessonlist;
     private JPanel lessonview;
 
     public LessonPanel(StudentManage s, course c) {
@@ -11,7 +11,7 @@ public class LessonPanel extends JFrame {
         setContentPane(lessonview);
 
         lesson[] lessons = c.getLessons().toArray(new lesson[0]);
-        JList<lesson> lessonlist = new JList<>(lessons);
+         lessonlist.setListData(lessons);
         lessonlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         lessonlist.addListSelectionListener(e ->
         {
