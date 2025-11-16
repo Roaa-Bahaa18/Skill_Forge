@@ -60,8 +60,8 @@ public class Login extends JFrame {
                     else
                     {
                          Instructor s= (Instructor) user;
-                        //Navigate 3al instructor
-                        dispose();
+                         new InstructorPanel(s);
+                         dispose();
 
                     }
                 }
