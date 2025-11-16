@@ -32,6 +32,7 @@ public class InstructorPanel extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String idText = JOptionPane.showInputDialog("Enter Course ID:");
+                if(idText == null || idText.isEmpty()){ return; }
                 ArrayList<course> courses = courseManagement.loadCourses();
                 boolean found = false;
                 for(course c : courses){
@@ -55,6 +56,7 @@ public class InstructorPanel extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 InstructorManagement manage = new InstructorManagement(instructor);
                 String idText = JOptionPane.showInputDialog("Enter Course ID:");
+                if(idText == null || idText.isEmpty()){ return; }
                 boolean check = manage.deleteCourse(idText);
                 if(check){
                     Object[] options = { "OK" };
@@ -74,6 +76,7 @@ public class InstructorPanel extends JFrame{
                 ArrayList<course> courses = courseManagement.loadCourses();
                 InstructorManagement manage = new InstructorManagement(instructor);
                 String idText = JOptionPane.showInputDialog("Enter Course ID:");
+                if(idText == null || idText.isEmpty()){ return; }
                 boolean found = false;
                 for(course c : courses){
                     if(c.getCourseId().matches(idText)) {
