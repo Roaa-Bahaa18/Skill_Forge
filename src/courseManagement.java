@@ -44,15 +44,10 @@ public abstract class courseManagement {
         catch (Exception e) {e.printStackTrace();}
     }
 
-    //7agat el Course l Habiba
-    public static boolean addCourse(course course) {
+    public static void addCourse(course course) {
         ArrayList<course> list = loadCourses();
-        for(course c:list) {
-            if(c.getCourseId().matches(course.getCourseId())) {return false;}
-        }
         list.add(course);
         saveCourses(list);
-        return true;
     }
 
     public static boolean editCourse(course course, course editedcourse) {
@@ -69,12 +64,12 @@ public abstract class courseManagement {
         return false;
     }
 
-    public static boolean deleteCourse(course course) {
+    public static boolean deleteCourse(String courseId) {
         ArrayList<course> list = loadCourses();
         for(course c:list){
-            if(c.getCourseId().matches(course.getCourseId()))
+            if(c.getCourseId().matches(courseId))
             {
-                list.remove(course);
+                list.remove(c);
                 saveCourses(list);
                 return true;
             }
@@ -82,26 +77,12 @@ public abstract class courseManagement {
         return false;
     }
 
-    //7agat el lesson l Habiba
-    public static boolean addLesson(course course,lesson lesson) {
+    public static boolean addLesson(String courseId,lesson lesson) {
         ArrayList<course> list = loadCourses();
         for(course c:list) {
-            if(c.getCourseId().matches(course.getCourseId()))
+            if(c.getCourseId().matches(courseId))
             {
-               c.getLessons().add(lesson);
-               saveCourses(list);
-               return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean removeLesson(course course,lesson lesson) {
-        ArrayList<course> list = loadCourses();
-        for(course c:list) {
-            if(c.getCourseId().matches(course.getCourseId()))
-            {
-                c.getLessons().remove(lesson);
+                c.getLessons().add(lesson);
                 saveCourses(list);
                 return true;
             }
@@ -109,6 +90,42 @@ public abstract class courseManagement {
         return false;
     }
 
-    //View Enrolled Students l Habiba
+    public static boolean editLesson(String courseId,String lessonId, lesson newLesson) {
+        ArrayList<course> list = loadCourses();
+        for(course c:list) {
+            if(c.getCourseId().matches(courseId))
+            {
+                int i = 0;
+                for(lesson l : c.getLessons()){
+                    if(l.getLessonId().matches(lessonId)){
+                        ArrayList<lesson> lessons = c.getLessons();
+                        lessons.set(i, newLesson);
+                        break;
+                    }
+                    i++;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean removeLesson(String courseId,String lessonId) {
+        ArrayList<course> list = loadCourses();
+        for(course c:list) {
+            if(c.getCourseId().matches(courseId))
+            {
+                for(lesson l : c.getLessons()){
+                    if(l.getLessonId().matches(lessonId)){
+                        c.getLessons().remove(l);
+                        saveCourses(list);
+                        return true;
+                    }
+                }
+
+            }
+        }
+        return false;
+    }
 
 }

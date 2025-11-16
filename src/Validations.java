@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public abstract class Validations {
     public static boolean isEmpty(String input) {return input == null || input.trim().isEmpty();}
     public static boolean isValidName(String text)
@@ -19,6 +21,27 @@ public abstract class Validations {
     {
         if(isEmpty(text)) return false;
         return text.matches("\\d+");
+    }
+    public static boolean isValidCourseID(String text){
+        ArrayList<course> data = courseManagement.loadCourses();
+        for(course c : data){
+            if(c.getCourseId().matches(text)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isValidLessonID(String text){
+        ArrayList<course> data = courseManagement.loadCourses();
+        for(course c : data){
+            for(lesson l : c.getLessons()){
+                if(l.getLessonId().matches(text)){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
 
