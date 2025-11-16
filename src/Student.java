@@ -5,7 +5,7 @@ public class Student extends User{
     private ArrayList<Float> progress;
 
     public Student(String username, String password, String userID, String email,ArrayList<course> enroll, ArrayList<Float> progress) {
-        super(userID,"student",username,email,password);
+        super(userID,"Student",username,email,password);
         this.enrolledCourses = enroll;
         this.progress=progress;
     }

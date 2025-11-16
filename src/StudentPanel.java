@@ -26,9 +26,9 @@ public class StudentPanel extends JFrame {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
                 JOptionPane.showMessageDialog(StudentPanel.this, "Logout Successful!\nBack to Login Page");
-               // new loginpage();
+                new Login().setVisible(true);
+                dispose();
             }
         });
     }

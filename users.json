@@ -1,20 +1,38 @@
 {
   "users": [
     {
-      "createdCourses": [],
-      "userId": "1",
-      "role": "Instructor",
-      "username": "Ahmed Tarras",
-      "email": "tarras@gmail.com",
-      "passwordHash": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
-    },
-    {
       "enrolledCourses": [],
-      "progress": {},
+      "progress": [],
       "userId": "9692",
       "role": "Student",
       "username": "Heba Tarek",
       "email": "heba@gmail.com",
+      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "enrolledCourses": [],
+      "progress": [],
+      "userId": "9439",
+      "role": "Student",
+      "username": "Habiba Ahmed",
+      "email": "habiba@gmail.com",
+      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "createdCourses": [],
+      "userId": "1",
+      "role": "Instructor",
+      "username": "Ahmed El Tarras",
+      "email": "tarras@gmail.com",
+      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "enrolledCourses": [],
+      "progress": [],
+      "userId": "9303",
+      "role": "Student",
+      "username": "Roaa Bahaa",
+      "email": "roaa@gmail.com",
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     }
   ]
