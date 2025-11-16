@@ -38,6 +38,13 @@ public class ManageCoursePanel extends JFrame{
                 }
             }
         });
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new InstructorPanel(instructor);
+                dispose();
+            }
+        });
     }
 
     private void setForm() {

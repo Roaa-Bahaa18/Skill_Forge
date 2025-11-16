@@ -23,6 +23,7 @@ public class InstructorPanel extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new ManageCoursePanel(instructor, false);
+                dispose();
             }
         });
         editCourseButton.addActionListener(new ActionListener() {
@@ -34,16 +35,17 @@ public class InstructorPanel extends JFrame{
                 for(course c : courses){
                     if(c.getCourseId().matches(idText)) {
                         new ManageCoursePanel(instructor, true, c);
+                        dispose();
                         found = true;
                         break;
                     }
                 }
                 if(!found){
                     Object[] options = { "OK" };
-
                     JOptionPane.showOptionDialog(null, "Course not Found!!", "Message", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+                    new InstructorPanel(instructor);
+                    dispose();
                 }
-                new InstructorPanel(instructor);
             }
         });
         deleteCourseButton.addActionListener(new ActionListener() {
@@ -70,11 +72,11 @@ public class InstructorPanel extends JFrame{
                 ArrayList<course> courses = courseManagement.loadCourses();
                 InstructorManagement manage = new InstructorManagement(instructor);
                 String idText = JOptionPane.showInputDialog("Enter Course ID:");
-                boolean check = manage.deleteCourse(idText);
                 boolean found = false;
                 for(course c : courses){
                     if(c.getCourseId().matches(idText)) {
                         new ManageLessonPanel(instructor, c);
+                        dispose();
                         found = true;
                         break;
                     }
@@ -82,14 +84,16 @@ public class InstructorPanel extends JFrame{
                 if(!found){
                     Object[] options = { "OK" };
                     JOptionPane.showOptionDialog(null, "Course not Found!", "Message", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+                    new InstructorPanel(instructor);
+                    dispose();
                 }
-                new InstructorPanel(instructor);
             }
         });
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Login();
+                dispose();
             }
         });
 
