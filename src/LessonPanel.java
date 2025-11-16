@@ -9,7 +9,6 @@ public class LessonPanel extends JFrame {
         setSize(400, 400);
         setVisible(true);
         setContentPane(lessonview);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         lesson[] lessons = c.getLessons().toArray(new lesson[0]);
         JList<lesson> lessonlist = new JList<>(lessons);

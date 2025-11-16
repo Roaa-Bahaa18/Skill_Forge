@@ -31,7 +31,6 @@ public abstract class userService {
         return list;
     }
 
-
     public static void saveUsers(List<User> users) {
         try {
             JsonObject root = new JsonObject();

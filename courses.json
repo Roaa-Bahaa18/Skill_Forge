@@ -9,15 +9,17 @@
         {
           "lessonId": "L1",
           "lessonTitle": "Introduction to Java",
-          "lessonContent": "Basics of Java."
+          "status": false
         },
         {
           "lessonId": "L2",
           "lessonTitle": "OOP Concepts",
-          "lessonContent": "Classes, Objects, Inheritance."
+          "status": false
         }
       ],
-      "students": []
+      "studentIds": [
+        "9692"
+      ]
     },
     {
       "courseId": "C002",
@@ -28,15 +30,17 @@
         {
           "lessonId": "L1",
           "lessonTitle": "Arrays",
-          "lessonContent": "Static and dynamic arrays."
+          "status": false
         },
         {
           "lessonId": "L2",
           "lessonTitle": "Linked Lists",
-          "lessonContent": "Singly & doubly linked lists."
+          "status": false
         }
       ],
-      "students": []
+      "studentIds": [
+        "9692"
+      ]
     }
   ]
 }

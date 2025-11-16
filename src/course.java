@@ -31,9 +31,10 @@ public class course {
     public String getInstructorId() {return instructorId;}
     public ArrayList<lesson> getLessons() {return lessons;}
 
-    public ArrayList<String> getStudentIds() {return studentIds;}
+    public ArrayList<String> getStudentIds() {
+        if (this.studentIds == null) {this.studentIds = new ArrayList<>();}
+        return studentIds;}
     public void addStudent(String studentId) {studentIds.add(studentId);}
-
     @Override
     public String toString(){return "(" + this.getCourseId() + ") " + this.getCourseTitle();}
 }

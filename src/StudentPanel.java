@@ -37,6 +37,9 @@ public class StudentPanel extends JFrame {
 
     void View(String option,Student student) {
         StudentManage s = new StudentManage(student);
+        for (javax.swing.event.ListSelectionListener lsl : courselist.getListSelectionListeners()) {
+            courselist.removeListSelectionListener(lsl);
+        }
         switch (option)
         {
             case "Browse Courses": {

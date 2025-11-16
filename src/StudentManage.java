@@ -31,17 +31,13 @@ public class StudentManage {
     public boolean enrollCourse(course c) {
         String courseId = c.getCourseId();
         String studentId = student.getUserId();
-
-        ArrayList<String> enrolledCourses = student.getEnrolledCourseIds();
-        if (enrolledCourses.contains(courseId)) return false;
-
-        enrolledCourses.add(courseId);
-        student.setEnrolledCourseIds(enrolledCourses);
+        if (student.getEnrolledCourseIds().contains(courseId)) return false;
+        student.addCourse(courseId);
         ArrayList<Boolean> lessonStatuses = new ArrayList<>();
         for (int i = 0; i < c.getLessons().size(); i++) {
             lessonStatuses.add(false);
         }
-        student.getProgress().put(courseId, lessonStatuses);
+        student.addCourseProgress(courseId, lessonStatuses);
         List<User> users = userService.loadUsers();
 
         for (int i = 0; i < users.size(); i++) {
