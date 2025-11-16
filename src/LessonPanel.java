@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LessonPanel extends JFrame {
     private JList<lesson> lessonlist;
@@ -13,23 +15,18 @@ public class LessonPanel extends JFrame {
         lesson[] lessons = c.getLessons().toArray(new lesson[0]);
          lessonlist.setListData(lessons);
         lessonlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        lessonlist.addListSelectionListener(e ->
-        {
+        lessonlist.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
             lesson l = lessonlist.getSelectedValue();
             if (l != null) {
                 String lessondetails = "Lesson ID:" + l.getLessonId() +"\nLesson Title:" + l.getLessonTitle() + "\nContent:" +l.getContent()+"\n";
-                if(l.getStatus())
-                {
-                    JOptionPane.showMessageDialog(null, lessondetails + "Status: Completed");
-                }
-                else
-                {
                 int choice = JOptionPane.showConfirmDialog(null, lessondetails + "\nDo you want to complete this lesson?");
                 if (choice == JOptionPane.YES_OPTION) {
-                    if(s.completeLesson(c, lessonlist.getSelectedValue()))
+                    if(s.completeLesson(c, l))
                         JOptionPane.showMessageDialog(null, "Lesson completed successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     else
-                        JOptionPane.showMessageDialog(null, "Lesson not completed!", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Lesson Already Completed!", "Error", JOptionPane.ERROR_MESSAGE);
                 }}
             }
         });

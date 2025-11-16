@@ -22,6 +22,7 @@
         </constraints>
         <properties>
           <model>
+            <item value="Choose A Method"/>
             <item value="Browse Courses"/>
             <item value="Show Enrolled Courses"/>
             <item value="Track Progress"/>

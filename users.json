@@ -49,6 +49,22 @@
       "username": "Ahmed Tarras",
       "email": "tarras@gmail.com",
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "enrolledCourseIds": [
+        "C001"
+      ],
+      "lessonProgress": {
+        "C001": [
+          true,
+          true
+        ]
+      },
+      "userId": "9303",
+      "role": "Student",
+      "username": "Roaa Bahaa",
+      "email": "roaa@gmail.com",
+      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     }
   ]
 }
