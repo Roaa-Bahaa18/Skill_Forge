@@ -48,6 +48,7 @@ public class StudentPanel extends JFrame {
                         new CoursePanel(s,c);
                     }
                 });
+                break;
             }
             case "Show Enrolled Courses": {
                 course[] courses = s.viewEnrolledCourse();
@@ -60,10 +61,10 @@ public class StudentPanel extends JFrame {
                         new LessonPanel(s, c);
                     }
                 });
+                break;
 
             }
-            case "Track Progress":
-            {
+            case "Track Progress": {
                 course[] courses = s.viewEnrolledCourse();
                 float[] progress = s.progressTrack();
                 JList<course> courseList = new JList<>(courses);
@@ -75,11 +76,12 @@ public class StudentPanel extends JFrame {
                         JOptionPane.showMessageDialog(StudentPanel.this, "This course is" + progress[courseList.getSelectedIndex()] + "completed");
                     }
                 });
-
+                break;
+            }
 
         }
-
     }
-}
 
 }
+
+
