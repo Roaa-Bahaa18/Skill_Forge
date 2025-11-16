@@ -40,9 +40,9 @@ public class InstructorManagement {
 
     public boolean addLesson(String courseId, String title, String content, ArrayList<String> resources){
         Random ran = new Random();
-        String lessonId = Integer.toString(ran.nextInt(99999) + 100000);
+        String lessonId = Integer.toString(ran.nextInt(99) + 100);
         while(!Validations.isValidLessonID(lessonId)){
-            lessonId = Integer.toString(ran.nextInt(99999) + 100000);
+            lessonId = Integer.toString(ran.nextInt(99) + 100);
         }
         lesson l = new lesson(lessonId, title, content, resources, false);
         return courseManagement.addLesson(courseId, l);
