@@ -28,6 +28,7 @@ public class StudentManage {
         else {
             List<User> list= userService.loadUsers();
             enrolled.add(c);
+            student.getProgress().add(0f);
             student.setEnrolledCourses(enrolled);
             for(int i=0;i<list.size();i++) {
                 if(list.get(i).getUserId().equals(student.getUserId()))
@@ -68,7 +69,6 @@ public class StudentManage {
         }
         return progress;
     }
-
     public boolean completeLesson(course c, lesson l) {
 
         List<User> students = userService.loadUsers();
@@ -82,7 +82,7 @@ public class StudentManage {
                             if (studentLesson.getLessonId().equals(l.getLessonId())) {
                                 if (studentLesson.getStatus()) return false;
                                 studentLesson.setStatus(true);
-
+                                updateCourseProgress(student, c);
                                 userService.saveUsers(students);
                                 return true;
                             }
@@ -93,6 +93,24 @@ public class StudentManage {
         }
 
         return false;
+    }
+    public void updateCourseProgress(Student student, course c) {
+        ArrayList<course> courses = student.getEnrolledCourses();
+        ArrayList<Float> progress = student.getProgress();
+
+        for (int i = 0; i < courses.size(); i++) {
+            if (courses.get(i).getCourseId().equals(c.getCourseId())) {
+                ArrayList<lesson> lessons = c.getLessons();
+                int completed = 0;
+                for (lesson l : lessons) {
+                    if (l.getStatus()) completed++;
+                }
+                float percent = (completed * 100f) / lessons.size();
+                progress.set(i, percent);
+                student.setProgress(progress);
+                return;
+            }
+        }
     }
 
 }
