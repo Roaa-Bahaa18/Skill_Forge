@@ -4,11 +4,15 @@
       "courseId": "C001",
       "courseTitle": "Java Programming",
       "courseDescription": "Learn Java from basics to OOP.",
-      "instructorId": "1",
+      "instructorId": "9687",
       "lessons": [
         {
           "lessonId": "L1",
           "lessonTitle": "Introduction to Java",
+          "content": "",
+          "resources": [
+            "layla "
+          ],
           "status": false
         },
         {
