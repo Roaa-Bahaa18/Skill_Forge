@@ -12,7 +12,7 @@ public class ManageLessonPanel extends JFrame{
     private course course;
 
     public ManageLessonPanel(Instructor instructor, course course){
-        setTitle("InstructorDashBoard");
+        setTitle("ManageLessonPanel");
         setSize(400, 400);
         setVisible(true);
         setContentPane(manageLesson);
@@ -31,10 +31,11 @@ public class ManageLessonPanel extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String idText = JOptionPane.showInputDialog("Enter Lesson ID:");
+                if (idText == null || idText.trim().isEmpty()) {return;}
                 ArrayList<lesson> lessons = course.getLessons();
                 boolean found = false;
                 for(lesson l : lessons){
-                    if(l.getLessonId().matches(idText)){
+                    if(l.getLessonId().equals(idText)){
                         new UpdateLesson(instructor, true, course.getCourseId(), l);
                         dispose();
                         found = true;
@@ -44,8 +45,6 @@ public class ManageLessonPanel extends JFrame{
                 if(!found){
                     Object[] options = { "OK" };
                     JOptionPane.showOptionDialog(null, "Lesson not Found!!", "Message", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-                    new InstructorPanel(instructor);
-                    dispose();
                 }
             }
         });
@@ -54,16 +53,15 @@ public class ManageLessonPanel extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 InstructorManagement manage = new InstructorManagement(instructor);
                 String idText = JOptionPane.showInputDialog("Enter Lesson ID:");
+                if (idText == null || idText.trim().isEmpty()) {return;}
                 boolean check = manage.deleteLesson(course.getCourseId(), idText);
                 if(check){
                     Object[] options = { "OK" };
                     JOptionPane.showOptionDialog(null, "Lesson Deleted Successfully!", "Message", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-                    new InstructorPanel(instructor);
                 }
                 else{
                     Object[] options = { "OK" };
                     JOptionPane.showOptionDialog(null, "Error Deleting Lesson", "Message", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
-                    new InstructorPanel(instructor);
                 }
             }
         });

@@ -99,6 +99,7 @@ public class InstructorPanel extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String courseID = JOptionPane.showInputDialog("Enter Course ID:");
+                if(courseID == null || courseID.isEmpty()){ return; }
                 ArrayList<course> courses = courseManagement.loadCourses();
                 boolean found = false;
                 for(course c : courses){

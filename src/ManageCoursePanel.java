@@ -61,7 +61,16 @@ public class ManageCoursePanel extends JFrame{
     private void addCourse(Instructor instructor){
         String courseTitle = titleField.getText();
         String description = descriptionField.getText();
-
+        if(titleField.getText().isEmpty() || descriptionField.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Please fill all the fields");
+            return;
+        }
+        if(!Validations.isValidCourseTitle(courseTitle))
+        {
+            JOptionPane.showMessageDialog(null, "This Course is already added");
+            return;
+        }
         InstructorManagement manage = new InstructorManagement(instructor);
         manage.createCourse(courseTitle, description);
 

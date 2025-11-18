@@ -175,4 +175,14 @@ public abstract class courseManagement {
         saveCourses(list);
         return true;
     }
+
+    public static course getCourseByID(String id)
+    {
+        ArrayList<course> list = loadCourses();
+        for(course c : list)
+        {
+            if(c.getCourseId().equals(id)) return c;
+        }
+        return null;
+    }
 }

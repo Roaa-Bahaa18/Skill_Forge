@@ -14,13 +14,13 @@ public class UpdateLesson extends JFrame{
     boolean isEditMode;
     String courseId;
     lesson lesson;
-
+    private course c;
     public UpdateLesson(Instructor instructor, boolean mode, String courseId){
         this(instructor, mode, courseId, null);
     }
 
     public UpdateLesson(Instructor instructor, boolean mode, String courseId, lesson lesson){
-        setTitle("InstructorDashBoard");
+        setTitle("Lesson");
         setSize(400, 400);
         setVisible(true);
         setContentPane(Lesson);
@@ -28,6 +28,7 @@ public class UpdateLesson extends JFrame{
         this.isEditMode = mode;
         this.courseId = courseId;
         this.lesson= lesson;
+        c = courseManagement.getCourseByID(courseId);
         idField.setEnabled(false);
 
         setForm();
@@ -41,6 +42,14 @@ public class UpdateLesson extends JFrame{
                 else{
                     addLesson(instructor);
                 }
+            }
+        });
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ManageLessonPanel(instructor, c);
+                dispose();
             }
         });
     }
@@ -62,12 +71,22 @@ public class UpdateLesson extends JFrame{
         String lessonContent = contentField.getText();
         ArrayList<String> resources = new ArrayList<>();
         resources.add(resourcesField.getText());
+        if(titleField.getText().isEmpty()||contentField.getText().isEmpty()|| resourcesField.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "Please fill all the fields");
+            return;
+        }
+        if(!Validations.isValidLessonTitle(courseId,lessonTitle))
+        {
+            JOptionPane.showMessageDialog(null, "This lesson is already added before");
+            return;
+        }
 
         InstructorManagement manage = new InstructorManagement(instructor);
         manage.addLesson(courseId, lessonTitle, lessonContent, resources);
 
         JOptionPane.showMessageDialog(null, "Lesson Added Successfully...");
-        new InstructorPanel(instructor);
+        new ManageLessonPanel(instructor,c);
         dispose();
     }
 
@@ -83,7 +102,7 @@ public class UpdateLesson extends JFrame{
         manage.editLesson(courseId, lesson.getLessonId(), titleField.getText(), contentField.getText(), resources);
 
         JOptionPane.showMessageDialog(this, "Lesson Edited Successfully");
-        new InstructorPanel(instructor);
+        new ManageLessonPanel(instructor,c);
         dispose();
     }
 }

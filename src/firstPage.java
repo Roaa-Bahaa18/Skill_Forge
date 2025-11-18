@@ -36,6 +36,5 @@ public class firstPage extends JFrame{
             }
         });
     }
-    public static void main(String[] args) {firstPage firstPage1=new firstPage();}
 }
 

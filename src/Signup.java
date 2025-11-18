@@ -37,7 +37,7 @@ public class Signup extends JFrame{
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Login().setVisible(true);
+                new firstPage().setVisible(true);
                 dispose();
             }
         });

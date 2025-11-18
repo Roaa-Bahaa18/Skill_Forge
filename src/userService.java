@@ -69,12 +69,6 @@ public abstract class userService {
         StringBuilder hex = new StringBuilder();
         for (byte b : hash) hex.append(String.format("%02x", b));
         return hex.toString();
-        /*
-        el functionality b e5tsar
-        1- b3rf el algorithm elly hwa SHA-256 which makes 256 bites fixed length String
-        2- b7wl el string bta3y into binary
-        3- b3mlo into String again bs length 64 fixed b2a
-        */
     }
 
 

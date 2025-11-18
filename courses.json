@@ -40,7 +40,18 @@
       "courseTitle": "Machine Learning",
       "courseDescription": "3m el nas kollaha",
       "instructorId": "1",
-      "lessons": [],
+      "lessons": [
+        {
+          "lessonId": "144",
+          "lessonTitle": "beeb beeb",
+          "content": "ay 7aga",
+          "resources": [
+            "[ana hna",
+            "ay7aga]"
+          ],
+          "status": false
+        }
+      ],
       "studentIds": []
     },
     {
@@ -56,6 +67,24 @@
           "resources": [
             "mafesh",
             "ymkn feh idk"
+          ],
+          "status": false
+        }
+      ],
+      "studentIds": []
+    },
+    {
+      "courseId": "117",
+      "courseTitle": "Electronics",
+      "courseDescription": "yarab n5ls",
+      "instructorId": "1",
+      "lessons": [
+        {
+          "lessonId": "175",
+          "lessonTitle": "Diode",
+          "content": "kteer",
+          "resources": [
+            "[h8yrk]"
           ],
           "status": false
         }
