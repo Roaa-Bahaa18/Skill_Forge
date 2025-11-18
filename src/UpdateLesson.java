@@ -59,7 +59,8 @@ public class UpdateLesson extends JFrame{
             idField.setText(String.valueOf(lesson.getLessonId()));
             titleField.setText(lesson.getLessonTitle());
             contentField.setText(lesson.getContent());
-            resourcesField.setText(String.valueOf(lesson.getResources()));
+            String joinedResources = String.join(", ", lesson.getResources());
+            resourcesField.setText(joinedResources);
             saveButton.setText("Save Changes");
         } else {
             saveButton.setText("Add Lesson");
@@ -69,8 +70,7 @@ public class UpdateLesson extends JFrame{
     private void addLesson(Instructor instructor){
         String lessonTitle = titleField.getText();
         String lessonContent = contentField.getText();
-        ArrayList<String> resources = new ArrayList<>();
-        resources.add(resourcesField.getText());
+        String resourcesText = resourcesField.getText();
         if(titleField.getText().isEmpty()||contentField.getText().isEmpty()|| resourcesField.getText().isEmpty())
         {
             JOptionPane.showMessageDialog(null, "Please fill all the fields");
@@ -82,26 +82,37 @@ public class UpdateLesson extends JFrame{
             return;
         }
 
+        ArrayList<String> resources = new ArrayList<>();
+        String[] resourceArray = resourcesText.split("\\s*,\\s*");
+        for (String resource : resourceArray) {
+            String Resource = resource.trim();
+            if (!Resource.isEmpty()) {
+                resources.add(Resource);
+            }
+        }
         InstructorManagement manage = new InstructorManagement(instructor);
         manage.addLesson(courseId, lessonTitle, lessonContent, resources);
 
         JOptionPane.showMessageDialog(null, "Lesson Added Successfully...");
+        c = courseManagement.getCourseByID(courseId);
         new ManageLessonPanel(instructor,c);
         dispose();
     }
 
     private void editLesson(Instructor instructor){
         InstructorManagement manage = new InstructorManagement(instructor);
-        String resourcesText = resourcesField.getText().trim();
+        String resourcesText = resourcesField.getText();
         ArrayList<String> resources = new ArrayList<>();
-        if (!resourcesText.isEmpty()) {
-            for (String r : resourcesText.split(",")) {
-                resources.add(r.trim());
+        String[] resourceArray = resourcesText.split("\\s*,\\s*");
+        for (String resource : resourceArray) {
+            String Resource = resource.trim();
+            if (!Resource.isEmpty()) {
+                resources.add(Resource);
             }
         }
         manage.editLesson(courseId, lesson.getLessonId(), titleField.getText(), contentField.getText(), resources);
-
         JOptionPane.showMessageDialog(this, "Lesson Edited Successfully");
+        c = courseManagement.getCourseByID(courseId);
         new ManageLessonPanel(instructor,c);
         dispose();
     }

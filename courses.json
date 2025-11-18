@@ -10,9 +10,7 @@
           "lessonId": "L1",
           "lessonTitle": "Introduction to Java",
           "content": "",
-          "resources": [
-            "loloooo"
-          ],
+          "resources": [],
           "status": false
         },
         {
@@ -24,9 +22,7 @@
           "lessonId": "154877",
           "lessonTitle": "UML design",
           "content": "nope",
-          "resources": [
-            "nope"
-          ],
+          "resources": [],
           "status": false
         }
       ],
@@ -45,10 +41,7 @@
           "lessonId": "144",
           "lessonTitle": "beeb beeb",
           "content": "ay 7aga",
-          "resources": [
-            "[ana hna",
-            "ay7aga]"
-          ],
+          "resources": [],
           "status": false
         }
       ],
@@ -64,10 +57,7 @@
           "lessonId": "184820",
           "lessonTitle": "Poisson",
           "content": "kan fe exponentioal w lamda",
-          "resources": [
-            "mafesh",
-            "ymkn feh idk"
-          ],
+          "resources": [],
           "status": false
         }
       ],
@@ -76,7 +66,7 @@
     {
       "courseId": "117",
       "courseTitle": "Electronics",
-      "courseDescription": "yarab n5ls",
+      "courseDescription": "yarab n5ls yarab",
       "instructorId": "1",
       "lessons": [
         {
@@ -84,7 +74,18 @@
           "lessonTitle": "Diode",
           "content": "kteer",
           "resources": [
-            "[h8yrk]"
+            "El nagda",
+            "el nagda 2",
+            "el ngda 3"
+          ],
+          "status": false
+        },
+        {
+          "lessonId": "168",
+          "lessonTitle": "Tranisistor",
+          "content": "npn w pnp",
+          "resources": [
+            "yarab"
           ],
           "status": false
         }
