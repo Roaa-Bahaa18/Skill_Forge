@@ -15,10 +15,10 @@ public class CoursePanel extends JFrame {
         setContentPane(courseview);
 
         String[] details = new String[4];
-        details[0] = "Course ID:" + c.getCourseId();
-        details[1] = "Course Title:" + c.getCourseTitle();
-        details[2] = "Course Description:" + c.getCourseDescription();
-        details[3] = "Course Instructor:" + c.getInstructorId();
+        details[0] = "Course ID: " + c.getCourseId();
+        details[1] = "Course Title: " + c.getCourseTitle();
+        details[2] = "Course Description: " + c.getCourseDescription();
+        details[3] = "Course Instructor: " + c.getInstructorId();
         for(int i = 0; i < details.length; i++)
         {
             coursedetails.append(details[i] + "\n");

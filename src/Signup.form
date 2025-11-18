@@ -5,7 +5,10 @@
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
-    <properties/>
+    <properties>
+      <background color="-791840"/>
+      <foreground color="-2104859"/>
+    </properties>
     <border type="none"/>
     <children>
       <component id="2a0fb" class="javax.swing.JLabel" binding="name">
@@ -13,6 +16,8 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-14536376"/>
           <text value="Name"/>
         </properties>
       </component>
@@ -21,6 +26,8 @@
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-14536376"/>
           <text value="Email"/>
         </properties>
       </component>
@@ -29,6 +36,8 @@
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-14536376"/>
           <text value="ID"/>
         </properties>
       </component>
@@ -37,6 +46,8 @@
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-14536376"/>
           <text value="Role"/>
         </properties>
       </component>
@@ -45,6 +56,8 @@
           <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-14536376"/>
           <text value="Password"/>
         </properties>
       </component>
@@ -53,38 +66,57 @@
           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-14536376"/>
           <text value="Comfirm Pasword"/>
         </properties>
       </component>
       <component id="f5e27" class="javax.swing.JTextField" binding="namefield">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="150" height="30"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-2963528"/>
+          <font name="Britannic Bold" size="14" style="0"/>
+          <foreground color="-13678483"/>
+        </properties>
       </component>
       <component id="21bda" class="javax.swing.JTextField" binding="emailfield">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="150" height="30"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-2963528"/>
+          <font name="Britannic Bold" size="14" style="0"/>
+          <foreground color="-13678483"/>
+        </properties>
       </component>
       <component id="d1cf8" class="javax.swing.JTextField" binding="idfield">
         <constraints>
           <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="150" height="30"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-2963528"/>
+          <font name="Britannic Bold" size="14" style="0"/>
+          <foreground color="-13678483"/>
+        </properties>
       </component>
       <component id="2a821" class="javax.swing.JComboBox" binding="rolebox">
         <constraints>
-          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="30"/>
+          </grid>
         </constraints>
         <properties>
+          <background color="-2963528"/>
+          <font name="Britannic Bold" size="14" style="0"/>
+          <foreground color="-13678483"/>
           <model>
             <item value="Select Role"/>
             <item value="Student"/>
@@ -95,24 +127,35 @@
       <component id="42501" class="javax.swing.JPasswordField" binding="passwordField1" default-binding="true">
         <constraints>
           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="150" height="30"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-2963528"/>
+          <font name="Britannic Bold" size="14" style="0"/>
+          <foreground color="-13678483"/>
+        </properties>
       </component>
       <component id="e8a2a" class="javax.swing.JPasswordField" binding="passwordField2" default-binding="true">
         <constraints>
           <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="150" height="30"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-2963528"/>
+          <font name="Britannic Bold" size="14" style="0"/>
+          <foreground color="-13678483"/>
+        </properties>
       </component>
       <component id="36b5" class="javax.swing.JButton" binding="signup">
         <constraints>
           <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-13678483"/>
+          <font name="Britannic Bold" size="14" style="0"/>
+          <foreground color="-2963528"/>
           <text value="Sign up"/>
         </properties>
       </component>
@@ -121,6 +164,9 @@
           <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-13678483"/>
+          <font name="Britannic Bold" size="14" style="0"/>
+          <foreground color="-2963528"/>
           <text value="Back to Home Page"/>
         </properties>
       </component>
