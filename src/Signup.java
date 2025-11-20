@@ -32,12 +32,12 @@ public class Signup extends JFrame{
 
         signup.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { checkSignUp();}
+            public void actionPerformed(ActionEvent e) {checkSignUp();}
         });
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new firstPage().setVisible(true);
+                new FirstPage().setVisible(true);
                 dispose();
             }
         });
@@ -91,7 +91,7 @@ public class Signup extends JFrame{
                 {
                     case 0: {
                         JOptionPane.showMessageDialog(this, "Account created successfully!");
-                        new Login().setVisible(true);
+                        new FirstPage().setVisible(true);
                         dispose();
                         break;
                     }

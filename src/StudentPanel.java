@@ -33,7 +33,7 @@ public class StudentPanel extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(StudentPanel.this, "Logout Successful!\nBack to Login Page");
-                new Login().setVisible(true);
+                new FirstPage().setVisible(true);
                 dispose();
             }
         });

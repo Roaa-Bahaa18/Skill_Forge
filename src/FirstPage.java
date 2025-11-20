@@ -1,41 +1,44 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
-public class Login extends JFrame {
-    private JPanel Login;
-    private JTextField nametext;
+public class FirstPage extends JFrame {
+    private JPanel firstpage;
+    private JTextField emailfield;
+    private JButton loginButton;
+    private JButton signUpButton;
     private JPasswordField passwordField;
-    private JButton loginbutton;
-    private JLabel pass;
-    private JLabel name;
-    private JButton back;
 
-    public Login()
-    {
-        setTitle("Log In");
-        setSize(400, 400);
+    public FirstPage() {
+        setTitle("First Page");
+        setSize(450, 400);
+        setContentPane(firstpage);
+        setLocationRelativeTo(null);
         setVisible(true);
-        setContentPane(Login);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        signUpButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-        loginbutton.addActionListener(new ActionListener() {
+        loginButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) { checkLogin();}
+            public void actionPerformed(ActionEvent e) {checkLogin();}
         });
-        back.addActionListener(new ActionListener() {
+
+
+        signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new firstPage().setVisible(true);
-                dispose();
+              new Signup().setVisible(true);
+              dispose();
             }
         });
     }
+
     private void checkLogin()
     {
-        String email= nametext.getText();
+        String email= emailfield.getText();
         String password = new String(passwordField.getPassword());
 
         if(Validations.isEmpty(email)||Validations.isEmpty(password))
@@ -59,9 +62,9 @@ public class Login extends JFrame {
                     }
                     else
                     {
-                         Instructor s= (Instructor) user;
-                         new InstructorPanel(s);
-                         dispose();
+                        Instructor s= (Instructor) user;
+                        new InstructorPanel(s);
+                        dispose();
 
                     }
                 }
@@ -77,4 +80,3 @@ public class Login extends JFrame {
         }
     }
 }
-

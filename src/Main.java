@@ -1,4 +1,4 @@
 public class Main
 {
-    public static void main(String[] args) {firstPage firstPage1=new firstPage();}
+    public static void main(String[] args) {FirstPage firstPage1=new FirstPage();}
 }

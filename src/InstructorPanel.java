@@ -121,7 +121,7 @@ public class InstructorPanel extends JFrame{
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Login();
+                new FirstPage().setVisible(true);
                 dispose();
             }
         });
