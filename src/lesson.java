@@ -30,7 +30,6 @@ public class lesson {
     public ArrayList<String> getResources() {
         return resources;
     }
-
     public void setStatus(boolean status){this.status =status;}
 
     @Override

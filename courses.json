@@ -26,10 +26,7 @@
           "status": false
         }
       ],
-      "studentIds": [
-        "9692",
-        "9439"
-      ]
+      "studentIds": []
     },
     {
       "courseId": "136129",
@@ -90,7 +87,9 @@
           "status": false
         }
       ],
-      "studentIds": []
+      "studentIds": [
+        "9692"
+      ]
     }
   ]
 }

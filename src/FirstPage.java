@@ -57,7 +57,7 @@ public class FirstPage extends JFrame {
                     if(user.getRole().equals("Student"))
                     {
                         Student s= (Student)user;
-                        new StudentPanel(s);
+                        new MainStudentPanel(s);
                         dispose();
                     }
                     else

@@ -8,15 +8,14 @@ public class StudentManage {
         this.student = student;
     }
 
-    //Course browsing --> aka available courses
-    public course[] viewAvailableCourse() {
-        ArrayList<course> allCourses = courseManagement.loadCourses();
-        ArrayList<String> enrolledIds = student.getEnrolledCourseIds();
+    public List<course> viewAvailableCourses() {
+        List<course> allCourses = courseManagement.loadCourses();
+        List<String> enrolledIds = student.getEnrolledCourseIds();
         allCourses.removeIf(c -> enrolledIds.contains(c.getCourseId()));
-        return allCourses.toArray(new course[0]);
+        return allCourses;
     }
-    //view enrolled courses
-    public course[] viewEnrolledCourse() {
+
+    public List<course> viewEnrolledCourses() {
         ArrayList<String> enrolledIds = student.getEnrolledCourseIds();
         ArrayList<course> allCourses = courseManagement.loadCourses();
         ArrayList<course> enrolled = new ArrayList<>();
@@ -25,9 +24,9 @@ public class StudentManage {
                 enrolled.add(c);
             }
         }
-        return enrolled.toArray(new course[0]);
+        return enrolled;
     }
-    //Course enrollment --> this function won't call unless it's available
+
     public boolean enrollCourse(course c) {
         String courseId = c.getCourseId();
         String studentId = student.getUserId();
@@ -56,7 +55,7 @@ public class StudentManage {
         courseManagement.saveCourses(courses);
         return true;
     }
-    //Lesson Access w progress tracking w a mark lessons as complete kman
+
     public float progressTrack(course c) {
         ArrayList<String> enrolledIds = student.getEnrolledCourseIds();
         float progress=0;
@@ -74,7 +73,7 @@ public class StudentManage {
         }
         return progress;
     }
-    // Complete a lesson for this student
+
     public boolean completeLesson(course c, lesson l) {
         String courseId = c.getCourseId();
         ArrayList<Boolean> lessonStatuses = student.getProgress().get(courseId);

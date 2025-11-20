@@ -2,13 +2,12 @@
   "users": [
     {
       "enrolledCourseIds": [
-        "C001"
+        "117"
       ],
       "lessonProgress": {
-        "C001": [
-          true,
+        "117": [
           false,
-          false
+          true
         ]
       },
       "userId": "9692",
@@ -18,16 +17,8 @@
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     },
     {
-      "enrolledCourseIds": [
-        "C001"
-      ],
-      "lessonProgress": {
-        "C001": [
-          false,
-          true,
-          false
-        ]
-      },
+      "enrolledCourseIds": [],
+      "lessonProgress": {},
       "userId": "9439",
       "role": "Student",
       "username": "Habiba Ahmed",
