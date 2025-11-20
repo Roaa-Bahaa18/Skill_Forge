@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MainInstructorPanel">
+  <grid id="27dc6" binding="mainpanel" layout-manager="GridLayoutManager" row-count="2" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="500" height="395"/>
+    </constraints>
+    <properties>
+      <background color="-2963528"/>
+      <font name="Britannic Bold" size="14" style="0"/>
+      <foreground color="-14536376"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="4147a" class="javax.swing.JLabel" binding="welcome">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-791840"/>
+          <font name="Britannic Bold" size="18" style="0"/>
+          <foreground color="-14536376"/>
+          <text value="Label"/>
+        </properties>
+      </component>
+      <tabbedpane id="464e7" binding="tabbedPane1" default-binding="true">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="6" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="200" height="200"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-791840"/>
+          <enabled value="true"/>
+          <font name="Britannic Bold" size="14" style="0"/>
+          <foreground color="-14536376"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="d694b" binding="CreateCourse" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Create New Course"/>
+            </constraints>
+            <properties>
+              <background color="-791840"/>
+              <font name="Britannic Bold" size="14" style="0"/>
+              <foreground color="-14536376"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="3098f" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-791840"/>
+                  <font name="Britannic Bold" size="16" style="0"/>
+                  <foreground color="-14536376"/>
+                  <text value="Course Title:"/>
+                </properties>
+              </component>
+              <component id="b4cb3" class="javax.swing.JTextField" binding="coursetitle">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="30"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-2963528"/>
+                  <font name="Britannic Bold" size="14" style="0"/>
+                  <foreground color="-13678483"/>
+                </properties>
+              </component>
+              <component id="28fa2" class="javax.swing.JTextField" binding="description">
+                <constraints>
+                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="30"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-2963528"/>
+                  <font name="Britannic Bold" size="14" style="0"/>
+                  <foreground color="-13678483"/>
+                </properties>
+              </component>
+              <component id="e1087" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-791840"/>
+                  <font name="Britannic Bold" size="16" style="0"/>
+                  <foreground color="-14536376"/>
+                  <text value="Course Description:"/>
+                </properties>
+              </component>
+              <component id="63150" class="javax.swing.JButton" binding="createCourseButton" default-binding="true">
+                <constraints>
+                  <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="-1" height="30"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-13678483"/>
+                  <font name="Britannic Bold" size="14" style="0"/>
+                  <foreground color="-2963528"/>
+                  <text value="Create Course"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <grid id="8727e" binding="coursedata" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="View Courses"/>
+            </constraints>
+            <properties>
+              <background color="-791840"/>
+              <font name="Britannic Bold" size="14" style="0"/>
+              <foreground color="-14536376"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <tabbedpane id="c0104" binding="tabbedPane2" default-binding="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="200" height="200"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-791840"/>
+                  <font name="Britannic Bold" size="14" style="0"/>
+                  <foreground color="-14536376"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="72b18" binding="coursedetails" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <tabbedpane title="Course Details"/>
+                    </constraints>
+                    <properties>
+                      <background color="-791840"/>
+                      <font name="Britannic Bold" size="14" style="0"/>
+                      <foreground color="-14536376"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <scrollpane id="2a353" binding="scrollcourses">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-791840"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-13678483"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <component id="fd30b" class="javax.swing.JTable" binding="coursestable">
+                            <constraints/>
+                            <properties>
+                              <background color="-791840"/>
+                              <fillsViewportHeight value="true"/>
+                              <font name="Britannic Bold" size="12" style="0"/>
+                              <foreground color="-14536376"/>
+                              <gridColor color="-13678483"/>
+                              <selectionBackground color="-13678483"/>
+                              <selectionForeground color="-2963528"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </scrollpane>
+                    </children>
+                  </grid>
+                  <grid id="e302f" binding="lessondetails" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <tabbedpane title="Lesson Details"/>
+                    </constraints>
+                    <properties>
+                      <background color="-791840"/>
+                      <font name="Britannic Bold" size="14" style="0"/>
+                      <foreground color="-14536376"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <scrollpane id="c8256" binding="scrolllesson">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-791840"/>
+                          <foreground color="-13678483"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <component id="ffe5d" class="javax.swing.JTable" binding="Lessontable">
+                            <constraints/>
+                            <properties>
+                              <background color="-791840"/>
+                              <fillsViewportHeight value="true"/>
+                              <font name="Britannic Bold" size="12" style="0"/>
+                              <foreground color="-14536376"/>
+                              <gridColor color="-13678483"/>
+                              <selectionBackground color="-13678483"/>
+                              <selectionForeground color="-2963528"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </scrollpane>
+                      <component id="23f4c" class="javax.swing.JComboBox" binding="coursecombo">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-2963528"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-13678483"/>
+                          <model>
+                            <item value="Choose A Course"/>
+                          </model>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                  <grid id="80af9" binding="addLesson" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <tabbedpane title="Add Lesson"/>
+                    </constraints>
+                    <properties>
+                      <background color="-791840"/>
+                      <font name="Britannic Bold" size="14" style="0"/>
+                      <foreground color="-14536376"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="104d0" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-791840"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-14536376"/>
+                          <text value="Lesson Title:"/>
+                        </properties>
+                      </component>
+                      <component id="33a04" class="javax.swing.JComboBox" binding="addlessoncombo">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-2963528"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-13678483"/>
+                          <model>
+                            <item value="Choose A Course"/>
+                          </model>
+                        </properties>
+                      </component>
+                      <component id="458e2" class="javax.swing.JTextField" binding="textField3" default-binding="true">
+                        <constraints>
+                          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="30"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-2963528"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-13678483"/>
+                        </properties>
+                      </component>
+                      <component id="10586" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-791840"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-14536376"/>
+                          <text value="Lesson content:"/>
+                        </properties>
+                      </component>
+                      <component id="1c8f1" class="javax.swing.JTextField" binding="textField4" default-binding="true">
+                        <constraints>
+                          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="30"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-2963528"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-13678483"/>
+                        </properties>
+                      </component>
+                      <component id="341d0" class="javax.swing.JLabel">
+                        <constraints>
+                          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-791840"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-14536376"/>
+                          <text value="Lesson Resources:"/>
+                        </properties>
+                      </component>
+                      <component id="77b47" class="javax.swing.JTextField" binding="textField5" default-binding="true">
+                        <constraints>
+                          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                            <preferred-size width="150" height="30"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-2963528"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-13678483"/>
+                        </properties>
+                      </component>
+                      <component id="b6e23" class="javax.swing.JButton" binding="saveLessonButton" default-binding="true">
+                        <constraints>
+                          <grid row="4" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-13678483"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-2963528"/>
+                          <text value="Save Lesson"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </grid>
+                </children>
+              </tabbedpane>
+            </children>
+          </grid>
+          <grid id="65243" binding="insights" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Insights"/>
+            </constraints>
+            <properties>
+              <background color="-791840"/>
+              <font name="Britannic Bold" size="14" style="0"/>
+              <foreground color="-14536376"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <tabbedpane id="7121f" binding="tabbedPane3" default-binding="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="200" height="200"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-791840"/>
+                  <font name="Britannic Bold" size="14" style="0"/>
+                  <foreground color="-14536376"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="4edf3" binding="sperformance" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <tabbedpane title="Student Performance"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                  <grid id="5893a" binding="quiz" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <tabbedpane title="Quiz Average"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children/>
+                  </grid>
+                </children>
+              </tabbedpane>
+            </children>
+          </grid>
+        </children>
+      </tabbedpane>
+      <component id="ae113" class="javax.swing.JButton" binding="logoutButton" default-binding="true">
+        <constraints>
+          <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="50" height="25"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-13678483"/>
+          <font name="Britannic Bold" size="12" style="0"/>
+          <foreground color="-2963528"/>
+          <text value="Logout"/>
+        </properties>
+      </component>
+      <hspacer id="1c6ab">
+        <constraints>
+          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+    </children>
+  </grid>
+</form>

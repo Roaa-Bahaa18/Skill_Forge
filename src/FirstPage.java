@@ -63,7 +63,7 @@ public class FirstPage extends JFrame {
                     else
                     {
                         Instructor s= (Instructor) user;
-                        new InstructorPanel(s);
+                        new MainInstructorPanel(s).setVisible(true);
                         dispose();
 
                     }
