@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +10,7 @@ public class AdminPanel extends JFrame{
     private JTable pendingCoursesTable;
     private JButton acceptButton;
     private JButton rejectButton;
+    private JButton logout;
     AdminManagement ad= null;
     private course selectedCourse = null;
     private DefaultTableModel tableModel;
@@ -90,6 +89,14 @@ public class AdminPanel extends JFrame{
             }
         });
         setVisible(true);
+        logout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(AdminPanel.this,"Logging out Admin " + admin.getUsername());
+                new FirstPage().setVisible(true);
+                dispose();
+            }
+        });
     }
     private void loadPendingCourses() {
         tableModel.setRowCount(0);

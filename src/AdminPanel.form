@@ -1,34 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="AdminPanel">
-  <grid id="27dc6" binding="adminpage" layout-manager="GridLayoutManager" row-count="4" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="adminpage" layout-manager="GridLayoutManager" row-count="4" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
-      <xy x="20" y="20" width="800" height="600"/>
+      <xy x="20" y="20" width="710" height="476"/>
     </constraints>
     <properties>
-      <!-- Background Color: -2963528 (Light Cream/Yellowish) -->
       <background color="-2963528"/>
     </properties>
     <border type="bevel-lowered" title="Skill Forge Admin Dashboard">
       <font name="Britannic Bold" size="18" style="0"/>
-      <!-- Title Color: -14536376 (Dark Blue) -->
       <title-color color="-14536376"/>
     </border>
     <children>
-      <component id="e94c" class="javax.swing.JLabel">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <font name="Britannic Bold" size="16" style="0"/>
-          <!-- Foreground Color: -14536376 (Dark Blue) -->
-          <foreground color="-14536376"/>
-          <text value="Pending Course Approvals"/>
-        </properties>
-      </component>
       <scrollpane id="d0e88" binding="coursesScrollPane">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+          <grid row="1" column="0" row-span="1" col-span="4" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="-1" height="400"/>
           </grid>
         </constraints>
@@ -38,15 +25,11 @@
           <component id="6850c" class="javax.swing.JTable" binding="pendingCoursesTable">
             <constraints/>
             <properties>
-              <!-- Background Color: -2963528 (Light) -->
               <background color="-2963528"/>
               <font name="Britannic Bold" size="12" style="0"/>
-              <!-- Foreground Color: -13678483 (Slightly darker blue, derived from your theme) -->
               <foreground color="-13678483"/>
               <gridColor color="-16777216"/>
-              <!-- Selection Background: -14536376 (Dark Blue) -->
               <selectionBackground color="-14536376"/>
-              <!-- Selection Foreground: -2963528 (Light) -->
               <selectionForeground color="-2963528"/>
             </properties>
           </component>
@@ -54,33 +37,29 @@
       </scrollpane>
       <component id="3693e" class="javax.swing.JButton" binding="acceptButton">
         <constraints>
-          <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <!-- Background Color: -14536376 (Dark Blue) -->
           <background color="-14536376"/>
           <font name="Britannic Bold" size="14" style="0"/>
-          <!-- Foreground Color: -2963528 (Light) -->
           <foreground color="-2963528"/>
           <text value="Accept Course"/>
         </properties>
       </component>
       <component id="24c25" class="javax.swing.JButton" binding="rejectButton">
         <constraints>
-          <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <!-- Background Color: -14536376 (Dark Blue) -->
           <background color="-14536376"/>
           <font name="Britannic Bold" size="14" style="0"/>
-          <!-- Foreground Color: -2963528 (Light) -->
           <foreground color="-2963528"/>
           <text value="Reject Course"/>
         </properties>
       </component>
       <hspacer id="9f3a5">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
       </hspacer>
       <vspacer id="2382a">
@@ -88,6 +67,27 @@
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
         </constraints>
       </vspacer>
+      <component id="e94c" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <font name="Britannic Bold" size="16" style="0"/>
+          <foreground color="-14536376"/>
+          <text value="Pending Course Approvals"/>
+        </properties>
+      </component>
+      <component id="a970" class="javax.swing.JButton" binding="logout">
+        <constraints>
+          <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-14536376"/>
+          <font name="Britannic Bold" size="14" style="0"/>
+          <foreground color="-2963528"/>
+          <text value="Log out"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
