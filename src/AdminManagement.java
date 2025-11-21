@@ -8,7 +8,7 @@ public class AdminManagement {
         ArrayList<course> pendingCourses = new ArrayList<>();
         ArrayList<course> all = courseManagement.loadCourses();
         for(course c : all){
-            if(c.getStatus() == "Pending"){
+            if(c.getStatus().equals("Pending")){
                 pendingCourses.add(c);
             }
         }
@@ -16,14 +16,25 @@ public class AdminManagement {
     }
 
     public void manageCourse(course course, boolean option){
-        if(option){
-            course.setStatus("Accepted");
+        ArrayList<course> courses = courseManagement.loadCourses();
+        for(course c:courses)
+        {
+            if(c.getCourseId().equals(course.getCourseId()))
+            {
+                if(option) c.setStatus("Approved");
+                else c.setStatus("Rejected");
+                break;
+            }
         }
-        else{
-            course.setStatus("Rejected");
-        }
+        courseManagement.saveCourses(courses);
     }
-
-
-
+    public course findCourseById(String courseID)
+    {
+        ArrayList<course> courses = courseManagement.loadCourses();
+        for(course c:courses){
+            if(c.getCourseId().equals(courseID))
+                return c;
+        }
+        return null;
+    }
 }

@@ -21,9 +21,16 @@ public abstract class userService {
             JsonArray arr = root.getAsJsonArray("users");
             for (JsonElement el : arr) {
                 JsonObject obj = el.getAsJsonObject();
-                String role = obj.get("role").getAsString();
-                if (role.equalsIgnoreCase("student")) list.add(gson.fromJson(obj, Student.class));
-                else list.add(gson.fromJson(obj, Instructor.class));
+                if (obj.has("role")) {
+                    String role = obj.get("role").getAsString();
+                    if (role.equalsIgnoreCase("student")) {
+                        list.add(gson.fromJson(obj, Student.class));
+                    } else if (role.equalsIgnoreCase("instructor")) {
+                        list.add(gson.fromJson(obj, Instructor.class));
+                    } else if (role.equalsIgnoreCase("admin")) {
+                        list.add(gson.fromJson(obj, Admin.class));
+                    }
+                }
             }
             return list;
 

@@ -17,13 +17,14 @@ public class course {
     private ArrayList<String> studentIds = new ArrayList<>();
     private String status;
 
-    public course(String courseId, String courseTitle, String courseDescription, String instructorId, ArrayList<String> students, ArrayList<lesson> lessons) {
+    public course(String courseId, String courseTitle, String courseDescription, String instructorId, ArrayList<String> students, ArrayList<lesson> lessons, String status) {
         this.courseId = courseId;
         this.courseTitle = courseTitle;
         this.courseDescription = courseDescription;
         this.instructorId = instructorId;
         this.studentIds = students;
         this.lessons = lessons;
+        this.status="Pending";
     }
 
     public String getCourseId() { return courseId;}

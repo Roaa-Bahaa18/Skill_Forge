@@ -121,6 +121,7 @@
             <item value="Select Role"/>
             <item value="Student"/>
             <item value="Instructor"/>
+            <item value="Admin"/>
           </model>
         </properties>
       </component>

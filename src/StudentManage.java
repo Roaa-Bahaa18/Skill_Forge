@@ -1,6 +1,7 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StudentManage {
     private Student student;
@@ -11,8 +12,11 @@ public class StudentManage {
     public List<course> viewAvailableCourses() {
         List<course> allCourses = courseManagement.loadCourses();
         List<String> enrolledIds = student.getEnrolledCourseIds();
-        allCourses.removeIf(c -> enrolledIds.contains(c.getCourseId()));
-        return allCourses;
+        List<course> availableCourses = allCourses.stream()
+                .filter(c -> "Approved".equals(c.getStatus()))
+                .filter(c -> !enrolledIds.contains(c.getCourseId()))
+                .collect(Collectors.toList());
+        return availableCourses;
     }
 
     public List<course> viewEnrolledCourses() {

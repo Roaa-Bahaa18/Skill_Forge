@@ -79,10 +79,14 @@ public class Signup extends JFrame{
                 HashMap<String, ArrayList<Boolean>> progress= new HashMap<>();
                 user= new Student(name,password,id,email,enrolledCourses,progress);
             }
-            else
+            else if("Instructor".equals(role))
             {
                 ArrayList<course> createdCourses = new ArrayList<>();
                 user= new Instructor(id,name,email,password,createdCourses);
+            }
+            else
+            {
+                user = new Admin(name,password,id,email);
             }
 
             try{

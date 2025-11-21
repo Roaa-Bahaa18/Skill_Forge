@@ -22,7 +22,7 @@ public class InstructorManagement {
         }
         ArrayList<String> studentsIDs = new ArrayList<>();
         ArrayList<lesson> lessons = new ArrayList<>();
-        course c = new course(courseId,title, courseDescription, this.instructor.getUserId(), studentsIDs, lessons);
+        course c = new course(courseId,title, courseDescription, this.instructor.getUserId(), studentsIDs, lessons,"Pending");
         courseManagement.addCourse(c);
         List<User> users = userService.loadUsers();
         int i=0;
@@ -46,7 +46,7 @@ public class InstructorManagement {
         boolean flag = false;
         for(course c : courses){
             if(c.getCourseId().matches(courseId)){
-                newCourse = new course(courseId, newTitle, newContentDescription, this.instructor.getUserId(),c.getStudentIds(), c.getLessons());
+                newCourse = new course(courseId, newTitle, newContentDescription, this.instructor.getUserId(),c.getStudentIds(), c.getLessons(),"Pending");
                 flag = courseManagement.editCourse(c, newCourse);;
                 break;
             }

@@ -26,7 +26,8 @@
           "status": false
         }
       ],
-      "studentIds": []
+      "studentIds": [],
+      "status": "Approved"
     },
     {
       "courseId": "136129",
@@ -42,7 +43,8 @@
           "status": false
         }
       ],
-      "studentIds": []
+      "studentIds": [],
+      "status": "Approved"
     },
     {
       "courseId": "139996",
@@ -58,7 +60,8 @@
           "status": false
         }
       ],
-      "studentIds": []
+      "studentIds": [],
+      "status": "Rejected"
     },
     {
       "courseId": "117",
@@ -89,7 +92,8 @@
       ],
       "studentIds": [
         "9692"
-      ]
+      ],
+      "status": "Approved"
     }
   ]
 }

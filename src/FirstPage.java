@@ -60,12 +60,18 @@ public class FirstPage extends JFrame {
                         new MainStudentPanel(s);
                         dispose();
                     }
-                    else
+                    else if(user.getRole().equals("Instructor"))
                     {
                         Instructor s= (Instructor) user;
                         new MainInstructorPanel(s).setVisible(true);
                         dispose();
 
+                    }
+                    else
+                    {
+                        Admin s= (Admin) user;
+                        new AdminPanel(s).setVisible(true);
+                        dispose();
                     }
                 }
                 else

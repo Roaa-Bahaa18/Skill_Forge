@@ -68,7 +68,7 @@ public class ManageLessonPanel extends JFrame{
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new InstructorPanel(instructor);
+                new MainInstructorPanel(instructor);
                 dispose();
             }
         });
