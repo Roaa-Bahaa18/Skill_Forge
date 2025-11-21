@@ -15,6 +15,7 @@ public class course {
     private String instructorId;
     private ArrayList<lesson> lessons = new ArrayList<>();
     private ArrayList<String> studentIds = new ArrayList<>();
+    private String status;
 
     public course(String courseId, String courseTitle, String courseDescription, String instructorId, ArrayList<String> students, ArrayList<lesson> lessons) {
         this.courseId = courseId;
@@ -30,6 +31,8 @@ public class course {
     public String getCourseDescription() { return courseDescription;}
     public String getInstructorId() {return instructorId;}
     public ArrayList<lesson> getLessons() {return lessons;}
+    public void setStatus(String status){this.status = status;}
+    public String getStatus(){return status;}
 
     public ArrayList<String> getStudentIds() {
         if (this.studentIds == null) {this.studentIds = new ArrayList<>();}
