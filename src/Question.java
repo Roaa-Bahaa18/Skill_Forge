@@ -13,6 +13,7 @@ public class Question {
         this.choices = (choices != null) ? choices : new ArrayList<>();
         this.answer = answer;
     }
+    public Question() {}
     public Question(String questionBody, List<String> choices, char answer)
     {
         this.questionBody = questionBody;

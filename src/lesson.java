@@ -6,16 +6,19 @@ public class lesson {
     private String content;
     private ArrayList<String> resources = new ArrayList<>();
     private boolean status;
-    private Quiz quiz=null;
+    private Quiz quiz;
+    private boolean quizstate;
 
-    public lesson(String lessonId, String lessonTitle, String content, ArrayList<String> resources,boolean status){
+    public lesson(String lessonId, String lessonTitle, String content, ArrayList<String> resources,boolean QuizState,Quiz quiz){
         this.lessonId = lessonId;
         this.lessonTitle = lessonTitle;
         this.content = content;
         this.resources = resources;
-        this.status =status;
+        this.quizstate=QuizState;
+        this.quiz=quiz;
     }
-
+    public boolean getQuizState() { return quizstate; }
+    public void setQuizState(boolean quizstate) { this.quizstate = quizstate; }
     public void setStatus(boolean status){this.status =status;}
     public void setQuiz(Quiz quiz) {this.quiz = quiz;}
     public void setLessonTitle(String lessonTitle) { this.lessonTitle = lessonTitle; }

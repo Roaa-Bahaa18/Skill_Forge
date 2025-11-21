@@ -198,6 +198,7 @@ public abstract class courseManagement {
                     if(l.getLessonId().equals(lessonId))
                     {
                         l.setQuiz(quiz);
+                        l.setStatus(true);
                         flag=true;
                         break;
                     }
@@ -209,6 +210,22 @@ public abstract class courseManagement {
             saveCourses(courses);
         }
         return flag;
+    }
+
+    public static lesson getLessonByID(String courseId,String lessonID) {
+        ArrayList<course> courses=loadCourses();
+        for(course c: courses)
+        {
+            if(c.getCourseId().equals(courseId))
+            {
+                for(lesson l:c.getLessons())
+                {
+                    if(l.getLessonId().equals(lessonID))
+                        return l;
+                }
+            }
+        }
+        return null;
     }
 
 }

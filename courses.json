@@ -1,0 +1,99 @@
+{
+  "courses": [
+    {
+      "courseId": "183",
+      "courseTitle": "Programming 2",
+      "courseDescription": "mnk llah ya Lyla",
+      "instructorId": "1",
+      "lessons": [
+        {
+          "lessonId": "139",
+          "lessonTitle": "OOP",
+          "content": "elr7ma",
+          "resources": [
+            "mnk llah"
+          ],
+          "status": true,
+          "quiz": {
+            "quizId": "QZ7520",
+            "questions": [
+              {
+                "questionBody": "ana men?",
+                "choices": [
+                  "Hebo",
+                  "Hua Ling",
+                  "Ling Ling",
+                  "All of the above"
+                ],
+                "answer": "D"
+              }
+            ]
+          },
+          "quizstate": false
+        },
+        {
+          "lessonId": "133",
+          "lessonTitle": "UML",
+          "content": "yarab",
+          "resources": [
+            "myta f 7obbak ya Lola"
+          ],
+          "status": true,
+          "quiz": {
+            "quizId": "QZ2157",
+            "questions": [
+              {
+                "questionBody": "Esm Ott Dido",
+                "choices": [
+                  "Romio",
+                  "Jullite ",
+                  "la da wala da",
+                  "msh 3aref wallahy"
+                ],
+                "answer": "A"
+              }
+            ]
+          },
+          "quizstate": false
+        },
+        {
+          "lessonId": "185",
+          "lessonTitle": "Design",
+          "content": "ay 7aga",
+          "resources": [
+            "ns2l el 5alas"
+          ],
+          "status": true,
+          "quiz": {
+            "quizId": "QZ3967",
+            "questions": [
+              {
+                "questionBody": "Men agmd 7d fl Ahly",
+                "choices": [
+                  "Imam Ashor",
+                  "Zizo",
+                  "Bn sharky",
+                  "all of the above"
+                ],
+                "answer": "D"
+              },
+              {
+                "questionBody": "Men a2sr 7d fena",
+                "choices": [
+                  "Habiba",
+                  "Roaa",
+                  "Darine",
+                  "Heba"
+                ],
+                "answer": "B"
+              }
+            ]
+          },
+          "quizstate": false
+        }
+      ],
+      "studentIds": [],
+      "status": "Approved"
+    }
+  ]
+}

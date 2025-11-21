@@ -7,6 +7,15 @@ public class InstructorManagement {
     public InstructorManagement(Instructor instructor) {
         this.instructor = instructor;
     }
+    public void refreshInstructor() {
+        List<User> users = userService.loadUsers();
+        for (User user : users) {
+            if (user instanceof Instructor && user.getUsername().equals(this.instructor.getUsername())) {
+                this.instructor = (Instructor) user;
+                break;
+            }
+        }
+    }
 
     public Instructor getInstructor() {
         return instructor;
@@ -29,9 +38,9 @@ public class InstructorManagement {
         int i=0;
         for(User user : users){
             if(user.getUserId().equals(this.instructor.getUserId())){
-                ArrayList<course> courses = instructor.getCreatedCoursesIDS();
+                ArrayList<course> courses = instructor.getCreatedCourses();
                 courses.add(c);
-                instructor.setCreatedCoursesIDS(courses);
+                instructor.setCreatedCourses(courses);
                 users.set(i,instructor);
                 break;
             }
@@ -41,45 +50,38 @@ public class InstructorManagement {
         return true;
     }
 
-    public boolean editCourse(String courseId, String newTitle, String newContentDescription, String newStatus){
+    public boolean editCourse(String courseId, String newTitle, String newContentDescription) {
         ArrayList<course> courses = courseManagement.loadCourses();
-        course newCourse= null;
-        boolean flag = false;
+        course oldCourse = null;
+
+        for(course c : courses){if(c.getCourseId().equals(courseId)){oldCourse = c;break;}}
+        if (oldCourse == null) {return false;}
+        if (oldCourse.getStatus().equals("Pending")) {return false;}
         if (!Validations.isValidCourseTitle(newTitle)) {return false;}
-        for(course c : courses){
-            if(c.getCourseId().matches(courseId)){
-                String finalStatus = c.getStatus();
-                if (c.getStatus().equals("Approved") || c.getStatus().equals("Rejected")) {
-                    if (!newTitle.equals(c.getCourseTitle()) || !newContentDescription.equals(c.getCourseDescription())) {
-                        finalStatus = "Pending";
-                    } else {
-                        finalStatus = newStatus;
-                    }
-                } else {
-                    finalStatus = newStatus;
-                }
-                newCourse = new course(courseId, newTitle, newContentDescription, this.instructor.getUserId(),c.getStudentIds(), c.getLessons(), finalStatus);
-                flag = courseManagement.editCourse(c, newCourse);
-                break;
-            }
-        }
-        List<User> users = userService.loadUsers();
-        int i=0;
-        for(User user : users){
-            if(user.getUserId().equals(this.instructor.getUserId())){
-                ArrayList<course> InstructorCourses = instructor.getCreatedCoursesIDS();
-                for(int j=0;j<InstructorCourses.size();j++){
-                    if(InstructorCourses.get(j).getCourseId().matches(courseId)){
-                        InstructorCourses.set(j,newCourse);
-                        instructor.setCreatedCoursesIDS(InstructorCourses);
-                        break;
+
+        course newCourse = new course(courseId, newTitle, newContentDescription, this.instructor.getUserId(), oldCourse.getStudentIds(), oldCourse.getLessons(), "Pending");
+        boolean flag = courseManagement.editCourse(oldCourse, newCourse);
+        if(flag) {
+            List<User> users = userService.loadUsers();
+            boolean flag2=false;
+            for(User u:users) {
+                if (oldCourse.getInstructorId().equals(u.getUserId())) {
+                    Instructor i = (Instructor) u;
+                    List<course> InstructorCourses = i.getCreatedCourses();
+                    for (int j = 0; j < InstructorCourses.size(); j++) {
+                        if (courseId.equals(InstructorCourses.get(j).getCourseId())) {
+                            InstructorCourses.set(j, newCourse);
+                            flag2=true;
+                            break;
+                        }
+                        if(flag2) break;
                     }
                 }
-                users.set(i,instructor);
             }
-            i++;
+            userService.saveUsers(users);
+            refreshInstructor();
         }
-        userService.saveUsers(users);
+        //Lazem ttzbt 3nd Student bs wait 7abba
         return flag;
     }
 
@@ -89,11 +91,11 @@ public class InstructorManagement {
         int i=0;
         for(User user : users){
             if(user.getUserId().equals(this.instructor.getUserId())){
-                ArrayList<course> icourses = instructor.getCreatedCoursesIDS();
+                ArrayList<course> icourses = instructor.getCreatedCourses();
                 for(int j=0;j<icourses.size();j++){
                     if(icourses.get(j).getCourseId().matches(courseId)){
                         icourses.remove(j);
-                        instructor.setCreatedCoursesIDS(icourses);
+                        instructor.setCreatedCourses(icourses);
                         break;
                     }
                 }
@@ -113,70 +115,160 @@ public class InstructorManagement {
             lessonId = Integer.toString(ran.nextInt(99) + 100);
         }
         if(!Validations.isValidLessonTitle(courseId,title)) { return false;}
-        lesson l = new lesson(lessonId, title, content, resources, false);
-        return courseManagement.addLesson(courseId, l);
+        String quizId = "QZ" + (ran.nextInt(9000) + 1000);
+        //m7taga a validate 3al Quiz ID bs msh 2dra sara7a
+        Quiz initialQuiz = new Quiz(quizId, new ArrayList<Question>());
+        lesson l = new lesson(lessonId, title, content, resources, false,initialQuiz);
+        boolean flag= courseManagement.addLesson(courseId, l);
+        if(flag)
+        {
+            course c= courseManagement.getCourseByID(courseId);
+            List<User> users = userService.loadUsers();
+            boolean flag2=false;
+            for(User u:users)
+            {
+                if(c.getInstructorId().equals(u.getUserId()))
+                {
+                    Instructor instructor=(Instructor) u;
+                    ArrayList<course> courses= instructor.getCreatedCourses();
+                    for(int i=0;i<courses.size();i++)
+                    {
+                        if(courses.get(i).getCourseId().equals(courseId))
+                        {
+                            courses.get(i).addLesson(l);
+                            flag2=true;
+                            break;
+                        }
+                    }
+                }
+                if(flag2) break;
+            }
+            userService.saveUsers(users);
+            refreshInstructor();
+        }
+        return flag;
     }
 
-    public boolean editLesson(String courseId, String lessonId, String newTitle, String newContent, ArrayList<String> newResources){
+    public boolean editLesson(String courseId, String lessonId, String newTitle, String newContent, ArrayList<String> newResources,Boolean state){
         if(!Validations.isValidLessonTitle(courseId,newTitle)) { return false;}
         ArrayList<course> list = courseManagement.loadCourses();
         boolean flag = false;
         for(course c : list){
             if(c.getCourseId().matches(courseId)){
-                for(lesson l : c.getLessons()){
-                    lesson newLesson = new lesson(lessonId, newTitle, newContent, newResources, l.getStatus());
-                    flag = courseManagement.editLesson(courseId, lessonId, newLesson);
-                    break;
-                }
+                lesson existingLesson = courseManagement.getLessonByID(courseId, lessonId);
+                Quiz existingQuiz = (existingLesson != null) ? existingLesson.getQuiz() : null;
+                lesson newLesson = new lesson(lessonId, newTitle, newContent, newResources,state,existingQuiz);
+                flag = courseManagement.editLesson(courseId, lessonId, newLesson);
+                break;
             }
+        }
+        if(flag) {
+            List<User> users = userService.loadUsers();
+            boolean instructorFound = false;
+            for(User u : users) {
+                if (u instanceof Instructor) {
+                    Instructor instructor = (Instructor) u;
+                    ArrayList<course> createdCourses = instructor.getCreatedCourses();
+                    for(int i = 0; i < createdCourses.size(); i++) {
+                        course targetCourse = createdCourses.get(i);
+                        if (targetCourse.getCourseId().equals(courseId)) {
+                            for(int j = 0; j < targetCourse.getLessons().size(); j++) {
+                                lesson targetLesson = targetCourse.getLessons().get(j);
+                                if (targetLesson.getLessonId().equals(lessonId)) {
+                                    Quiz existingQuiz = targetLesson.getQuiz();
+                                    lesson newlesson = new lesson(lessonId, newTitle, newContent, newResources, state, existingQuiz);
+                                    targetCourse.getLessons().set(j, newlesson);
+                                    instructorFound = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if(instructorFound) break;
+                    }
+                }
+                if(instructorFound) break;
+            }
+            userService.saveUsers(users);
+            refreshInstructor();
         }
         return flag;
     }
 
     public boolean deleteLesson(String courseId, String lessonId){
-        return courseManagement.removeLesson(courseId, lessonId);
-    }
-
-    public boolean addQuizToLesson(String courseId, String lessonId, Quiz quiz){
-        boolean flag = courseManagement.addQuizToLesson(courseId, lessonId, quiz);
-        if (flag) {
+        boolean success = courseManagement.removeLesson(courseId, lessonId);
+        if (success) {
             List<User> users = userService.loadUsers();
-            int i=0;
-            for(User user : users){
-                if(user.getUserId().equals(this.instructor.getUserId())){
-                    ArrayList<course> icourses = instructor.getCreatedCoursesIDS();
-                    for(course c : icourses){
-                        if(c.getCourseId().matches(courseId)){
-                            lesson l = c.getLesson(lessonId);
-                            if (l != null) {
-                                l.setQuiz(quiz);
-                                break;
-                            }
+            boolean instructorFound = false;
+            for(User u : users) {
+                if (u instanceof Instructor) {
+                    Instructor instructor = (Instructor) u;
+                    ArrayList<course> createdCourses = instructor.getCreatedCourses();
+                    for(int i = 0; i < createdCourses.size(); i++) {
+                        course targetCourse = createdCourses.get(i);
+                        if (targetCourse.getCourseId().equals(courseId)) {
+                            boolean removed = targetCourse.getLessons()
+                                    .removeIf(lesson -> lesson.getLessonId().equals(lessonId));
+                            if (removed) {instructorFound = true;}
+                            break;
                         }
                     }
-                    users.set(i,instructor);
                 }
-                i++;
+                if(instructorFound) break;
             }
             userService.saveUsers(users);
+            refreshInstructor();
         }
-        return flag;
+        return success;
+    }
+
+    public boolean addQuizToLesson(String courseId, String lessonId, Quiz quiz) {
+        boolean success = courseManagement.addQuizToLesson(courseId, lessonId, quiz);
+        quiz.setScore(0.0);
+        if (success) {
+            List<User> users = userService.loadUsers();
+            boolean instructorFound = false;
+
+            for (User u : users) {
+                if (u instanceof Instructor) {
+                    Instructor instructor = (Instructor) u;
+                    for (course targetCourse : instructor.getCreatedCourses()) {
+                        if (targetCourse.getCourseId().equals(courseId)) {
+                            for (lesson targetLesson : targetCourse.getLessons()) {
+                                if (targetLesson.getLessonId().equals(lessonId)) {
+                                    targetLesson.setQuiz(quiz);
+                                    targetLesson.setQuizState(true);
+                                    instructorFound = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (instructorFound) break;
+                    }
+                }
+                if (instructorFound) break;
+            }
+            userService.saveUsers(users);
+            refreshInstructor();
+        }
+
+        return success;
     }
 
     public ArrayList<lesson> getLessonsWithoutQuiz(String courseId) {
-        ArrayList<lesson> lessons= new ArrayList<>();
-        ArrayList<course> courses=courseManagement.loadCourses();
-        for(course c:courses)
-        {
-            if(c.getCourseId().equals(courseId))
-            {
-                for(lesson l : c.getLessons())
-                {
-                    if(l.getQuiz()==null) lessons.add(l);
-                }
+        ArrayList<lesson> result= new ArrayList<>();
+        course targetCourse = null;
+        for (course c : this.instructor.getCreatedCourses()) {
+            if (c.getCourseId().equals(courseId)) {
+                targetCourse = c;
+                break;
             }
         }
-        return lessons;
+        if (targetCourse != null) {
+            for (lesson l : targetCourse.getLessons()) {
+                if (!l.getQuizState()) {result.add(l);}
+            }
+        }
+        return result;
     }
 
 

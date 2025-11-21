@@ -395,9 +395,7 @@
                           <enabled value="true"/>
                           <font name="Britannic Bold" size="14" style="0"/>
                           <foreground color="-13678483"/>
-                          <model>
-                            <item value="Choose a Lesson"/>
-                          </model>
+                          <model/>
                         </properties>
                       </component>
                     </children>

@@ -19,7 +19,106 @@
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     },
     {
-      "createdCourses": [],
+      "createdCourses": [
+        {
+          "courseId": "183",
+          "courseTitle": "Programming 2",
+          "courseDescription": "mnk llah ya Lyla",
+          "instructorId": "1",
+          "lessons": [
+            {
+              "lessonId": "139",
+              "lessonTitle": "OOP",
+              "content": "elr7ma",
+              "resources": [
+                "mnk llah"
+              ],
+              "status": false,
+              "quiz": {
+                "quizId": "QZ7520",
+                "questions": [
+                  {
+                    "questionBody": "ana men?",
+                    "choices": [
+                      "Hebo",
+                      "Hua Ling",
+                      "Ling Ling",
+                      "All of the above"
+                    ],
+                    "answer": "D"
+                  }
+                ],
+                "score": 0.0
+              },
+              "quizstate": true
+            },
+            {
+              "lessonId": "133",
+              "lessonTitle": "UML",
+              "content": "yarab",
+              "resources": [
+                "myta f 7obbak ya Lola"
+              ],
+              "status": false,
+              "quiz": {
+                "quizId": "QZ2157",
+                "questions": [
+                  {
+                    "questionBody": "Esm Ott Dido",
+                    "choices": [
+                      "Romio",
+                      "Jullite ",
+                      "la da wala da",
+                      "msh 3aref wallahy"
+                    ],
+                    "answer": "A"
+                  }
+                ],
+                "score": 0.0
+              },
+              "quizstate": true
+            },
+            {
+              "lessonId": "185",
+              "lessonTitle": "Design",
+              "content": "ay 7aga",
+              "resources": [
+                "ns2l el 5alas"
+              ],
+              "status": false,
+              "quiz": {
+                "quizId": "QZ3967",
+                "questions": [
+                  {
+                    "questionBody": "Men agmd 7d fl Ahly",
+                    "choices": [
+                      "Imam Ashor",
+                      "Zizo",
+                      "Bn sharky",
+                      "all of the above"
+                    ],
+                    "answer": "D"
+                  },
+                  {
+                    "questionBody": "Men a2sr 7d fena",
+                    "choices": [
+                      "Habiba",
+                      "Roaa",
+                      "Darine",
+                      "Heba"
+                    ],
+                    "answer": "B"
+                  }
+                ],
+                "score": 0.0
+              },
+              "quizstate": true
+            }
+          ],
+          "studentIds": [],
+          "status": "Approved"
+        }
+      ],
       "userId": "1",
       "role": "Instructor",
       "username": "Ahmed Tarras",

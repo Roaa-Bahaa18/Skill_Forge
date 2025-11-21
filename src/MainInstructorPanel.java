@@ -42,7 +42,6 @@ public class MainInstructorPanel extends JFrame{
     private JButton saveQuizButton;
     private JButton uploadQuizButton;
     private JTable Questiontbale;
-    private JTextField quizIdField;
 
     private Instructor instructor = null;
     private final InstructorManagement im;
@@ -55,18 +54,19 @@ public class MainInstructorPanel extends JFrame{
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
-        setVisible(true);
+
         this.instructor = instructor;
         im = new InstructorManagement(instructor);
         InstructorName= instructor.getUsername();
-        createdCourses= instructor.getCreatedCoursesIDS();
+        this.createdCourses = (instructor.getCreatedCourses() != null) ? instructor.getCreatedCourses() : new ArrayList<>();
         welcome.setText("Welcome " + InstructorName);
-
+        saveLessonButton.setEnabled(false);
+        addLessonRowButton.setEnabled(false);
         setUpcoursestable();
         setUpLessonTable();
         setUpQuestionTable();
-        updateCourseCombo(coursecombo);
-        updateCourseCombo(coursebox);
+        updateCourseCombo(coursecombo,"Approved");
+        updateCourseCombo(coursebox,null);
 
         logoutButton.addActionListener(new ActionListener() {
             @Override
@@ -92,10 +92,10 @@ public class MainInstructorPanel extends JFrame{
                         return;
                     }
                     JOptionPane.showMessageDialog(null,"Course Created Successfully!");
-                    createdCourses = im.getInstructor().getCreatedCoursesIDS();
+                    createdCourses = im.getInstructor().getCreatedCourses();
                     updateCourseTable();
-                    updateCourseCombo(coursecombo);
-                    updateCourseCombo(coursebox);
+                    updateCourseCombo(coursecombo,"Approved");
+                    updateCourseCombo(coursebox,null);
                     tabbedPane1.setSelectedIndex(1);
                     tabbedPane2.setSelectedIndex(0);
                     coursetitle.setText("");
@@ -107,7 +107,11 @@ public class MainInstructorPanel extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedCourse = (String) coursecombo.getSelectedItem();
-                if (selectedCourse != null && !selectedCourse.isEmpty() && !selectedCourse.equals("Choose A Course")) {
+
+                boolean courseSelected = (selectedCourse != null && !selectedCourse.isEmpty() && !selectedCourse.equals("Choose A Course"));
+                saveLessonButton.setEnabled(courseSelected);
+                addLessonRowButton.setEnabled(courseSelected);
+                if (courseSelected) {
                     String courseId = getCourseIdFromCombo(selectedCourse);
                     updateLessonTable(courseId);
                 } else {
@@ -146,10 +150,14 @@ public class MainInstructorPanel extends JFrame{
                 String title = (String) model.getValueAt(row, 1);
                 String content = (String) model.getValueAt(row, 2);
                 String resourcesString = (String) model.getValueAt(row, 3);
+                String quizStatusString = (String) model.getValueAt(row, 4);
+                boolean state=false;
+                if (quizStatusString.equalsIgnoreCase("Yes")) {
+                    state = true;
+                }
                 ArrayList<String> resources = new ArrayList<>(Arrays.asList(resourcesString.split(",")));
-
-                if (title.isEmpty() || content.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Title and Content cannot be empty.");
+                if (title.equals("Enter Title") || content.equals("Enter Content") || resourcesString.equals("resource1,resource2") ) {
+                    JOptionPane.showMessageDialog(null, "Title, Content and resources must be filled with values.");
                     return;
                 }
 
@@ -159,12 +167,12 @@ public class MainInstructorPanel extends JFrame{
                     if (success) JOptionPane.showMessageDialog(null, "Lesson Added Successfully!");
                     else JOptionPane.showMessageDialog(null, "Failed to Add Lesson.");
                 } else {
-                    success = im.editLesson(courseId, lessonId, title, content, resources);
+                    success = im.editLesson(courseId, lessonId, title, content, resources,state);
                     if (success) JOptionPane.showMessageDialog(null, "Lesson Edited Successfully!");
                     else JOptionPane.showMessageDialog(null, "Failed to Edit Lesson.");
                 }
                 if (success) {
-                    createdCourses = im.getInstructor().getCreatedCoursesIDS();
+                    createdCourses = im.getInstructor().getCreatedCourses();
                     updateLessonTable(courseId);
                     updateCourseTable();
                 }
@@ -175,11 +183,9 @@ public class MainInstructorPanel extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedCourse = (String) coursebox.getSelectedItem();
-                lessonbox.removeAllItems();
-                lessonbox.addItem("Choose a Lesson");
-                quizIdField.setText("");
-                currentQuiz = null;
 
+                lessonbox.addItem("Choose a Lesson");
+                currentQuiz = null;
                 if (selectedCourse != null && !selectedCourse.isEmpty() && !selectedCourse.equals("Choose a Course")) {
                     String courseId = getCourseIdFromCombo(selectedCourse);
                     ArrayList<lesson> lessonsWithoutQuiz = im.getLessonsWithoutQuiz(courseId);
@@ -194,19 +200,20 @@ public class MainInstructorPanel extends JFrame{
         lessonbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedLesson = (String) lessonbox.getSelectedItem();
-                currentQuiz = null;
+                String selectedLessonItem = (String) lessonbox.getSelectedItem();
                 ((DefaultTableModel) Questiontbale.getModel()).setRowCount(0);
 
-                if (selectedLesson != null && !selectedLesson.isEmpty() && !selectedLesson.equals("Choose a Lesson")) {
-                    Random ran = new Random();
-                    String quizId = "QZ" + (ran.nextInt(9000) + 1000);
-                    quizIdField.setText(quizId);
-                    currentQuiz = new Quiz(quizId, new ArrayList<Question>());
-                } else {
-                    quizIdField.setText("");
+                    if (selectedLessonItem != null && !selectedLessonItem.equals("Choose a Lesson")){
+                        String lessonId = getLessonIdFromCombo(selectedLessonItem);
+                        String selectedCourse = (String) coursebox.getSelectedItem();
+                        assert selectedCourse != null;
+                        String courseId = getCourseIdFromCombo(selectedCourse);
+                        lesson targetLesson = courseManagement.getLessonByID(courseId, lessonId);
+                        if (targetLesson != null && targetLesson.getQuiz() != null) {
+                            currentQuiz = targetLesson.getQuiz();
+                        }
+                    }
                 }
-            }
         });
 
         addQuestionButton.addActionListener(new ActionListener() {
@@ -216,9 +223,8 @@ public class MainInstructorPanel extends JFrame{
                     JOptionPane.showMessageDialog(null, "Please select a Lesson first to start a new Quiz.");
                     return;
                 }
-
                 DefaultTableModel model = (DefaultTableModel) Questiontbale.getModel();
-                model.addRow(new Object[]{"NEW", "Enter Question Text", "Option 1", "Option 2", "Option 3", "Option 4", "1"});
+                model.addRow(new Object[]{"NEW", "Enter Question Text", "Option A", "Option B", "Option C", "Option D", "Correct Answer"});
                 Questiontbale.setRowSelectionInterval(model.getRowCount() - 1, model.getRowCount() - 1);
             }
         });
@@ -241,32 +247,22 @@ public class MainInstructorPanel extends JFrame{
                     for (int j = 2; j <= 5; j++) {
                         options.add((String) model.getValueAt(i, j));
                     }
-                    String correctOptionStr = (String) model.getValueAt(i, 6);
-                    int correctOption;
-
-                    try {
-                        correctOption = Integer.parseInt(correctOptionStr);
-                        if (correctOption < 1 || correctOption > 4) throw new NumberFormatException();
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Invalid correct option (must be 1-4) in row " + (i + 1));
+                    String correctOptionStr = (String)model.getValueAt(i, 6);
+                    if (!correctOptionStr.matches("[A-D]")) {
+                        JOptionPane.showMessageDialog(null,
+                                "Correct answer must be A, B, C, or D in row " + (i + 1));
                         valid = false;
                         break;
                     }
 
                     if (text.isEmpty() || options.stream().anyMatch(String::isEmpty)) {
-                        JOptionPane.showMessageDialog(null, "Question text or options cannot be empty in row " + (i + 1));
+                        JOptionPane.showMessageDialog(null,
+                                "Question text or options cannot be empty in row " + (i + 1));
                         valid = false;
                         break;
                     }
-                    Character ans=new Character('a');
-                    switch (correctOption)
-                    {
-                        case 1: {ans='A'; break;}
-                        case 2: {ans='B'; break;}
-                        case 3: {ans='C'; break;}
-                        case 4: {ans='D'; break;}
 
-                    }
+                    char ans = correctOptionStr.charAt(0);
                     questions.add(new Question(text, options, ans));
                 }
 
@@ -302,43 +298,54 @@ public class MainInstructorPanel extends JFrame{
                     JOptionPane.showMessageDialog(null, "Quiz " + currentQuiz.getQuizId() + " successfully uploaded and saved to lesson " + lessonId + "!");
                     coursebox.setSelectedIndex(0);
                     lessonbox.removeAllItems();
-                    lessonbox.addItem("Choose a Lesson");
-                    quizIdField.setText("");
                     ((DefaultTableModel) Questiontbale.getModel()).setRowCount(0);
                     currentQuiz = null;
-                    createdCourses = im.getInstructor().getCreatedCoursesIDS();
+                    createdCourses = im.getInstructor().getCreatedCourses();
                     updateLessonTable(courseId);
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed to upload quiz. Check console/logs.");
                 }
             }
         });
+        setVisible(true);
     }
 
     private void updateCourseTable() {
         DefaultTableModel model = (DefaultTableModel) coursestable.getModel();
         model.setRowCount(0);
         for (course c : createdCourses) {
-            model.addRow(new Object[]{c.getCourseId(),c.getCourseTitle(),c.getCourseDescription(),c.getLessons().size(),c.getStudentIds().size(),"Edit","Delete"});
+            model.addRow(new Object[]{
+                    c.getCourseId(),
+                    c.getCourseTitle(),
+                    c.getCourseDescription(),
+                    c.getStatus(),
+                    c.getLessons().size(),
+                    c.getStudentIds().size(),
+                    "Edit",
+                    "Delete"
+            });
         }
         coursestable.setModel(model);
     }
 
-    private void updateCourseCombo(JComboBox comboBox) {
+    private void updateCourseCombo(JComboBox comboBox, String filterStatus) {
         comboBox.removeAllItems();
-        if (comboBox == coursecombo) {
+        if (filterStatus == null || filterStatus.isEmpty() || filterStatus.equals("Approved")) {
             comboBox.addItem("Choose A Course");
-        } else if (comboBox == coursebox) {
-            comboBox.addItem("Choose a Course");
         }
-
-        for (course c : createdCourses) {
-            comboBox.addItem("(" + c.getCourseId() + ") " + c.getCourseTitle());
+        ArrayList<course> allCourses = im.getInstructor().getCreatedCourses();
+        for (course c : allCourses) {
+            String courseStatus = c.getStatus();
+            if (courseStatus != null) {
+                if (filterStatus == null || courseStatus.equals(filterStatus)) {
+                    comboBox.addItem("(" + c.getCourseId() + ") " + c.getCourseTitle());
+                }
+            }
         }
     }
 
     private void setUpcoursestable() {
-        String[] columnNames= {"Course ID","Course Title","Course Description","Lessons Count","Number of Enrolled Students","Edit","Delete"};
+        String[] columnNames= {"Course ID","Course Title","Course Description","Status","Lessons Count","Number of Enrolled Students","Edit","Delete"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0)
         {
             @Override
@@ -360,27 +367,36 @@ public class MainInstructorPanel extends JFrame{
                     if (row >= 0) {
                         String courseId = (String) coursestable.getValueAt(row,0);
                         String courseTitle = (String) coursestable.getValueAt(row,1);
-                        if(column==5){
-
+                        String courseStatus = (String) coursestable.getValueAt(row,3);
+                        if(column==6){
+                            if (courseStatus.equals("Pending")) {
+                                JOptionPane.showMessageDialog(null, "Editing is not allowed, pls wait till the course state to change ");
+                                updateCourseTable();
+                                return;
+                            }
                             String editedTitle = (String) coursestable.getValueAt(row,1);
                             String editedDescription = (String) coursestable.getValueAt(row,2);
 
                             int option = JOptionPane.showConfirmDialog(null,"Do you want to Save Edits for "+courseTitle+" ?","Edit Confirmation",JOptionPane.YES_NO_OPTION);
                             if(option==JOptionPane.YES_OPTION){
-                                im.editCourse(courseId, editedTitle, editedDescription, "Pending");
-                                createdCourses = im.getInstructor().getCreatedCoursesIDS();
-                                updateCourseTable();
-                                JOptionPane.showMessageDialog(null,"Course Edited Successfully!");
+                                boolean success = im.editCourse(courseId, editedTitle, editedDescription);
+                                if (success) {
+                                    createdCourses = im.getInstructor().getCreatedCourses();
+                                    updateCourseTable();
+                                    JOptionPane.showMessageDialog(null,"Course Edited Successfully!");
+                                } else {
+                                    JOptionPane.showMessageDialog(null,"Failed to edit course. Check backend logs.");
+                                }
                             }
                         }
-                        if(column==6){
+                        if(column==7){
                             int option = JOptionPane.showConfirmDialog(null,"Do you want to delete "+courseTitle+" ?","Deletion Confirmation",JOptionPane.YES_NO_OPTION);
                             if(option==JOptionPane.YES_OPTION){
                                 im.deleteCourse(courseId);
-                                createdCourses = im.getInstructor().getCreatedCoursesIDS();
+                                createdCourses = im.getInstructor().getCreatedCourses();
                                 updateCourseTable();
-                                updateCourseCombo(coursecombo);
-                                updateCourseCombo(coursebox);
+                                updateCourseCombo(coursecombo,"Approved");
+                                updateCourseCombo(coursebox,null);
                                 JOptionPane.showMessageDialog(null,"Course Deleted Successfully!");
                             }
                         }
@@ -417,10 +433,11 @@ public class MainInstructorPanel extends JFrame{
                     String lessonTitle = (String) Lessontable.getValueAt(row, 1);
 
                     if (column == 5) {
+                        Lessontable.setRowSelectionInterval(row, row);
                         if (lessonId.equals("NEW")) {
-                            JOptionPane.showMessageDialog(null, "Editing enabled. Modify cells and press 'Save Lesson Changes' below.");
+                            JOptionPane.showMessageDialog(null, "Editing NEW Lesson. Modify cells and press 'Save Lesson Changes' below to add it to the course.");
                         } else {
-                            JOptionPane.showMessageDialog(null, "Editing enabled. Modify cells and press 'Save Lesson Changes' below.");
+                            JOptionPane.showMessageDialog(null, "Editing existing lesson. Modify cells and press 'Save Lesson Changes' below to update it.");
                         }
                     }
 
@@ -429,7 +446,7 @@ public class MainInstructorPanel extends JFrame{
                         if (option == JOptionPane.YES_OPTION) {
                             if (im.deleteLesson(courseId, lessonId)) {
                                 JOptionPane.showMessageDialog(null, "Lesson Deleted Successfully!");
-                                createdCourses = im.getInstructor().getCreatedCoursesIDS(); // Refresh local data
+                                createdCourses = im.getInstructor().getCreatedCourses(); // Refresh local data
                                 updateLessonTable(courseId); // Refresh table
                                 updateCourseTable(); // Update course table lesson count
                             } else {
@@ -456,7 +473,7 @@ public class MainInstructorPanel extends JFrame{
 
         if (targetCourse != null) {
             for (lesson l : targetCourse.getLessons()) {
-                String quizStatus = (l.getQuiz() != null) ? "Yes" : "No";
+                String quizStatus = l.getQuizState() ? "Yes" : "No";
                 String resourcesString = String.join(",", l.getResources());
 
                 model.addRow(new Object[]{
