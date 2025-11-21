@@ -13,9 +13,9 @@ public class Quiz {
 
     public String getQuizId() { return quizId; }
     public List<Question> getQuestions() { return questions; }
+    public void setQuestions(List<Question> questions){this.questions=questions;}
     public double getScore() { return score; }
     public void setScore(double score) { this.score = score; }
-
     public void calculateScore(List<Character> answers) {
         int correct = 0;
         for(int i = 0; i < questions.size(); i++) {

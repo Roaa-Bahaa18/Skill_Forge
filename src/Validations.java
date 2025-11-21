@@ -31,8 +31,7 @@ public abstract class Validations {
         }
         return true;
     }
-    public static boolean isValidCourseTitle(String text)
-    {
+    public static boolean isValidCourseTitle(String text) {
         ArrayList<course> data = courseManagement.loadCourses();
         for(course c : data){
            if(c.getCourseTitle().equalsIgnoreCase(text)) return false;

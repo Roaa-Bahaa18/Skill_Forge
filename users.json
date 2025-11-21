@@ -1,15 +1,8 @@
 {
   "users": [
     {
-      "enrolledCourseIds": [
-        "117"
-      ],
-      "lessonProgress": {
-        "117": [
-          false,
-          true
-        ]
-      },
+      "enrolledCourseIds": [],
+      "lessonProgress": {},
       "userId": "9692",
       "role": "Student",
       "username": "Heba Tarek",

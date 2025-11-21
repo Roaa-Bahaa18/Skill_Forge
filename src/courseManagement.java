@@ -176,8 +176,7 @@ public abstract class courseManagement {
         return true;
     }
 
-    public static course getCourseByID(String id)
-    {
+    public static course getCourseByID(String id) {
         ArrayList<course> list = loadCourses();
         for(course c : list)
         {
@@ -185,4 +184,31 @@ public abstract class courseManagement {
         }
         return null;
     }
+
+    public static boolean addQuizToLesson(String courseId, String lessonId, Quiz quiz) {
+        boolean flag=false;
+        ArrayList<course> courses= loadCourses();
+        for(course c: courses)
+        {
+            if(c.getCourseId().equals(courseId))
+            {
+                ArrayList<lesson> lessons = c.getLessons();
+                for(lesson l: lessons)
+                {
+                    if(l.getLessonId().equals(lessonId))
+                    {
+                        l.setQuiz(quiz);
+                        flag=true;
+                        break;
+                    }
+                }
+                if(flag) break;
+            }
+        }
+        if(flag) {
+            saveCourses(courses);
+        }
+        return flag;
+    }
+
 }
