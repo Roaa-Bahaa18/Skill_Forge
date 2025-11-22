@@ -188,7 +188,7 @@ public class MainStudentPanel extends JFrame {
         for (course course : enrolledCourses) {
             model.addRow(new Object[]{course.getCourseTitle(), course.getCourseId(), sm.progressTrack(course)});
         }
-        refreshCourseCombo();
+    //    refreshCourseCombo();
     }
 
     private void setupLessonTab() {
@@ -383,7 +383,18 @@ public class MainStudentPanel extends JFrame {
         if (!selectedLesson.getQuizState()) {
             takeMCQQuiz(selectedLesson, courseId, row, model);
         } else {
-            showQuizPaper(selectedLesson);
+            if (selectedLesson.isQuizPassed()) {
+                showQuizPaper(selectedLesson);
+            } else {
+                int choice = JOptionPane.showConfirmDialog(this,
+                        "You failed this quiz. Do you want to retake it?",
+                        "Retake Quiz", JOptionPane.YES_NO_OPTION);
+                if (choice == JOptionPane.YES_OPTION) {
+                    takeMCQQuiz(selectedLesson, courseId, row, model);
+                } else {
+                    showQuizPaper(selectedLesson);
+                }
+            }
         }
     }
 
@@ -442,17 +453,18 @@ public class MainStudentPanel extends JFrame {
             quiz.setUserAnswers(answers);
 
             boolean passed = sm.takeQuiz(selectedLesson, answers);
-            double score = selectedLesson.getQuiz().getScore();
+            double score = (selectedLesson.getQuiz().getScore() == null ) ? 0.0 : selectedLesson.getQuiz().getScore();
             selectedLesson.setQuizState(true);
+            selectedLesson.setQuizState(passed);
 
             model.setValueAt(score + "%", row, 4);
             model.setValueAt("View", row, 3);
             model.fireTableRowsUpdated(row, row);
-            Lessontable.repaint();
-            Lessontable.revalidate();
-            updateEnrolledCoursesTable();
+         //   Lessontable.repaint();
+         //   Lessontable.revalidate();
+         //   updateEnrolledCoursesTable();
 
-            displayLessonsForCourse(courseManagement.getCourseByID(courseId), model);
+            //displayLessonsForCourse(courseManagement.getCourseByID(courseId), model);
 
             JOptionPane.showMessageDialog(dialog, (passed ? "Quiz Passed!" : "Quiz Failed!") + " Score: " + score + "%");
             dialog.dispose();
@@ -462,8 +474,10 @@ public class MainStudentPanel extends JFrame {
         dialog.setVisible(true);
     }
 
+
+
     private void showQuizPaper(lesson selectedLesson) {
-        if(selectedLesson == null) return;
+        if (selectedLesson == null) return;
 
         Quiz quiz = selectedLesson.getQuiz();
         if (quiz == null || quiz.getQuestions() == null || quiz.getUserAnswers() == null) {
@@ -478,10 +492,14 @@ public class MainStudentPanel extends JFrame {
             return;
         }
 
-
         SwingUtilities.invokeLater(() -> {
             String[] cols = {"Question", "Correct Answer", "Your Answer"};
-            DefaultTableModel paperModel = new DefaultTableModel(cols, 0);
+            DefaultTableModel paperModel = new DefaultTableModel(cols, 0) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
 
             for (int i = 0; i < questions.size(); i++) {
                 Question q = questions.get(i);
@@ -491,6 +509,7 @@ public class MainStudentPanel extends JFrame {
                         studentAnswers.get(i)
                 });
             }
+
             JTable paperTable = new JTable(paperModel);
             paperTable.getTableHeader().setReorderingAllowed(false);
             JScrollPane sp = new JScrollPane(paperTable);

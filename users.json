@@ -104,7 +104,8 @@
                 "passingScore": 50.0,
                 "maxAttempts": 5
               },
-              "quizstate": true
+              "quizstate": true,
+              "quizPassed": false
             },
             {
               "lessonId": "133",
@@ -132,7 +133,8 @@
                 "passingScore": 50.0,
                 "maxAttempts": 5
               },
-              "quizstate": true
+              "quizstate": true,
+              "quizPassed": false
             },
             {
               "lessonId": "185",
@@ -170,7 +172,8 @@
                 "passingScore": 50.0,
                 "maxAttempts": 5
               },
-              "quizstate": true
+              "quizstate": true,
+              "quizPassed": false
             }
           ],
           "studentIds": [],
@@ -227,7 +230,8 @@
                 "passingScore": 50.0,
                 "maxAttempts": 5
               },
-              "quizstate": true
+              "quizstate": true,
+              "quizPassed": false
             }
           ],
           "studentIds": [],
@@ -262,26 +266,35 @@
         "183": [
           false,
           true,
-          false
+          true
         ]
       },
       "quizAttempts": {
-        "QZ7520": 4,
-        "QZ3967": 1,
-        "QZ2157": 1
+        "QZ7520": 5,
+        "QZ3967": 5,
+        "QZ2157": 5
       },
       "quizScores": {
         "QZ7520": [
           0.0,
           0.0,
           0.0,
+          0.0,
           0.0
         ],
         "QZ3967": [
-          0.0
+          0.0,
+          50.0,
+          50.0,
+          100.0,
+          50.0
         ],
         "QZ2157": [
-          100.0
+          100.0,
+          100.0,
+          100.0,
+          0.0,
+          0.0
         ]
       },
       "userId": "1982",

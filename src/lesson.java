@@ -8,6 +8,7 @@ public class lesson {
     private boolean status;
     private Quiz quiz;
     private boolean quizstate;
+    private boolean quizPassed = false;
 
     public lesson(String lessonId, String lessonTitle, String content, ArrayList<String> resources,boolean QuizState,Quiz quiz){
         this.lessonId = lessonId;
@@ -40,6 +41,9 @@ public class lesson {
     public ArrayList<String> getResources() {
         return resources;
     }
+    public boolean isQuizPassed() { return quizPassed; }
+    public void setQuizPassed(boolean quizPassed) { this.quizPassed = quizPassed; }
+
 
     @Override
     public String toString(){

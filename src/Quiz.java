@@ -4,7 +4,7 @@ import java.util.List;
 public class Quiz {
     private String quizId;
     private List<Question> questions;
-    private Double score;
+    private Double score = 0.0;
     private double passingScore = 50;// default value can be changed
     private int maxAttempts = 5;
     private List<Character> userAnswers;
