@@ -9,8 +9,9 @@ public class Student extends User{
     private HashMap<String, List<Double>> quizScores = new HashMap<>();
     private ArrayList<String> completedCoursesIDs = new ArrayList<>();
 
+    private ArrayList<Certificate> earnedCertificates = new ArrayList<>();
 
-    public Student(String username, String password, String userID, String email,ArrayList<String> enroll, HashMap<String, ArrayList<Boolean>> lessonProgress) {
+    public Student(String username, String password, String userID, String email,ArrayList<String> enroll, HashMap<String, ArrayList<Boolean>> lessonProgress, ArrayList<Certificate> earnedCertificates) {
         super(userID,"Student",username,email,password);
         if (enroll != null) {this.enrolledCourseIds.addAll(enroll);}
         if (lessonProgress != null) {this.lessonProgress.putAll(lessonProgress);
@@ -18,6 +19,8 @@ public class Student extends User{
         this.quizAttempts = new HashMap<>();
         this.quizScores = new HashMap<>();
         this.completedCoursesIDs = new ArrayList<>();
+        if (lessonProgress != null) {this.lessonProgress.putAll(lessonProgress);}
+        if(earnedCertificates != null) {this.earnedCertificates.addAll(earnedCertificates);}
     }
     public ArrayList<String> getEnrolledCourseIds() {return enrolledCourseIds;}
     public void addCourse(String courseId) {enrolledCourseIds.add(courseId);}
@@ -48,4 +51,6 @@ public class Student extends User{
         return quizScores.getOrDefault(quizId, new ArrayList<>());
     }
 
+    public ArrayList<Certificate> getEarnedCertificates() {return earnedCertificates;}
+    public void addEarnedCertificate(Certificate certificate) {earnedCertificates.add(certificate);}
 }

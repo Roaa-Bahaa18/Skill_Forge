@@ -77,7 +77,8 @@ public class Signup extends JFrame{
             {
                 ArrayList<String> enrolledCourses= new ArrayList<>();
                 HashMap<String, ArrayList<Boolean>> progress= new HashMap<>();
-                user= new Student(name,password,id,email,enrolledCourses,progress);
+                ArrayList<Certificate> certificates = new ArrayList<>();
+                user= new Student(name,password,id,email,enrolledCourses,progress,certificates);
             }
             else if("Instructor".equals(role))
             {

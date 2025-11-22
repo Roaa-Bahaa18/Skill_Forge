@@ -124,53 +124,6 @@
               </hspacer>
             </children>
           </grid>
-          <grid id="65243" binding="insights" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints>
-              <tabbedpane title="Insights"/>
-            </constraints>
-            <properties>
-              <background color="-791840"/>
-              <font name="Britannic Bold" size="14" style="0"/>
-              <foreground color="-14536376"/>
-            </properties>
-            <border type="none"/>
-            <children>
-              <tabbedpane id="7121f" binding="tabbedPane3" default-binding="true">
-                <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="200" height="200"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <background color="-791840"/>
-                  <font name="Britannic Bold" size="14" style="0"/>
-                  <foreground color="-14536376"/>
-                </properties>
-                <border type="none"/>
-                <children>
-                  <grid id="4edf3" binding="sperformance" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <tabbedpane title="Student Performance"/>
-                    </constraints>
-                    <properties/>
-                    <border type="none"/>
-                    <children/>
-                  </grid>
-                  <grid id="5893a" binding="quiz" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <tabbedpane title="Quiz Average"/>
-                    </constraints>
-                    <properties/>
-                    <border type="none"/>
-                    <children/>
-                  </grid>
-                </children>
-              </tabbedpane>
-            </children>
-          </grid>
           <grid id="8727e" binding="coursedata" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
@@ -445,6 +398,204 @@
                           <model/>
                         </properties>
                       </component>
+                    </children>
+                  </grid>
+                </children>
+              </tabbedpane>
+            </children>
+          </grid>
+          <grid id="65243" binding="insights" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <tabbedpane title="Insights"/>
+            </constraints>
+            <properties>
+              <background color="-791840"/>
+              <font name="Britannic Bold" size="14" style="0"/>
+              <foreground color="-14536376"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <tabbedpane id="7121f" binding="tabbedPane3" default-binding="true">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                    <preferred-size width="200" height="200"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <background color="-791840"/>
+                  <font name="Britannic Bold" size="14" style="0"/>
+                  <foreground color="-14536376"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <grid id="b4976" binding="courseperform" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <tabbedpane title="Course Performace"/>
+                    </constraints>
+                    <properties>
+                      <background color="-791840"/>
+                      <enabled value="true"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="d11ce" class="javax.swing.JComboBox" binding="coursepcombo">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-2963528"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-13678483"/>
+                          <model>
+                            <item value="Choose A Course"/>
+                          </model>
+                        </properties>
+                      </component>
+                      <grid id="2e958" binding="courseprogress" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-791840"/>
+                        </properties>
+                        <border type="none"/>
+                        <children/>
+                      </grid>
+                    </children>
+                  </grid>
+                  <grid id="4edf3" binding="sperformance" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <tabbedpane title="Student Performance"/>
+                    </constraints>
+                    <properties>
+                      <background color="-791840"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="204ed" class="javax.swing.JComboBox" binding="choosecourse">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-2963528"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-13678483"/>
+                          <model>
+                            <item value="Choose A Course"/>
+                          </model>
+                        </properties>
+                      </component>
+                      <component id="3c5e1" class="javax.swing.JComboBox" binding="choosestudent">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-2963528"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-13678483"/>
+                          <model>
+                            <item value="Choose A Student"/>
+                          </model>
+                        </properties>
+                      </component>
+                      <grid id="b8085" binding="progresspanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-791840"/>
+                        </properties>
+                        <border type="none"/>
+                        <children/>
+                      </grid>
+                      <grid id="4f2d2" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                            <preferred-size width="-1" height="40"/>
+                          </grid>
+                        </constraints>
+                        <properties>
+                          <background color="-791840"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <component id="cdff3" class="javax.swing.JProgressBar" binding="progressBar">
+                            <constraints>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <background color="-2963528"/>
+                              <foreground color="-12296389"/>
+                            </properties>
+                          </component>
+                          <component id="406b4" class="javax.swing.JLabel" binding="completion">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <font name="Britannic Bold" size="14" style="0"/>
+                              <foreground color="-14536376"/>
+                              <text value="Completion Percentage:"/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                    </children>
+                  </grid>
+                  <grid id="5893a" binding="quiz" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                    <margin top="0" left="0" bottom="0" right="0"/>
+                    <constraints>
+                      <tabbedpane title="Quiz Average"/>
+                    </constraints>
+                    <properties>
+                      <background color="-791840"/>
+                      <enabled value="false"/>
+                    </properties>
+                    <border type="none"/>
+                    <children>
+                      <component id="368d2" class="javax.swing.JComboBox" binding="courseQcombo">
+                        <constraints>
+                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-2963528"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-13678483"/>
+                          <model>
+                            <item value="Choose A Course"/>
+                          </model>
+                        </properties>
+                      </component>
+                      <component id="abf9b" class="javax.swing.JComboBox" binding="lessonQcombo">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-2963528"/>
+                          <font name="Britannic Bold" size="14" style="0"/>
+                          <foreground color="-13678483"/>
+                          <model>
+                            <item value="Choose A Lesson"/>
+                          </model>
+                        </properties>
+                      </component>
+                      <grid id="65659" binding="quizprogress" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <background color="-791840"/>
+                        </properties>
+                        <border type="none"/>
+                        <children/>
+                      </grid>
                     </children>
                   </grid>
                 </children>

@@ -10,21 +10,44 @@
           true
         ],
         "183": [
-          false,
-          false,
-          false
+          true,
+          true,
+          true
         ]
       },
       "quizAttempts": {
-        "QZ9969": 3
+        "QZ7520": 1,
+        "QZ3967": 1,
+        "QZ9969": 3,
+        "QZ2157": 1
       },
       "quizScores": {
+        "QZ7520": [
+          100.0
+        ],
+        "QZ3967": [
+          100.0
+        ],
         "QZ9969": [
           100.0,
           100.0,
           100.0
+        ],
+        "QZ2157": [
+          100.0
         ]
       },
+      "completedCoursesIDs": [
+        "183"
+      ],
+      "earnedCertificates": [
+        {
+          "studentID": "9692",
+          "courseID": "183",
+          "certificateID": "16065",
+          "issueDate": "22-11-2025"
+        }
+      ],
       "userId": "9692",
       "role": "Student",
       "username": "Heba Tarek",
@@ -64,6 +87,7 @@
           100.0
         ]
       },
+      "earnedCertificates": [],
       "userId": "9439",
       "role": "Student",
       "username": "Habiba Ahmed",
@@ -176,7 +200,10 @@
               "quizPassed": false
             }
           ],
-          "studentIds": [],
+          "studentIds": [
+            "9303",
+            "1212"
+          ],
           "status": "Approved"
         }
       ],
@@ -187,8 +214,38 @@
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     },
     {
-      "enrolledCourseIds": [],
-      "lessonProgress": {},
+      "enrolledCourseIds": [
+        "183"
+      ],
+      "lessonProgress": {
+        "183": [
+          true,
+          true,
+          true
+        ]
+      },
+      "quizAttempts": {
+        "QZ7520": 2,
+        "QZ3967": 2,
+        "QZ2157": 1
+      },
+      "quizScores": {
+        "QZ7520": [
+          0.0,
+          100.0
+        ],
+        "QZ3967": [
+          50.0,
+          100.0
+        ],
+        "QZ2157": [
+          100.0
+        ]
+      },
+      "completedCoursesIDs": [
+        "183"
+      ],
+      "earnedCertificates": [],
       "userId": "9303",
       "role": "Student",
       "username": "Roaa Bahaa",
@@ -234,7 +291,11 @@
               "quizPassed": false
             }
           ],
-          "studentIds": [],
+          "studentIds": [
+            "1212",
+            "1982",
+            "5149"
+          ],
           "status": "Approved"
         }
       ],
@@ -260,19 +321,24 @@
     },
     {
       "enrolledCourseIds": [
-        "183"
+        "183",
+        "C117"
       ],
       "lessonProgress": {
+        "C117": [
+          false
+        ],
         "183": [
-          false,
           true,
-          true
+          true,
+          true,
+          null
         ]
       },
       "quizAttempts": {
         "QZ7520": 5,
-        "QZ3967": 5,
-        "QZ2157": 5
+        "QZ3967": 2,
+        "QZ2157": 2
       },
       "quizScores": {
         "QZ7520": [
@@ -280,27 +346,125 @@
           0.0,
           0.0,
           0.0,
-          0.0
+          100.0
         ],
         "QZ3967": [
           0.0,
-          50.0,
-          50.0,
-          100.0,
-          50.0
+          100.0
         ],
         "QZ2157": [
           100.0,
-          100.0,
-          100.0,
-          0.0,
-          0.0
+          100.0
         ]
       },
+      "completedCoursesIDs": [
+        "183"
+      ],
+      "earnedCertificates": [
+        {
+          "studentID": "1982",
+          "courseID": "183",
+          "certificateID": "73520",
+          "issueDate": "22-11-2025"
+        }
+      ],
       "userId": "1982",
       "role": "Student",
       "username": "Biba Ahmed",
       "email": "biba@gmail.com",
+      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "enrolledCourseIds": [
+        "C117",
+        "183"
+      ],
+      "lessonProgress": {
+        "C117": [
+          true
+        ],
+        "183": [
+          true,
+          true,
+          true
+        ]
+      },
+      "quizAttempts": {
+        "QZ7520": 1,
+        "QZ3967": 1,
+        "QZ9969": 1,
+        "QZ2157": 1
+      },
+      "quizScores": {
+        "QZ7520": [
+          100.0
+        ],
+        "QZ3967": [
+          100.0
+        ],
+        "QZ9969": [
+          100.0
+        ],
+        "QZ2157": [
+          100.0
+        ]
+      },
+      "completedCoursesIDs": [
+        "C117",
+        "183"
+      ],
+      "earnedCertificates": [
+        {
+          "studentID": "1212",
+          "courseID": "C117",
+          "certificateID": "74971",
+          "issueDate": "22-11-2025"
+        },
+        {
+          "studentID": "1212",
+          "courseID": "183",
+          "certificateID": "33071",
+          "issueDate": "23-11-2025"
+        }
+      ],
+      "userId": "1212",
+      "role": "Student",
+      "username": "Eren Yeager",
+      "email": "eren@gmail.com",
+      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "enrolledCourseIds": [
+        "C117"
+      ],
+      "lessonProgress": {
+        "C117": [
+          true
+        ]
+      },
+      "quizAttempts": {
+        "QZ9969": 1
+      },
+      "quizScores": {
+        "QZ9969": [
+          100.0
+        ]
+      },
+      "completedCoursesIDs": [
+        "C117"
+      ],
+      "earnedCertificates": [
+        {
+          "studentID": "5149",
+          "courseID": "C117",
+          "certificateID": "2779",
+          "issueDate": "23-11-2025"
+        }
+      ],
+      "userId": "5149",
+      "role": "Student",
+      "username": "Kim Dokja",
+      "email": "kim@gmail.com",
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     }
   ]

@@ -21,10 +21,13 @@ public class MainStudentPanel extends JFrame {
     private JComboBox<String> courseCombo;
     private JTable Lessontable;
     private JPanel lessonScrollPane;
+    private JTable certificatetable;
+    private JScrollPane certificatescrolller;
     private final String StudentName;
     private final StudentManage sm;
     private final List<course> availableCourses;
     private final List<course> enrolledCourses;
+    private final List<Certificate> certificates;
     private Student student = null;
     public MainStudentPanel(Student student)
     {
@@ -38,10 +41,13 @@ public class MainStudentPanel extends JFrame {
         StudentName= student.getUsername();
         availableCourses= sm.viewAvailableCourses();
         enrolledCourses=sm.viewEnrolledCourses();
+        certificates=student.getEarnedCertificates();
 
         welcomeLabel.setText("Welcome, " + StudentName);
         setupAvailableCoursesTab();
         setupEnrolledCoursesTab();
+        setupCertificateTable();
+        updateCertificateTable();
         setupLessonTab();
 
         logoutButton.addActionListener(new ActionListener() {
@@ -52,6 +58,53 @@ public class MainStudentPanel extends JFrame {
                 dispose();
             }
         });
+    }
+
+    private void setupCertificateTable(){
+        String[] columnNames = {"Course ID", "Certificate ID", "Issue Date","View PDF","Download PDF","Download JSON"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == getColumnCount()-1 || column == getColumnCount()-2||column == getColumnCount()-3;
+            }
+        };
+        certificatetable.setModel(model);
+        certificatetable.getTableHeader().setReorderingAllowed(false);
+        updateCertificateTable();
+        certificatetable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 1) {
+                    int row = certificatetable.getSelectedRow();
+                    int column = certificatetable.getSelectedColumn();
+                    String courseId = (String) certificatetable.getValueAt(row, 0);
+                    String certificateId = (String) certificatetable.getValueAt(row, 1);
+                    if (row >= 0) {
+                        if(column==model.getColumnCount()-1)
+                        {
+                            sm.saveCertificateJSON(courseId);
+                        }
+                        if(column==model.getColumnCount()-2)
+                        {
+                            sm.createCertificatePDF(courseId,"download");
+                        }
+                        if(column==model.getColumnCount()-3)
+                        {
+                            sm.createCertificatePDF(courseId,"view");
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void updateCertificateTable(){
+        DefaultTableModel model = (DefaultTableModel) certificatetable.getModel();
+        model.setRowCount(0);
+        for(Certificate c:certificates){
+            model.addRow(new Object[]{c.getCourseID(), c.getCertificateID(), c.getIssueDate(),"View","Download PDF","Download JSON"});
+        }
     }
     private void setupAvailableCoursesTab() {
         String[] columnNames = {"Course Name", "Course ID", "Lessons Number"};
@@ -188,7 +241,7 @@ public class MainStudentPanel extends JFrame {
         for (course course : enrolledCourses) {
             model.addRow(new Object[]{course.getCourseTitle(), course.getCourseId(), sm.progressTrack(course)});
         }
-    //    refreshCourseCombo();
+        refreshCourseCombo();
     }
 
     private void setupLessonTab() {
@@ -457,19 +510,27 @@ public class MainStudentPanel extends JFrame {
             selectedLesson.setQuizState(true);
             selectedLesson.setQuizState(passed);
 
+
             model.setValueAt(score + "%", row, 4);
             model.setValueAt("View", row, 3);
             model.fireTableRowsUpdated(row, row);
          //   Lessontable.repaint();
          //   Lessontable.revalidate();
-         //   updateEnrolledCoursesTable();
+            updateEnrolledCoursesTable();
 
             //displayLessonsForCourse(courseManagement.getCourseByID(courseId), model);
 
             JOptionPane.showMessageDialog(dialog, (passed ? "Quiz Passed!" : "Quiz Failed!") + " Score: " + score + "%");
             dialog.dispose();
-        });
+            if(sm.progressTrack(getCourse(courseId))==100f)
+            {
+                Certificate c = sm.getCertificate(courseId);
+                JOptionPane.showMessageDialog(dialog, "Course is Completed!\nCertificate Earned check certificate tab!");
+                updateCertificateTable();
+                tabbedPane.setSelectedIndex(2);
+            }
 
+        });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
@@ -530,6 +591,16 @@ public class MainStudentPanel extends JFrame {
             dialog.setLocationRelativeTo(this);
             dialog.setVisible(true);
         });
+    }
+
+    private course getCourse(String courseId) {
+        ArrayList<course> courses = courseManagement.loadCourses();
+        for (course c : courses) {
+            if(c.getCourseId().equals(courseId)) {
+                return c;
+            }
+        }
+        return null;
     }
 
     private void LessonCompletion(course course, String lessonId, DefaultTableModel lessonModel) {

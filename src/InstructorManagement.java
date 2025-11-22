@@ -21,6 +21,19 @@ public class InstructorManagement {
         return instructor;
     }
 
+    public void addStudentToCourse(String studentId,String courseId)
+    {
+        ArrayList<course> createdCourses = instructor.getCreatedCourses();
+        for(course course : createdCourses)
+        {
+            if(course.getCourseId().equals(courseId))
+            {
+                course.getStudentIds().add(studentId);
+            }
+        }
+        instructor.setCreatedCourses(createdCourses);
+    }
+
     public boolean createCourse(String title, String courseDescription){
         Random ran = new Random();
         String courseId = "C" + Integer.toString(ran.nextInt(99) + 100);
