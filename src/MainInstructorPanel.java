@@ -102,7 +102,7 @@ public class MainInstructorPanel extends JFrame{
                 String courseTitle = coursetitle.getText();
                 String courseDescription = description.getText();
                 if(courseTitle.isEmpty() || courseDescription.isEmpty()){
-                    JOptionPane.showMessageDialog(null,"Fields cannot be empty!");
+                    JOptionPane.showMessageDialog(null,"Fields cannot be empty");
                 }
                 else{
                     boolean ok = im.createCourse(courseTitle,courseDescription);
@@ -275,14 +275,14 @@ public class MainInstructorPanel extends JFrame{
                     String correctOptionStr = (String)model.getValueAt(i, 5);
                     if (!correctOptionStr.matches("[A-D]")) {
                         JOptionPane.showMessageDialog(null,
-                                "Correct answer must be A, B, C, or D in row " + (i + 1));
+                                "Correct answer must be A, B, C, or D");
                         valid = false;
                         break;
                     }
 
                     if (text.isEmpty() || options.stream().anyMatch(String::isEmpty)) {
                         JOptionPane.showMessageDialog(null,
-                                "Question text or options cannot be empty in row " + (i + 1));
+                                "Question text or options cannot be empty.");
                         valid = false;
                         break;
                     }
@@ -329,7 +329,7 @@ public class MainInstructorPanel extends JFrame{
                     createdCourses = im.getInstructor().getCreatedCourses();
                     updateLessonTable(courseId);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Failed to upload quiz. Check console/logs.");
+                    JOptionPane.showMessageDialog(null, "Failed to upload quiz.");
                 }
             }
         });
@@ -516,7 +516,7 @@ public class MainInstructorPanel extends JFrame{
                                     updateCourseTable();
                                     JOptionPane.showMessageDialog(null,"Course Edited Successfully!");
                                 } else {
-                                    JOptionPane.showMessageDialog(null,"Failed to edit course. Check backend logs.");
+                                    JOptionPane.showMessageDialog(null,"Failed to edit course.");
                                 }
                             }
                         }
