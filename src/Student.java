@@ -53,4 +53,6 @@ public class Student extends User{
 
     public ArrayList<Certificate> getEarnedCertificates() {return earnedCertificates;}
     public void addEarnedCertificate(Certificate certificate) {earnedCertificates.add(certificate);}
+    public HashMap<String, List<Double>> getAllQuizScores() {return quizScores;}
+
 }

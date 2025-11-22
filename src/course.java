@@ -49,7 +49,15 @@ public class course {
         lesson l = getLesson(lessonId);
         return l != null && l.getQuiz() != null;
     }
-
+    public ArrayList<String> getAllQuizzes() {
+        ArrayList<String> quizzes = new ArrayList<>();
+        for(lesson l : lessons) {
+            if(l.getQuiz() != null){
+                quizzes.add(l.getQuiz().getQuizId());
+            }
+        }
+        return quizzes;
+    }
 
     @Override
     public String toString(){return "(" + this.getCourseId() + ") " + this.getCourseTitle();}

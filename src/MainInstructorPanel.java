@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainInstructorPanel extends JFrame{
@@ -58,6 +59,7 @@ public class MainInstructorPanel extends JFrame{
     private JPanel courseprogress;
     private JProgressBar progressBar;
     private JLabel completion;
+    private JPanel sprogress;
 
     private Instructor instructor = null;
     private final InstructorManagement im;
@@ -369,13 +371,21 @@ public class MainInstructorPanel extends JFrame{
                     progressBar.setStringPainted(true);
                     progressBar.setValue((int)progresscompletion);
 
-                    //el mford a get quiz scores hna
+                    //el mford a get quiz scores hna -> ma3aya sm w student w courseId
+                        HashMap<String,List<Double>> allquizscores = student.getAllQuizScores();
+                        ArrayList<String> quizzes = getCourse(courseId).getAllQuizzes();
 
-                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                    //add data hna in a loop
-                    // bl tre2a de --> dataset.addValue(40.0,"Quiz1","Score");
+                        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+                        //add data hna in a loop
+                        // bl tre2a de --> dataset.addValue(40.0,"Quiz1","Score");
+                        if(quizzes!=null)
+                        {
+                            for (String quizid : quizzes) {
+                                dataset.addValue(allquizscores.get(quizid).get(0),quizid,"Score");
+                            }
+                        }
 
-                    JFreeChart chart = ChartFactory.createBarChart("Student Perfromance", "Quizzes", "Score", dataset);
+                        JFreeChart chart = ChartFactory.createBarChart("Student Perfromance", "Quizzes", "Score", dataset);
                     ChartPanel chartPanel = new ChartPanel(chart);
                     chartPanel.setPreferredSize(new java.awt.Dimension(450, 200));
                     progresspanel.setLayout(new BorderLayout());
