@@ -565,10 +565,11 @@ public class MainInstructorPanel extends JFrame{
 
                     if (column == 5) {
                         Lessontable.setRowSelectionInterval(row, row);
+
                         if (lessonId.equals("NEW")) {
                             JOptionPane.showMessageDialog(null, "Editing NEW Lesson. Modify cells and press 'Save Lesson Changes' below to add it to the course.");
                         } else {
-                            JOptionPane.showMessageDialog(null, "Editing existing lesson. Modify cells and press 'Save Lesson Changes' below to update it.");
+                            saveLessonChanges(row);
                         }
                     }
 
@@ -577,9 +578,9 @@ public class MainInstructorPanel extends JFrame{
                         if (option == JOptionPane.YES_OPTION) {
                             if (im.deleteLesson(courseId, lessonId)) {
                                 JOptionPane.showMessageDialog(null, "Lesson Deleted Successfully!");
-                                createdCourses = im.getInstructor().getCreatedCourses(); // Refresh local data
-                                updateLessonTable(courseId); // Refresh table
-                                updateCourseTable(); // Update course table lesson count
+                                createdCourses = im.getInstructor().getCreatedCourses();
+                                updateLessonTable(courseId);
+                                updateCourseTable();
                             } else {
                                 JOptionPane.showMessageDialog(null, "Failed to delete lesson.");
                             }
@@ -650,5 +651,51 @@ public class MainInstructorPanel extends JFrame{
         }
         return null;
     }
+    private void saveLessonChanges(int row) {
+        String selectedCourse = (String) coursecombo.getSelectedItem();
+        if (selectedCourse == null || selectedCourse.isEmpty() || selectedCourse.equals("Choose A Course")) {
+            JOptionPane.showMessageDialog(null, "Please select a course first.");
+            return;
+        }
+        String courseId = getCourseIdFromCombo(selectedCourse);
+        DefaultTableModel model = (DefaultTableModel) Lessontable.getModel();
+        if (row < 0 || row >= model.getRowCount()) {
+            JOptionPane.showMessageDialog(null, "Please select a lesson row to save.");
+            return;
+        }
 
+        String lessonId = (String) model.getValueAt(row, 0);
+        String title = (String) model.getValueAt(row, 1);
+        String content = (String) model.getValueAt(row, 2);
+        String resourcesString = (String) model.getValueAt(row, 3);
+        String quizStatusString = (String) model.getValueAt(row, 4);
+
+        boolean state = false;
+        if (quizStatusString != null && quizStatusString.equalsIgnoreCase("Yes")) {state = true;}
+        ArrayList<String> resources;
+        if (resourcesString != null) {
+            resources = new ArrayList<>(Arrays.asList(resourcesString.split(",")));
+        } else {
+            resources = new ArrayList<>();
+        }
+        if (title.equals("Enter Title") || content.equals("Enter Content") || resourcesString == null || resourcesString.equals("resource1,resource2") || resourcesString.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Title, Content, and resources must be filled with values.");
+            return;
+        }
+
+        boolean success = false;
+
+        if (lessonId.equals("NEW")) {
+            success = im.addLesson(courseId, title, content, resources);
+            if (success) JOptionPane.showMessageDialog(null, "Lesson Added Successfully!");
+            else JOptionPane.showMessageDialog(null, "Failed to Add Lesson.");
+        } else {
+            success = im.editLesson(courseId, lessonId, title, content, resources, state);
+            if (success) JOptionPane.showMessageDialog(null, "Lesson Edited Successfully!");
+            else JOptionPane.showMessageDialog(null, "Failed to Edit Lesson.");
+        }
+        createdCourses = im.getInstructor().getCreatedCourses();
+        updateLessonTable(courseId);
+        updateCourseTable();
+    }
 }
