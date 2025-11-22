@@ -201,38 +201,45 @@ public class MainInstructorPanel extends JFrame{
         coursebox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedCourse = (String) coursebox.getSelectedItem();
-                lessonbox.removeAllItems();
-                lessonbox.addItem("Choose a Lesson");
-                currentQuiz = null;
-                if (selectedCourse != null && !selectedCourse.isEmpty() && !selectedCourse.equals("Choose a Course")) {
-                    String courseId = getCourseIdFromCombo(selectedCourse);
-                    ArrayList<lesson> lessonsWithoutQuiz = im.getLessonsWithoutQuiz(courseId);
-                    for (lesson l : lessonsWithoutQuiz) {
-                        lessonbox.addItem(l);
+                if (e.getActionCommand().equals("comboBoxEdited") || e.getActionCommand().equals("comboBoxChanged")) {
+                    String selectedCourse = (String) coursebox.getSelectedItem();
+                    lessonbox.removeAllItems();
+                    lessonbox.addItem("Choose a Lesson");
+                    currentQuiz = null;
+
+                    if (selectedCourse != null && !selectedCourse.isEmpty() && !selectedCourse.equals("Choose a Course")) {
+                        String courseId = getCourseIdFromCombo(selectedCourse);
+                        ArrayList<lesson> lessonsWithoutQuiz = im.getLessonsWithoutQuiz(courseId);
+                        for (lesson l : lessonsWithoutQuiz) {
+                            lessonbox.addItem(l);
+                        }
                     }
+                    ((DefaultTableModel) Questiontbale.getModel()).setRowCount(0);
                 }
-                ((DefaultTableModel) Questiontbale.getModel()).setRowCount(0);
             }
         });
 
         lessonbox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedLessonItem = (String) lessonbox.getSelectedItem();
+                Object selectedItem = lessonbox.getSelectedItem();
                 ((DefaultTableModel) Questiontbale.getModel()).setRowCount(0);
-
-                    if (selectedLessonItem != null && !selectedLessonItem.equals("Choose a Lesson")){
-                        String lessonId = getLessonIdFromCombo(selectedLessonItem);
-                        String selectedCourse = (String) coursebox.getSelectedItem();
-                        assert selectedCourse != null;
-                        String courseId = getCourseIdFromCombo(selectedCourse);
-                        lesson targetLesson = courseManagement.getLessonByID(courseId, lessonId);
-                        if (targetLesson != null && targetLesson.getQuiz() != null) {
-                            currentQuiz = targetLesson.getQuiz();
-                        }
+                if (selectedItem instanceof lesson) {
+                    lesson selectedLesson = (lesson) selectedItem;
+                    String lessonId = selectedLesson.getLessonId();
+                    String selectedCourse = (String) coursebox.getSelectedItem();
+                    assert selectedCourse != null;
+                    String courseId = getCourseIdFromCombo(selectedCourse);
+                    lesson targetLesson = courseManagement.getLessonByID(courseId, lessonId);
+                    if (targetLesson != null && targetLesson.getQuiz() != null) {
+                        currentQuiz = targetLesson.getQuiz();
+                    } else {
+                        currentQuiz = null;
                     }
+                } else {
+                    currentQuiz = null;
                 }
+            }
         });
 
         addQuestionButton.addActionListener(new ActionListener() {
@@ -243,7 +250,7 @@ public class MainInstructorPanel extends JFrame{
                     return;
                 }
                 DefaultTableModel model = (DefaultTableModel) Questiontbale.getModel();
-                model.addRow(new Object[]{"NEW", "Enter Question Text", "Option A", "Option B", "Option C", "Option D", "Correct Answer"});
+                model.addRow(new Object[]{"Enter Question Text", "Option A", "Option B", "Option C", "Option D", "Correct Answer"});
                 Questiontbale.setRowSelectionInterval(model.getRowCount() - 1, model.getRowCount() - 1);
             }
         });
@@ -259,14 +266,13 @@ public class MainInstructorPanel extends JFrame{
                 DefaultTableModel model = (DefaultTableModel) Questiontbale.getModel();
                 ArrayList<Question> questions = new ArrayList<>();
                 boolean valid = true;
-
                 for (int i = 0; i < model.getRowCount(); i++) {
-                    String text = (String) model.getValueAt(i, 1);
+                    String text = (String) model.getValueAt(i, 0);
                     List<String> options = new ArrayList<>();
-                    for (int j = 2; j <= 5; j++) {
+                    for (int j = 1; j <= 4; j++) {
                         options.add((String) model.getValueAt(i, j));
                     }
-                    String correctOptionStr = (String)model.getValueAt(i, 6);
+                    String correctOptionStr = (String)model.getValueAt(i, 5);
                     if (!correctOptionStr.matches("[A-D]")) {
                         JOptionPane.showMessageDialog(null,
                                 "Correct answer must be A, B, C, or D in row " + (i + 1));
@@ -299,20 +305,21 @@ public class MainInstructorPanel extends JFrame{
                     JOptionPane.showMessageDialog(null, "No questions saved to the current quiz. Click 'Save Quiz' first.");
                     return;
                 }
-
                 String selectedCourse = (String) coursebox.getSelectedItem();
-                String selectedLesson = (String) lessonbox.getSelectedItem();
-
+                Object selectedLessonItem = lessonbox.getSelectedItem();
                 if (selectedCourse == null || selectedCourse.equals("Choose a Course") ||
-                        selectedLesson == null || selectedLesson.equals("Choose a Lesson")) {
+                        selectedLessonItem == null || selectedLessonItem.equals("Choose a Lesson")) {
                     JOptionPane.showMessageDialog(null, "Please select both a Course and a Lesson.");
                     return;
                 }
-
                 String courseId = getCourseIdFromCombo(selectedCourse);
-                String lessonId = getLessonIdFromCombo(selectedLesson);
+                String lessonId;
+                if (selectedLessonItem instanceof lesson) {
+                    lessonId = ((lesson) selectedLessonItem).getLessonId();
+                } else {
+                    lessonId = getLessonIdFromCombo(selectedLessonItem.toString());
+                }
                 boolean success = im.addQuizToLesson(courseId, lessonId, currentQuiz);
-
                 if (success) {
                     JOptionPane.showMessageDialog(null, "Quiz " + currentQuiz.getQuizId() + " successfully uploaded and saved to lesson " + lessonId + "!");
                     coursebox.setSelectedIndex(0);
@@ -326,6 +333,7 @@ public class MainInstructorPanel extends JFrame{
                 }
             }
         });
+
         choosecourse.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -614,13 +622,8 @@ public class MainInstructorPanel extends JFrame{
     }
 
     private void setUpQuestionTable() {
-        String[] columnNames = {"ID (NEW)", "Question Text", "Option 1", "Option 2", "Option 3", "Option 4", "Correct Option (1-4)"};
-        DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
-            @Override
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return columnIndex >= 1;
-            }
-        };
+        String[] columnNames = {"Question Text", "Option A", "Option B", "Option C", "Option D", "Correct Option (A-D)"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         Questiontbale.setModel(model);
         Questiontbale.getTableHeader().setReorderingAllowed(false);
     }

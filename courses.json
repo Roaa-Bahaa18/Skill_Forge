@@ -1,28 +1,66 @@
 {
   "courses": [
     {
-      "courseId": "183",
-      "courseTitle": "Programming 2",
-      "courseDescription": "mnk llah ya Lyla",
+      "courseId": "C148",
+      "courseTitle": "Programming 1",
+      "courseDescription": "mafesh",
       "instructorId": "1",
       "lessons": [
         {
-          "lessonId": "139",
+          "lessonId": "L185",
           "lessonTitle": "OOP",
-          "content": "elr7ma",
+          "content": "mafesh",
           "resources": [
-            "mnk llah"
+            "mafesh"
           ],
           "status": true,
           "quiz": {
-            "quizId": "QZ7520",
+            "quizId": "QZ2175",
             "questions": [
               {
-                "questionBody": "ana men?",
+                "questionBody": "Who is the shortest?",
+                "choices": [
+                  "Heba",
+                  "Roaa",
+                  "Habiba",
+                  "Darine"
+                ],
+                "answer": "B"
+              }
+            ],
+            "passingScore": 50.0,
+            "maxAttempts": 5
+          },
+          "quizstate": false,
+          "quizPassed": false
+        },
+        {
+          "lessonId": "L165",
+          "lessonTitle": "UML",
+          "content": "mafesh",
+          "resources": [
+            "mafesh"
+          ],
+          "status": true,
+          "quiz": {
+            "quizId": "QZ3079",
+            "questions": [
+              {
+                "questionBody": "Darine\u0027s cat name?",
+                "choices": [
+                  "Jullitee",
+                  "Romio",
+                  "Loly",
+                  "Bobo"
+                ],
+                "answer": "B"
+              },
+              {
+                "questionBody": "My name is",
                 "choices": [
                   "Hebo",
-                  "Hua Ling",
-                  "Ling Ling",
+                  "HuaLing",
+                  "HuaHua",
                   "All of the above"
                 ],
                 "answer": "D"
@@ -31,119 +69,39 @@
             "passingScore": 50.0,
             "maxAttempts": 5
           },
-          "quizstate": false
+          "quizstate": false,
+          "quizPassed": false
         },
         {
-          "lessonId": "133",
-          "lessonTitle": "UML",
-          "content": "yarab",
-          "resources": [
-            "myta f 7obbak ya Lola"
-          ],
-          "status": true,
-          "quiz": {
-            "quizId": "QZ2157",
-            "questions": [
-              {
-                "questionBody": "Esm Ott Dido",
-                "choices": [
-                  "Romio",
-                  "Jullite ",
-                  "la da wala da",
-                  "msh 3aref wallahy"
-                ],
-                "answer": "A"
-              }
-            ],
-            "passingScore": 50.0,
-            "maxAttempts": 5
-          },
-          "quizstate": false
-        },
-        {
-          "lessonId": "185",
+          "lessonId": "L183",
           "lessonTitle": "Design",
-          "content": "ay 7aga",
+          "content": "mafesh",
           "resources": [
-            "ns2l el 5alas"
+            "mafesh"
           ],
           "status": true,
           "quiz": {
-            "quizId": "QZ3967",
+            "quizId": "QZ1355",
             "questions": [
               {
-                "questionBody": "Men agmd 7d fl Ahly",
+                "questionBody": "Men 5d best player in Africa this year?",
                 "choices": [
-                  "Imam Ashor",
-                  "Zizo",
-                  "Bn sharky",
-                  "all of the above"
+                  "Marmoush",
+                  "Salah",
+                  "Hakemi",
+                  "Me7rz"
                 ],
-                "answer": "D"
-              },
-              {
-                "questionBody": "Men a2sr 7d fena",
-                "choices": [
-                  "Habiba",
-                  "Roaa",
-                  "Darine",
-                  "Heba"
-                ],
-                "answer": "B"
+                "answer": "C"
               }
             ],
             "passingScore": 50.0,
             "maxAttempts": 5
           },
-          "quizstate": false
+          "quizstate": false,
+          "quizPassed": false
         }
       ],
-      "studentIds": [
-        "9439",
-        "9692",
-        "1982"
-      ],
-      "status": "Approved"
-    },
-    {
-      "courseId": "C117",
-      "courseTitle": "Full Stack course",
-      "courseDescription": "backend and frontend core concepts ",
-      "instructorId": "9687",
-      "lessons": [
-        {
-          "lessonId": "L191",
-          "lessonTitle": "React",
-          "content": "design",
-          "resources": [
-            "coursera",
-            "depi"
-          ],
-          "status": true,
-          "quiz": {
-            "quizId": "QZ9969",
-            "questions": [
-              {
-                "questionBody": "Just trying, enharda eh",
-                "choices": [
-                  "sabt",
-                  "7ad",
-                  "etnan",
-                  "tlat"
-                ],
-                "answer": "A"
-              }
-            ],
-            "passingScore": 50.0,
-            "maxAttempts": 5
-          },
-          "quizstate": false
-        }
-      ],
-      "studentIds": [
-        "9439",
-        "9692"
-      ],
+      "studentIds": [],
       "status": "Approved"
     }
   ]
