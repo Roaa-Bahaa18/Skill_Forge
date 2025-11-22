@@ -27,7 +27,9 @@
                 ],
                 "answer": "D"
               }
-            ]
+            ],
+            "passingScore": 50.0,
+            "maxAttempts": 5
           },
           "quizstate": false
         },
@@ -52,7 +54,9 @@
                 ],
                 "answer": "A"
               }
-            ]
+            ],
+            "passingScore": 50.0,
+            "maxAttempts": 5
           },
           "quizstate": false
         },
@@ -87,12 +91,59 @@
                 ],
                 "answer": "B"
               }
-            ]
+            ],
+            "passingScore": 50.0,
+            "maxAttempts": 5
           },
           "quizstate": false
         }
       ],
-      "studentIds": [],
+      "studentIds": [
+        "9439",
+        "9692",
+        "1982"
+      ],
+      "status": "Approved"
+    },
+    {
+      "courseId": "C117",
+      "courseTitle": "Full Stack course",
+      "courseDescription": "backend and frontend core concepts ",
+      "instructorId": "9687",
+      "lessons": [
+        {
+          "lessonId": "L191",
+          "lessonTitle": "React",
+          "content": "design",
+          "resources": [
+            "coursera",
+            "depi"
+          ],
+          "status": true,
+          "quiz": {
+            "quizId": "QZ9969",
+            "questions": [
+              {
+                "questionBody": "Just trying, enharda eh",
+                "choices": [
+                  "sabt",
+                  "7ad",
+                  "etnan",
+                  "tlat"
+                ],
+                "answer": "A"
+              }
+            ],
+            "passingScore": 50.0,
+            "maxAttempts": 5
+          },
+          "quizstate": false
+        }
+      ],
+      "studentIds": [
+        "9439",
+        "9692"
+      ],
       "status": "Approved"
     }
   ]

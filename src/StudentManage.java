@@ -1,6 +1,9 @@
+import javax.swing.*;
+import java.lang.classfile.constantpool.FloatEntry;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.SplittableRandom;
 import java.util.stream.Collectors;
 
 public class StudentManage {
@@ -79,6 +82,9 @@ public class StudentManage {
     }
 
     public boolean completeLesson(course c, lesson l) {
+        if(l.getQuiz() != null && !l.getQuizState()){
+            return false;
+        }
         String courseId = c.getCourseId();
         ArrayList<Boolean> lessonStatuses = student.getProgress().get(courseId);
         if (lessonStatuses == null) return false;
@@ -104,7 +110,73 @@ public class StudentManage {
             }
         }
         userService.saveUsers(users);
+
+        float progress = progressTrack(c);
+        if (progress == 100f) {
+            markCourseCompleted(c);
+        }
+        userService.saveUsers(users);
         return true;
+    }
+
+    public void markCourseCompleted(course c) {
+        if (student.getCompletedCoursesIDs() == null) {
+            student.setCompletedCoursesIDs(new ArrayList<>());
+        }
+
+        if (!student.getCompletedCoursesIDs().contains(c.getCourseId())) {
+            student.getCompletedCoursesIDs().add(c.getCourseId());
+
+            List<User> users = userService.loadUsers();
+            if (users == null) {
+                users = new ArrayList<>();
+            }
+
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getUserId().equals(student.getUserId())) {
+                    users.set(i, student);
+                }
+            }
+            userService.saveUsers(users);
+        }
+
+    }
+
+    public boolean takeQuiz(lesson lesson, List<Character> answers){
+        Quiz quiz = lesson.getQuiz();
+        if(quiz == null) return false;
+        String quizID = quiz.getQuizId();
+        int attempts = student.getQuizAttempts(quizID);
+        if(attempts >= quiz.getMaxAttempts()){
+            JOptionPane.showMessageDialog(null, "Max attempts reached for quiz: " + quizID);
+            return false;
+        }
+        quiz.calculateScore(answers);
+        double score = quiz.getScore();
+        student.recordQuizAttempt(quizID, score);
+
+        List<User> users = userService.loadUsers();
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUserId().equals(student.getUserId())) {
+                users.set(i, student);
+            }
+        }
+        userService.saveUsers(users);
+
+        if(quiz.isPassed()){
+            lesson.setQuizState(true);
+            List<course> courses = courseManagement.loadCourses();
+            for(course c : courses){
+                for(lesson l : c.getLessons()){
+                    if(l.getLessonId().equals(lesson.getLessonId())){
+                        if (c != null){
+                            completeLesson(c, lesson);
+                        }
+                    }
+                }
+            }
+        }
+        return quiz.isPassed();
     }
 
 

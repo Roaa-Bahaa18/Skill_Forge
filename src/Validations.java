@@ -63,5 +63,17 @@ public abstract class Validations {
         }
         return true;
     }
+    public static boolean isValidQuizID(String text, String courseID){
+        course c = courseManagement.getCourseByID(courseID);
+        if (c == null || c.getLessons() == null) {
+            return true;
+        }
+        for (lesson l : c.getLessons()) {
+            if (l.getQuiz() != null && text.equals(l.getQuiz().getQuizId())) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 

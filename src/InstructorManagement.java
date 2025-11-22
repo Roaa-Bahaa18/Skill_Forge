@@ -23,7 +23,7 @@ public class InstructorManagement {
 
     public boolean createCourse(String title, String courseDescription){
         Random ran = new Random();
-        String courseId = Integer.toString(ran.nextInt(99) + 100);
+        String courseId = "C" + Integer.toString(ran.nextInt(99) + 100);
         while(!Validations.isValidCourseID(courseId)){
             courseId = Integer.toString(ran.nextInt(99) + 100);
         }
@@ -110,13 +110,15 @@ public class InstructorManagement {
 
     public boolean addLesson(String courseId, String title, String content, ArrayList<String> resources){
         Random ran = new Random();
-        String lessonId = Integer.toString(ran.nextInt(99) + 100);
+        String lessonId = "L" + Integer.toString(ran.nextInt(99) + 100);
         while(!Validations.isValidLessonID(lessonId)){
             lessonId = Integer.toString(ran.nextInt(99) + 100);
         }
         if(!Validations.isValidLessonTitle(courseId,title)) { return false;}
         String quizId = "QZ" + (ran.nextInt(9000) + 1000);
-        //m7taga a validate 3al Quiz ID bs msh 2dra sara7a
+        while(!Validations.isValidQuizID(quizId, courseId)){
+            quizId = "QZ" + (ran.nextInt(9000) + 1000);
+        }
         Quiz initialQuiz = new Quiz(quizId, new ArrayList<Question>());
         lesson l = new lesson(lessonId, title, content, resources, false,initialQuiz);
         boolean flag= courseManagement.addLesson(courseId, l);

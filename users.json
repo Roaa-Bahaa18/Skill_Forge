@@ -1,8 +1,30 @@
 {
   "users": [
     {
-      "enrolledCourseIds": [],
-      "lessonProgress": {},
+      "enrolledCourseIds": [
+        "C117",
+        "183"
+      ],
+      "lessonProgress": {
+        "C117": [
+          true
+        ],
+        "183": [
+          false,
+          false,
+          false
+        ]
+      },
+      "quizAttempts": {
+        "QZ9969": 3
+      },
+      "quizScores": {
+        "QZ9969": [
+          100.0,
+          100.0,
+          100.0
+        ]
+      },
       "userId": "9692",
       "role": "Student",
       "username": "Heba Tarek",
@@ -10,8 +32,38 @@
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     },
     {
-      "enrolledCourseIds": [],
-      "lessonProgress": {},
+      "enrolledCourseIds": [
+        "183",
+        "C117"
+      ],
+      "lessonProgress": {
+        "C117": [
+          false
+        ],
+        "183": [
+          false,
+          false,
+          false
+        ]
+      },
+      "quizAttempts": {
+        "QZ7520": 1,
+        "QZ3967": 1,
+        "QZ2157": 3
+      },
+      "quizScores": {
+        "QZ7520": [
+          0.0
+        ],
+        "QZ3967": [
+          0.0
+        ],
+        "QZ2157": [
+          0.0,
+          0.0,
+          100.0
+        ]
+      },
       "userId": "9439",
       "role": "Student",
       "username": "Habiba Ahmed",
@@ -48,7 +100,9 @@
                     "answer": "D"
                   }
                 ],
-                "score": 0.0
+                "score": 0.0,
+                "passingScore": 50.0,
+                "maxAttempts": 5
               },
               "quizstate": true
             },
@@ -74,7 +128,9 @@
                     "answer": "A"
                   }
                 ],
-                "score": 0.0
+                "score": 0.0,
+                "passingScore": 50.0,
+                "maxAttempts": 5
               },
               "quizstate": true
             },
@@ -110,7 +166,9 @@
                     "answer": "B"
                   }
                 ],
-                "score": 0.0
+                "score": 0.0,
+                "passingScore": 50.0,
+                "maxAttempts": 5
               },
               "quizstate": true
             }
@@ -135,7 +193,47 @@
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     },
     {
-      "createdCourses": [],
+      "createdCourses": [
+        {
+          "courseId": "C117",
+          "courseTitle": "Full Stack course",
+          "courseDescription": "backend and frontend core concepts ",
+          "instructorId": "9687",
+          "lessons": [
+            {
+              "lessonId": "L191",
+              "lessonTitle": "React",
+              "content": "design",
+              "resources": [
+                "coursera",
+                "depi"
+              ],
+              "status": false,
+              "quiz": {
+                "quizId": "QZ9969",
+                "questions": [
+                  {
+                    "questionBody": "Just trying, enharda eh",
+                    "choices": [
+                      "sabt",
+                      "7ad",
+                      "etnan",
+                      "tlat"
+                    ],
+                    "answer": "A"
+                  }
+                ],
+                "score": 0.0,
+                "passingScore": 50.0,
+                "maxAttempts": 5
+              },
+              "quizstate": true
+            }
+          ],
+          "studentIds": [],
+          "status": "Approved"
+        }
+      ],
       "userId": "9687",
       "role": "Instructor",
       "username": "Darine Islam",
@@ -147,6 +245,49 @@
       "role": "Admin",
       "username": "Dr Raggal",
       "email": "raggal@gmail.com",
+      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "userId": "10",
+      "role": "Admin",
+      "username": "Dr Ahmed",
+      "email": "ahmed@gmail.com",
+      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "enrolledCourseIds": [
+        "183"
+      ],
+      "lessonProgress": {
+        "183": [
+          false,
+          true,
+          false
+        ]
+      },
+      "quizAttempts": {
+        "QZ7520": 4,
+        "QZ3967": 1,
+        "QZ2157": 1
+      },
+      "quizScores": {
+        "QZ7520": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "QZ3967": [
+          0.0
+        ],
+        "QZ2157": [
+          100.0
+        ]
+      },
+      "userId": "1982",
+      "role": "Student",
+      "username": "Biba Ahmed",
+      "email": "biba@gmail.com",
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     }
   ]

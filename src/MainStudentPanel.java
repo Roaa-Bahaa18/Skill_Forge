@@ -7,7 +7,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MainStudentPanel extends JFrame {
     private JPanel mainPanel;
@@ -18,6 +17,10 @@ public class MainStudentPanel extends JFrame {
     private JTable enrolledCoursesTable;
     private JScrollPane availableCoursesScrollPane;
     private JScrollPane enrolledCoursesScrollPane;
+    private JTabbedPane tabbedPane1;
+    private JComboBox<String> courseCombo;
+    private JTable Lessontable;
+    private JPanel lessonScrollPane;
     private final String StudentName;
     private final StudentManage sm;
     private final List<course> availableCourses;
@@ -39,6 +42,7 @@ public class MainStudentPanel extends JFrame {
         welcomeLabel.setText("Welcome, " + StudentName);
         setupAvailableCoursesTab();
         setupEnrolledCoursesTab();
+        setupLessonTab();
 
         logoutButton.addActionListener(new ActionListener() {
             @Override
@@ -184,6 +188,105 @@ public class MainStudentPanel extends JFrame {
         for (course course : enrolledCourses) {
             model.addRow(new Object[]{course.getCourseTitle(), course.getCourseId(), sm.progressTrack(course)});
         }
+        refreshCourseCombo();
+    }
+
+    private void setupLessonTab() {
+        refreshCourseCombo();
+
+        String[] colNames = {"Lesson ID", "Lesson Name", "Quiz", "Quiz Paper", "Mark"};
+        DefaultTableModel lessonTableModel = new DefaultTableModel(colNames, 0) {
+            @Override
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
+        Lessontable.setModel(lessonTableModel);
+        Lessontable.getTableHeader().setReorderingAllowed(false);
+
+        courseCombo.addActionListener(e -> {
+            String selected = (String) courseCombo.getSelectedItem();
+            if (selected == null || selected.equals("Choose a Course")) return;
+
+            String courseId = selected.substring(0, selected.indexOf(" - "));
+            course selectedCourse = courseManagement.getCourseByID(courseId);
+            displayLessonsForCourse(selectedCourse, lessonTableModel);
+        });
+
+        installLessonTableMouseHandler();
+    }
+
+    private void displayLessonsForCourse(course selectedCourse, DefaultTableModel model) {
+        model.setRowCount(0);
+
+        if (selectedCourse == null) return;
+
+        List<lesson> lessons = selectedCourse.getLessons();
+        for (lesson L : lessons) {
+            Quiz quiz = L.getQuiz();
+            boolean attempted = L.getQuizState();
+            String quizExists = (quiz != null) ? "Yes" : "No";
+            String quizPaper = attempted ? "View" : "";
+            String mark = attempted && quiz != null ? quiz.getScore() + "%" : "";
+            model.addRow(new Object[]{
+                    L.getLessonId(),
+                    L.getLessonTitle(),
+                    quizExists,
+                    quizPaper,
+                    mark
+            });
+        }
+    }
+
+    private void refreshCourseCombo() {
+        if (courseCombo == null) return;
+        courseCombo.removeAllItems();
+        courseCombo.addItem("Choose a Course");
+
+        for (course c : enrolledCourses) {
+            courseCombo.addItem(c.getCourseId() + " - " + c.getCourseTitle());
+        }
+
+        courseCombo.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof course) {
+                    setText(((course) value).getCourseId() + " - " + ((course) value).getCourseTitle());
+                }
+                return this;
+            }
+        });
+    }
+
+    private void installLessonTableMouseHandler() {
+        for (MouseAdapter ma : Lessontable.getListeners(MouseAdapter.class)) {
+            Lessontable.removeMouseListener(ma);
+        }
+
+        Lessontable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = Lessontable.rowAtPoint(e.getPoint());
+                int col = Lessontable.columnAtPoint(e.getPoint());
+                if (row < 0 || col < 0) return;
+
+                String selected = (String) courseCombo.getSelectedItem();
+                if (selected == null || selected.equals("Choose a Course")) return;
+
+                String courseId = selected.substring(0, selected.indexOf(" - "));
+                course selectedCourse = courseManagement.getCourseByID(courseId);
+                lesson L = selectedCourse.getLessons().get(row);
+
+                if (col == 1) {
+                    openLessonContent(L);
+                }
+                else if (col == 3) {
+                    handleQuizPaperClick(L, selectedCourse.getCourseId(), row, (DefaultTableModel) Lessontable.getModel());
+                }
+            }
+        });
     }
 
     private void showLessonDetail(String courseId) {
@@ -193,51 +296,221 @@ public class MainStudentPanel extends JFrame {
                 .orElse(null);
 
         if (course == null) return;
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+
         String[] lessonColumnNames = {"Lesson Name", "Lesson ID", "Status"};
+
         DefaultTableModel lessonModel = new DefaultTableModel(lessonColumnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return false; // Make all cells uneditable
             }
         };
-        List<lesson> lessons= course.getLessons();
+
+        List<lesson> lessons = course.getLessons();
         ArrayList<Boolean> lessonStatus = student.getProgress().get(courseId);
-        int i=0;
-        for (lesson lesson : lessons) {
+        if (lessonStatus == null) {
+            lessonStatus = new ArrayList<>();
+            for (int i = 0; i < lessons.size(); i++) {
+                lessonStatus.add(false);
+            }
+            student.getProgress().put(courseId, lessonStatus);
+        }
+        for (int i = 0; i < lessons.size(); i++) {
             String status = (lessonStatus.get(i)) ? "Completed" : "Uncompleted";
-            lessonModel.addRow(new Object[]{lesson.getLessonTitle(), lesson.getLessonId(), status});
-            i++;
+            lessonModel.addRow(new Object[]{lessons.get(i).getLessonTitle(), lessons.get(i).getLessonId(), status});
         }
         JTable lessonTable = new JTable(lessonModel);
         lessonTable.getTableHeader().setReorderingAllowed(false);
         JScrollPane lessonScrollPane = new JScrollPane(lessonTable);
-        lessonTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        mainPanel.add(lessonScrollPane, BorderLayout.NORTH);
+        JPanel quizPanel = new JPanel(new BorderLayout());
 
         lessonTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) {
-                    int row = lessonTable.getSelectedRow();
-                    if (row >= 0) {
-                        String lessonId = (String) lessonModel.getValueAt(row, 1);
-                        String status = (String) lessonModel.getValueAt(row, 2);
+                int row = lessonTable.getSelectedRow();
+                int col = lessonTable.getSelectedColumn();
+                if (row < 0 || col < 0) return;
 
-                        if (Objects.equals(status, "Uncompleted")) {
-                            LessonCompletion(course, lessonId, lessonModel);
-                        } else {
-                            JOptionPane.showMessageDialog(lessonTable, "This lesson is already completed.", "Info", JOptionPane.INFORMATION_MESSAGE);
-                        }
-                    }
+                lesson selectedLesson = lessons.get(row);
+
+                if (col == 0) {
+                    openLessonContent(selectedLesson);
                 }
             }
         });
 
         JDialog dialog = new JDialog(this, "Lessons for " + course.getCourseTitle(), true);
         dialog.setLayout(new BorderLayout());
-        dialog.add(lessonScrollPane, BorderLayout.CENTER);
-        dialog.setSize(600, 400);
+        dialog.add(mainPanel, BorderLayout.CENTER);
+        dialog.setSize(700, 500);
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
+    }
+
+    private void openLessonContent(lesson selectedLesson) {
+        if (selectedLesson == null) return;
+
+        String content = selectedLesson.getContent();
+        SwingUtilities.invokeLater(() -> {
+            JFrame contentFrame = new JFrame("Lesson Content");
+            contentFrame.setSize(500, 400);
+            contentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+            JTextArea textArea = new JTextArea(content);
+            textArea.setEditable(false);
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            contentFrame.add(scrollPane);
+            contentFrame.setLocationRelativeTo(this);
+            contentFrame.setVisible(true);
+        });
+    }
+
+    private void handleQuizPaperClick(lesson selectedLesson, String courseId, int row, DefaultTableModel model) {
+        if (selectedLesson == null) return;
+        Quiz quiz = selectedLesson.getQuiz();
+
+        if (quiz == null) {
+            JOptionPane.showMessageDialog(this, "No quiz for this lesson.");
+            return;
+        }
+
+        if (!selectedLesson.getQuizState()) {
+            takeMCQQuiz(selectedLesson, courseId, row, model);
+        } else {
+            showQuizPaper(selectedLesson);
+        }
+    }
+
+    private void takeMCQQuiz(lesson selectedLesson, String courseId, int row, DefaultTableModel model) {
+        Quiz quiz = selectedLesson.getQuiz();
+        List<Question> questions = quiz.getQuestions();
+
+        if (questions == null || questions.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No questions in this quiz.");
+            return;
+        }
+
+        JDialog dialog = new JDialog(this, "Take Quiz - " + selectedLesson.getLessonTitle(), true);
+        dialog.setSize(600, 400);
+        dialog.setLayout(new BorderLayout());
+
+        JPanel quizPanel = new JPanel();
+        quizPanel.setLayout(new BoxLayout(quizPanel, BoxLayout.Y_AXIS));
+
+        List<ButtonGroup> buttonGroups = new ArrayList<>();
+
+        for (Question q : questions) {
+            JPanel qPanel = new JPanel();
+            qPanel.setLayout(new BoxLayout(qPanel, BoxLayout.Y_AXIS));
+            qPanel.setBorder(BorderFactory.createTitledBorder(q.getQuestionBody()));
+
+            ButtonGroup bg = new ButtonGroup();
+
+            for (int i = 0; i < q.getChoices().size(); i++) {
+                char optionChar = (char) ('A' + i);
+                JRadioButton rb = new JRadioButton(optionChar + ": " + q.getChoices().get(i));
+                rb.setActionCommand(String.valueOf(optionChar));
+                bg.add(rb);
+                qPanel.add(rb);
+            }
+
+            buttonGroups.add(bg);
+            quizPanel.add(qPanel);
+        }
+
+        JScrollPane sp = new JScrollPane(quizPanel);
+        dialog.add(sp, BorderLayout.CENTER);
+
+        JButton submit = new JButton("Submit Quiz");
+        dialog.add(submit, BorderLayout.SOUTH);
+
+        submit.addActionListener(e -> {
+            List<Character> answers = new ArrayList<>();
+            for (ButtonGroup bg : buttonGroups) {
+                if (bg.getSelection() == null) {
+                    JOptionPane.showMessageDialog(dialog, "Please answer all questions.");
+                    return;
+                }
+                answers.add(bg.getSelection().getActionCommand().charAt(0));
+            }
+            quiz.setUserAnswers(answers);
+
+            boolean passed = sm.takeQuiz(selectedLesson, answers);
+            double score = selectedLesson.getQuiz().getScore();
+            selectedLesson.setQuizState(true);
+
+            model.setValueAt(score + "%", row, 4);
+            model.setValueAt("View", row, 3);
+            model.fireTableRowsUpdated(row, row);
+            Lessontable.repaint();
+            Lessontable.revalidate();
+            updateEnrolledCoursesTable();
+
+            displayLessonsForCourse(courseManagement.getCourseByID(courseId), model);
+
+            JOptionPane.showMessageDialog(dialog, (passed ? "Quiz Passed!" : "Quiz Failed!") + " Score: " + score + "%");
+            dialog.dispose();
+        });
+
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+
+    private void showQuizPaper(lesson selectedLesson) {
+        if(selectedLesson == null) return;
+
+        Quiz quiz = selectedLesson.getQuiz();
+        if (quiz == null || quiz.getQuestions() == null || quiz.getUserAnswers() == null) {
+            JOptionPane.showMessageDialog(this, "Quiz data is incomplete.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        List<Question> questions = quiz.getQuestions();
+        List<Character> studentAnswers = quiz.getUserAnswers();
+        if (questions.size() != studentAnswers.size()) {
+            JOptionPane.showMessageDialog(this, "Mismatch between questions and answers.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+
+        SwingUtilities.invokeLater(() -> {
+            String[] cols = {"Question", "Correct Answer", "Your Answer"};
+            DefaultTableModel paperModel = new DefaultTableModel(cols, 0);
+
+            for (int i = 0; i < questions.size(); i++) {
+                Question q = questions.get(i);
+                paperModel.addRow(new Object[]{
+                        q.getQuestionBody(),
+                        q.getAnswer(),
+                        studentAnswers.get(i)
+                });
+            }
+            JTable paperTable = new JTable(paperModel);
+            paperTable.getTableHeader().setReorderingAllowed(false);
+            JScrollPane sp = new JScrollPane(paperTable);
+
+            JLabel scoreLabel = new JLabel("Score: " + quiz.getScore() + "%");
+            scoreLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+            JDialog dialog = new JDialog(this, "Quiz Paper - " + selectedLesson.getLessonTitle(), true);
+            dialog.setSize(600, 400);
+            dialog.setLayout(new BorderLayout());
+            dialog.add(scoreLabel, BorderLayout.NORTH);
+            dialog.add(sp, BorderLayout.CENTER);
+
+            JButton close = new JButton("Close");
+            close.addActionListener(e -> dialog.dispose());
+            dialog.add(close, BorderLayout.SOUTH);
+
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+        });
     }
 
     private void LessonCompletion(course course, String lessonId, DefaultTableModel lessonModel) {
