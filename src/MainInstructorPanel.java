@@ -10,12 +10,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.DataTruncation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainInstructorPanel extends JFrame {
+public class MainInstructorPanel extends JFrame{
     // Instructor Panel Components
     private JLabel welcome;
     private JTabbedPane tabbedPane1;
@@ -60,11 +61,14 @@ public class MainInstructorPanel extends JFrame {
     private JProgressBar progressBar;
     private JLabel completion;
     private JPanel sprogress;
+    private JProgressBar progressBar1;
+    private JPanel QuizProgress;
+    private JPanel quizbarchart;
 
     private Instructor instructor = null;
     private final InstructorManagement im;
     private final String InstructorName;
-    private ArrayList<course> createdCourses = new ArrayList<>();
+    private ArrayList<course> createdCourses= new ArrayList<>();
     private Quiz currentQuiz = null;
 
     public MainInstructorPanel(Instructor instructor) {
@@ -374,40 +378,95 @@ public class MainInstructorPanel extends JFrame {
                             progressBar.setStringPainted(true);
                             progressBar.setValue((int) progresscompletion);
 
-                            //el mford a get quiz scores hna -> ma3aya sm w student w courseId
-                            HashMap<String, List<Double>> allquizscores = student.getAllQuizScores();
-                            ArrayList<String> quizzes = getCourse(courseId).getAllQuizzes();
+                    //el mford a get quiz scores hna -> ma3aya sm w student w courseId
+                        //HashMap<String,List<Double>> allquizscores = student.getAllQuizScores();
+                        ArrayList<String> quizzes = getCourse(courseId).getAllQuizzes();
 
-                            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                            //add data hna in a loop
-                            // bl tre2a de --> dataset.addValue(40.0,"Quiz1","Score");
-                            if (quizzes != null) {
-                                for (String quizid : quizzes) {
-                                    dataset.addValue(allquizscores.get(quizid).get(0), quizid, "Score");
-                                }
+                        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+                        //add data hna in a loop
+                        // bl tre2a de --> dataset.addValue(40.0,"Quiz1","Score");
+                        if(quizzes!=null)
+                        {
+                            for (String quizid : quizzes) {
+                              Double score =  student.getMaxQuizScore(quizid);
+                              dataset.addValue(score,quizid,"Score");
                             }
-
-                            JFreeChart chart = ChartFactory.createBarChart("Student Perfromance", "Quizzes", "Score", dataset);
-                            ChartPanel chartPanel = new ChartPanel(chart);
-                            chartPanel.setPreferredSize(new java.awt.Dimension(450, 200));
-                            progresspanel.setLayout(new BorderLayout());
-                            progresspanel.removeAll();
-                            progresspanel.add(chartPanel, BorderLayout.CENTER);
-                            progresspanel.revalidate();
-                            progresspanel.repaint();
                         }
-                    }
-                }
+
+                        JFreeChart chart = ChartFactory.createBarChart("Student Performance", "Quizzes", "Score", dataset);
+                    ChartPanel chartPanel = new ChartPanel(chart);
+                    chartPanel.setPreferredSize(new java.awt.Dimension(450, 200));
+                    progresspanel.setLayout(new BorderLayout());
+                    progresspanel.removeAll();
+                    progresspanel.add(chartPanel,BorderLayout.CENTER);
+                    progresspanel.revalidate();
+                    progresspanel.repaint();
+                }}}
             }
         });
 
         courseQcombo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedCourse = (String) choosecourse.getSelectedItem();
+                String selectedCourse = (String) courseQcombo.getSelectedItem();
                 if (selectedCourse != null && !selectedCourse.isEmpty() && !selectedCourse.equals("Choose a Course")) {
                     String courseId = getCourseIdFromCombo(selectedCourse);
                     updateLessonCombo(lessonQcombo, courseId);
+                }
+            }
+        });
+
+        lessonQcombo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedLesson = (String) lessonQcombo.getSelectedItem();
+                String courseId = getCourseIdFromCombo((String) courseQcombo.getSelectedItem());
+                if (selectedLesson != null && !selectedLesson.isEmpty() && !selectedLesson.equals("Choose A Lesson")) {
+                    String lessonId = getLessonIdFromCombo(selectedLesson);
+                    course course = courseManagement.getCourseByID(courseId);
+                    lesson lesson = courseManagement.getLessonByID(courseId,lessonId);
+                    ArrayList<String> studentsIds = (course.getStudentIds() != null) ? course.getStudentIds() : new ArrayList<>();
+                    if(!studentsIds.isEmpty()){
+                        // score of each student in the quiz lesson
+                        Quiz quiz = lesson.getQuiz();
+                        if(quiz != null){
+                            String quizID = quiz.getQuizId();
+                            // mafrod aged score lkol student wna m3aya id lkol wa7ed w lesson w course
+                            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+                            double average = 0.0;
+                            double sum = 0.0;
+                            int count = 0;
+                            for(String sId : studentsIds){
+                                Student student = null;
+                                List<User> users = userService.loadUsers();
+                                for(User u :users) {
+                                    if(u.getUserId().equals(sId)) {
+                                        count++;
+                                        student= (Student)u;
+                                        double score = student.getMaxQuizScore(quizID);
+                                        sum += score;
+                                        dataset.addValue(score, student.getUserId(), "Scores");
+                                    }
+                                }
+
+                                if(count!=0) { average = sum / count; }
+                                progressBar1.setVisible(true);
+                                progressBar1.setStringPainted(true);
+                                progressBar1.setValue((int) average);
+
+                                JFreeChart chart = ChartFactory.createBarChart("Quiz Analysis", "Students", "Score", dataset);
+                                ChartPanel chartPanel = new ChartPanel(chart);
+                                chartPanel.setPreferredSize(new java.awt.Dimension(450, 200));
+                                quizbarchart.setLayout(new BorderLayout());
+                                quizbarchart.removeAll();
+                                quizbarchart.add(chartPanel,BorderLayout.CENTER);
+                                quizbarchart.revalidate();
+                                quizbarchart.repaint();
+
+                            }
+
+                        }
+                    }
                 }
             }
         });
@@ -483,11 +542,13 @@ public class MainInstructorPanel extends JFrame {
             if(c.getCourseId().equals(courseId)){
                 ArrayList<lesson> alllessons = c.getLessons();
                 for (lesson l : alllessons) {
-                    comboBox.addItem(l);
+                    comboBox.addItem(l.toString());
                 }
             }
         }
     }
+
+
 
     private void setUpcoursestable() {
         String[] columnNames= {"Course ID","Course Title","Course Description","Status","Lessons Count","Number of Enrolled Students","Edit","Delete"};

@@ -69,5 +69,16 @@ public class Student extends User{
         if (scores != null && !scores.isEmpty()) {return scores.get(scores.size() - 1);}
         return null;
     }
+    public Double getMaxQuizScore(String quizid)
+    {
+        List<Double> scores = quizScores.get(quizid);
+        Double max = 0.0;
+        for(Double s : scores)
+        {
+            if(s>=max)  max=s;
+        }
+        return max;
+    }
+
 
 }
