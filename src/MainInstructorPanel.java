@@ -64,6 +64,8 @@ public class MainInstructorPanel extends JFrame{
     private JProgressBar progressBar1;
     private JPanel QuizProgress;
     private JPanel quizbarchart;
+    private JProgressBar progressBar2;
+    private JPanel courseaverage;
 
     private Instructor instructor = null;
     private final InstructorManagement im;
@@ -360,6 +362,7 @@ public class MainInstructorPanel extends JFrame{
                 String selectedCourse = (String) choosecourse.getSelectedItem();
                 if (selectedCourse != null && !selectedCourse.isEmpty() && !selectedCourse.equals("Choose a Course")) {
                     String courseId = getCourseIdFromCombo(selectedCourse);
+                    course Course = courseManagement.getCourseByID(courseId);
 
                     if (selectedStudent != null && !selectedStudent.isEmpty() && !selectedStudent.equals("Choose A Student")) {
                         //track progress data hna
@@ -374,12 +377,12 @@ public class MainInstructorPanel extends JFrame{
                             //hena completion bar
                             StudentManage s = new StudentManage(student);
                             float progresscompletion = s.progressTrack(getCourse(courseId));
+                            progressBar.setValue(0);
                             progressBar.setVisible(true);
                             progressBar.setStringPainted(true);
                             progressBar.setValue((int) progresscompletion);
 
                     //el mford a get quiz scores hna -> ma3aya sm w student w courseId
-                        //HashMap<String,List<Double>> allquizscores = student.getAllQuizScores();
                         ArrayList<String> quizzes = getCourse(courseId).getAllQuizzes();
 
                         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -392,7 +395,6 @@ public class MainInstructorPanel extends JFrame{
                               dataset.addValue(score,quizid,"Score");
                             }
                         }
-
                         JFreeChart chart = ChartFactory.createBarChart("Student Performance", "Quizzes", "Score", dataset);
                     ChartPanel chartPanel = new ChartPanel(chart);
                     chartPanel.setPreferredSize(new java.awt.Dimension(450, 200));
@@ -450,6 +452,7 @@ public class MainInstructorPanel extends JFrame{
                                 }
 
                                 if(count!=0) { average = sum / count; }
+                                progressBar1.setValue(0);
                                 progressBar1.setVisible(true);
                                 progressBar1.setStringPainted(true);
                                 progressBar1.setValue((int) average);
@@ -477,7 +480,34 @@ public class MainInstructorPanel extends JFrame{
                 String selectedCourse = (String) choosecourse.getSelectedItem();
                 if (selectedCourse != null && !selectedCourse.isEmpty() && !selectedCourse.equals("Choose A Course")) {
                     String courseId = getCourseIdFromCombo(selectedCourse);
-                    updateStudentCombo(choosestudent, courseId);
+                    course course= courseManagement.getCourseByID(courseId);
+                    HashMap<String,List<Double>> result= im.getQuizScores(courseId);
+
+                    float average = im.getCompletionaverage(courseId);
+
+                    progressBar2.setValue(0);
+                    progressBar2.setVisible(true);
+                    progressBar2.setStringPainted(true);
+                    progressBar2.setValue((int)average);
+
+                    // create data set
+                    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+                    for(HashMap.Entry<String,List<Double>> entry : result.entrySet()){
+                        String quizId =  entry.getKey();
+                        List<Double> scores = entry.getValue();
+                        int i=0;
+                        for(Double score : scores){
+                            i++;
+                            dataset.addValue(score, quizId, "Student"+i);
+                        }
+                    }
+                    JFreeChart linechart =  ChartFactory.createLineChart("Course Quizzes performance", "Quizzes", "Score", dataset);
+                    ChartPanel chartPanel = new ChartPanel(linechart);
+                    courseprogress.setLayout(new BorderLayout());
+                    courseprogress.removeAll();
+                    courseprogress.add(chartPanel,BorderLayout.CENTER);
+                    courseprogress.revalidate();
+                    courseprogress.repaint();
                 }
             }
         });

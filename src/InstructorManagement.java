@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -284,6 +285,56 @@ public class InstructorManagement {
             }
         }
         return result;
+    }
+
+    public HashMap<String,List<Double>>  getQuizScores(String courseId) {
+        HashMap<String,List<Double>> result= new HashMap<>();
+        course course = courseManagement.getCourseByID(courseId);
+        ArrayList<lesson> lessons = course.getLessons();
+        ArrayList<String> studentIds = course.getStudentIds();
+        ArrayList<Student> students = new ArrayList<>();
+        Student student = null;
+        List<User> users = userService.loadUsers();
+        if(studentIds==null) return result;
+        for(String studentId : studentIds){
+            for (User u : users) {
+                if (u.getUserId().equals(studentId)) {
+                    students.add((Student)u);
+                }
+            }
+        }
+        for(lesson l : lessons){
+            if(l.getQuizState()){
+                ArrayList<Double> scores = new ArrayList<>();
+                for(Student s : students) {
+                    scores.add(s.getMaxQuizScore(l.getQuiz().getQuizId()));
+                }
+                result.put(l.getQuiz().getQuizId(), scores);
+            }
+        }
+        return result;
+    }
+    public float getCompletionaverage(String courseId) {
+        int result = 0;
+        course course = courseManagement.getCourseByID(courseId);
+        ArrayList<String> studentIds = course.getStudentIds();
+        ArrayList<Student> students = new ArrayList<>();
+        List<User> users = userService.loadUsers();
+        if(studentIds==null) return 0.0f;
+        for(String studentId : studentIds){
+            for (User u : users) {
+                if (u.getUserId().equals(studentId)) {
+                    students.add((Student)u);
+                }
+            }
+        }
+        for(Student s : students){
+            StudentManage sm = new StudentManage(s);
+            if(sm.progressTrack(course)==100) result++;
+        }
+        float completionaverage = (float)result /students.size();
+        return completionaverage*100;
+
     }
 
 

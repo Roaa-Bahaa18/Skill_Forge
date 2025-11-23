@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -69,9 +70,11 @@ public class Student extends User{
         if (scores != null && !scores.isEmpty()) {return scores.get(scores.size() - 1);}
         return null;
     }
+
     public Double getMaxQuizScore(String quizid)
     {
         List<Double> scores = quizScores.get(quizid);
+        if(scores == null || scores.isEmpty()) return 0.0;
         Double max = 0.0;
         for(Double s : scores)
         {
