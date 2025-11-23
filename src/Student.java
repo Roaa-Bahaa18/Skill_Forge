@@ -73,13 +73,20 @@ public class Student extends User{
 
     public Double getMaxQuizScore(String quizid) {
         List<Double> scores = quizScores.get(quizid);
-        if(scores == null || scores.isEmpty()) return 0.0;
+        if(scores == null || scores.isEmpty()) return null;
         Double max = 0.0;
         for(Double s : scores)
         {
             if(s>=max)  max=s;
         }
         return max;
+    }
+
+    public boolean isCourseCompleted(String courseId) {
+        for(String key : this.completedCoursesIDs) {
+            if(courseId.equals(key)) return true;
+        }
+        return false;
     }
 
 

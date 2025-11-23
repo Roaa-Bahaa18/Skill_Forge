@@ -392,7 +392,7 @@ public class MainInstructorPanel extends JFrame{
                         {
                             for (String quizid : quizzes) {
                               Double score =  student.getMaxQuizScore(quizid);
-                              dataset.addValue(score,quizid,"Score");
+                              if(score!=null) dataset.addValue(score,quizid,"Score");
                             }
                         }
                         JFreeChart chart = ChartFactory.createBarChart("Student Performance", "Quizzes", "Score", dataset);
@@ -445,10 +445,12 @@ public class MainInstructorPanel extends JFrame{
                                     if(u.getUserId().equals(sId)) {
                                         count++;
                                         student= (Student)u;
-                                        double score = student.getMaxQuizScore(quizID);
+                                        Double score = student.getMaxQuizScore(quizID);
+                                        if(score!=null)
+                                        {
                                         sum += score;
                                         dataset.addValue(score, student.getUserId(), "Scores");
-                                    }
+                                    }}
                                 }
 
                                 if(count!=0) { average = sum / count; }
