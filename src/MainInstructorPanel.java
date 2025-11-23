@@ -473,11 +473,14 @@ public class MainInstructorPanel extends JFrame{
                 }
             }
         });
+       // ActionListener actionlistener = coursepcombo.getActionListeners()[0];
 
         coursepcombo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String selectedCourse = (String) choosecourse.getSelectedItem();
+                JComboBox<String> sourceCombo = (JComboBox<String>) e.getSource();
+                String selectedCourse = (String) sourceCombo.getSelectedItem();
+                System.out.println(selectedCourse);
                 if (selectedCourse != null && !selectedCourse.isEmpty() && !selectedCourse.equals("Choose A Course")) {
                     String courseId = getCourseIdFromCombo(selectedCourse);
                     course course= courseManagement.getCourseByID(courseId);
@@ -489,7 +492,6 @@ public class MainInstructorPanel extends JFrame{
                     progressBar2.setVisible(true);
                     progressBar2.setStringPainted(true);
                     progressBar2.setValue((int)average);
-
                     // create data set
                     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
                     for(HashMap.Entry<String,List<Double>> entry : result.entrySet()){
