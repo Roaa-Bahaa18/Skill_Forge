@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainInstructorPanel extends JFrame{
+public class MainInstructorPanel extends JFrame {
     // Instructor Panel Components
     private JLabel welcome;
     private JTabbedPane tabbedPane1;
@@ -64,7 +64,7 @@ public class MainInstructorPanel extends JFrame{
     private Instructor instructor = null;
     private final InstructorManagement im;
     private final String InstructorName;
-    private ArrayList<course> createdCourses= new ArrayList<>();
+    private ArrayList<course> createdCourses = new ArrayList<>();
     private Quiz currentQuiz = null;
 
     public MainInstructorPanel(Instructor instructor) {
@@ -75,7 +75,7 @@ public class MainInstructorPanel extends JFrame{
 
         this.instructor = instructor;
         im = new InstructorManagement(instructor);
-        InstructorName= instructor.getUsername();
+        InstructorName = instructor.getUsername();
         this.createdCourses = (instructor.getCreatedCourses() != null) ? instructor.getCreatedCourses() : new ArrayList<>();
         welcome.setText("Welcome " + InstructorName);
         saveLessonButton.setEnabled(false);
@@ -83,16 +83,16 @@ public class MainInstructorPanel extends JFrame{
         setUpcoursestable();
         setUpLessonTable();
         setUpQuestionTable();
-        updateCourseCombo(coursecombo,"Approved");
-        updateCourseCombo(coursebox,null);
-        updateCourseCombo(choosecourse,null);
-        updateCourseCombo(courseQcombo,null);
-        updateCourseCombo(coursepcombo,null);
+        updateCourseCombo(coursecombo, "Approved");
+        updateCourseCombo(coursebox, null);
+        updateCourseCombo(choosecourse, null);
+        updateCourseCombo(courseQcombo, null);
+        updateCourseCombo(coursepcombo, null);
 
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null,"Logging out Instructor " + InstructorName);
+                JOptionPane.showMessageDialog(null, "Logging out Instructor " + InstructorName);
                 new FirstPage().setVisible(true);
                 dispose();
             }
@@ -103,25 +103,25 @@ public class MainInstructorPanel extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String courseTitle = coursetitle.getText();
                 String courseDescription = description.getText();
-                if(courseTitle.isEmpty() || courseDescription.isEmpty()){
-                    JOptionPane.showMessageDialog(null,"Fields cannot be empty");
-                }
-                else{
-                    boolean ok = im.createCourse(courseTitle,courseDescription);
+                if (courseTitle.isEmpty() || courseDescription.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Fields cannot be empty");
+                } else {
+                    boolean ok = im.createCourse(courseTitle, courseDescription);
                     if (!ok) {
-                        JOptionPane.showMessageDialog(null,"Failed to create course. Check title validity.");
+                        JOptionPane.showMessageDialog(null, "Failed to create course. Check title validity.");
                         return;
                     }
-                    JOptionPane.showMessageDialog(null,"Course Created Successfully!");
+                    JOptionPane.showMessageDialog(null, "Course Created Successfully!");
                     createdCourses = im.getInstructor().getCreatedCourses();
                     updateCourseTable();
-                    updateCourseCombo(coursecombo,"Approved");
-                    updateCourseCombo(coursebox,null);
+                    updateCourseCombo(coursecombo, "Approved");
+                    updateCourseCombo(coursebox, null);
                     tabbedPane1.setSelectedIndex(1);
                     tabbedPane2.setSelectedIndex(0);
                     coursetitle.setText("");
                     description.setText("");
-                }}
+                }
+            }
         });
 
         coursecombo.addActionListener(new ActionListener() {
@@ -172,12 +172,12 @@ public class MainInstructorPanel extends JFrame{
                 String content = (String) model.getValueAt(row, 2);
                 String resourcesString = (String) model.getValueAt(row, 3);
                 String quizStatusString = (String) model.getValueAt(row, 4);
-                boolean state=false;
+                boolean state = false;
                 if (quizStatusString.equalsIgnoreCase("Yes")) {
                     state = true;
                 }
                 ArrayList<String> resources = new ArrayList<>(Arrays.asList(resourcesString.split(",")));
-                if (title.equals("Enter Title") || content.equals("Enter Content") || resourcesString.equals("resource1,resource2") ) {
+                if (title.equals("Enter Title") || content.equals("Enter Content") || resourcesString.equals("resource1,resource2")) {
                     JOptionPane.showMessageDialog(null, "Title, Content and resources must be filled with values.");
                     return;
                 }
@@ -188,7 +188,7 @@ public class MainInstructorPanel extends JFrame{
                     if (success) JOptionPane.showMessageDialog(null, "Lesson Added Successfully!");
                     else JOptionPane.showMessageDialog(null, "Failed to Add Lesson.");
                 } else {
-                    success = im.editLesson(courseId, lessonId, title, content, resources,state);
+                    success = im.editLesson(courseId, lessonId, title, content, resources, state);
                     if (success) JOptionPane.showMessageDialog(null, "Lesson Edited Successfully!");
                     else JOptionPane.showMessageDialog(null, "Failed to Edit Lesson.");
                 }
@@ -274,7 +274,7 @@ public class MainInstructorPanel extends JFrame{
                     for (int j = 1; j <= 4; j++) {
                         options.add((String) model.getValueAt(i, j));
                     }
-                    String correctOptionStr = (String)model.getValueAt(i, 5);
+                    String correctOptionStr = (String) model.getValueAt(i, 5);
                     if (!correctOptionStr.matches("[A-D]")) {
                         JOptionPane.showMessageDialog(null,
                                 "Correct answer must be A, B, C, or D");
@@ -353,47 +353,51 @@ public class MainInstructorPanel extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedStudent = (String) choosestudent.getSelectedItem();
-                String selectedCourse= (String) choosecourse.getSelectedItem();
+                String selectedCourse = (String) choosecourse.getSelectedItem();
                 if (selectedCourse != null && !selectedCourse.isEmpty() && !selectedCourse.equals("Choose a Course")) {
                     String courseId = getCourseIdFromCombo(selectedCourse);
 
-                if (selectedStudent != null && !selectedStudent.isEmpty() && !selectedStudent.equals("Choose A Student")) {
-                   //track progress data hna
-                    Student student = null;
-                    List<User> users = userService.loadUsers();
-                    for(User u :users) {if(u.getUserId().equals(selectedStudent)) {student= (Student)u;}}
-                    if(student!=null)
-                    {
-                        //hena completion bar
-                    StudentManage s = new StudentManage(student);
-                    float progresscompletion = s.progressTrack(getCourse(courseId));
-                    progressBar.setVisible(true);
-                    progressBar.setStringPainted(true);
-                    progressBar.setValue((int)progresscompletion);
-
-                    //el mford a get quiz scores hna -> ma3aya sm w student w courseId
-                        HashMap<String,List<Double>> allquizscores = student.getAllQuizScores();
-                        ArrayList<String> quizzes = getCourse(courseId).getAllQuizzes();
-
-                        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-                        //add data hna in a loop
-                        // bl tre2a de --> dataset.addValue(40.0,"Quiz1","Score");
-                        if(quizzes!=null)
-                        {
-                            for (String quizid : quizzes) {
-                                dataset.addValue(allquizscores.get(quizid).get(0),quizid,"Score");
+                    if (selectedStudent != null && !selectedStudent.isEmpty() && !selectedStudent.equals("Choose A Student")) {
+                        //track progress data hna
+                        Student student = null;
+                        List<User> users = userService.loadUsers();
+                        for (User u : users) {
+                            if (u.getUserId().equals(selectedStudent)) {
+                                student = (Student) u;
                             }
                         }
+                        if (student != null) {
+                            //hena completion bar
+                            StudentManage s = new StudentManage(student);
+                            float progresscompletion = s.progressTrack(getCourse(courseId));
+                            progressBar.setVisible(true);
+                            progressBar.setStringPainted(true);
+                            progressBar.setValue((int) progresscompletion);
 
-                        JFreeChart chart = ChartFactory.createBarChart("Student Perfromance", "Quizzes", "Score", dataset);
-                    ChartPanel chartPanel = new ChartPanel(chart);
-                    chartPanel.setPreferredSize(new java.awt.Dimension(450, 200));
-                    progresspanel.setLayout(new BorderLayout());
-                    progresspanel.removeAll();
-                    progresspanel.add(chartPanel,BorderLayout.CENTER);
-                    progresspanel.revalidate();
-                    progresspanel.repaint();
-                }}}
+                            //el mford a get quiz scores hna -> ma3aya sm w student w courseId
+                            HashMap<String, List<Double>> allquizscores = student.getAllQuizScores();
+                            ArrayList<String> quizzes = getCourse(courseId).getAllQuizzes();
+
+                            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+                            //add data hna in a loop
+                            // bl tre2a de --> dataset.addValue(40.0,"Quiz1","Score");
+                            if (quizzes != null) {
+                                for (String quizid : quizzes) {
+                                    dataset.addValue(allquizscores.get(quizid).get(0), quizid, "Score");
+                                }
+                            }
+
+                            JFreeChart chart = ChartFactory.createBarChart("Student Perfromance", "Quizzes", "Score", dataset);
+                            ChartPanel chartPanel = new ChartPanel(chart);
+                            chartPanel.setPreferredSize(new java.awt.Dimension(450, 200));
+                            progresspanel.setLayout(new BorderLayout());
+                            progresspanel.removeAll();
+                            progresspanel.add(chartPanel, BorderLayout.CENTER);
+                            progresspanel.revalidate();
+                            progresspanel.repaint();
+                        }
+                    }
+                }
             }
         });
 
@@ -456,20 +460,22 @@ public class MainInstructorPanel extends JFrame{
             }
         }
     }
-        private void updateStudentCombo(JComboBox comboBox,String courseId) {
+
+    private void updateStudentCombo(JComboBox comboBox, String courseId) {
         comboBox.removeAllItems();
         comboBox.addItem("Choose A Student");
         ArrayList<course> allCourses = im.getInstructor().getCreatedCourses();
         for (course c : allCourses) {
-            if(c.getCourseId().equals(courseId)){
+            if (c.getCourseId().equals(courseId)) {
                 ArrayList<String> allStudentsids = c.getStudentIds();
                 for (String sid : allStudentsids) {
                     comboBox.addItem(sid);
                 }
             }
-            }
         }
-        private void updateLessonCombo(JComboBox comboBox,String courseId) {
+    }
+
+    private void updateLessonCombo(JComboBox comboBox,String courseId) {
         comboBox.removeAllItems();
         comboBox.addItem("Choose A Lesson");
         ArrayList<course> allCourses = im.getInstructor().getCreatedCourses();
@@ -482,8 +488,6 @@ public class MainInstructorPanel extends JFrame{
             }
         }
     }
-
-
 
     private void setUpcoursestable() {
         String[] columnNames= {"Course ID","Course Title","Course Description","Status","Lessons Count","Number of Enrolled Students","Edit","Delete"};
@@ -652,6 +656,7 @@ public class MainInstructorPanel extends JFrame{
         }
         return comboItem;
     }
+
     private course getCourse(String courseId) {
         ArrayList<course> courses = courseManagement.loadCourses();
         for (course c : courses) {
@@ -661,6 +666,7 @@ public class MainInstructorPanel extends JFrame{
         }
         return null;
     }
+
     private void saveLessonChanges(int row) {
         String selectedCourse = (String) coursecombo.getSelectedItem();
         if (selectedCourse == null || selectedCourse.isEmpty() || selectedCourse.equals("Choose A Course")) {

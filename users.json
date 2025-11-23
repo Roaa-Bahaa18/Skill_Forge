@@ -123,13 +123,12 @@
         "C185": [
           true,
           true,
-          true
+          false
         ]
       },
       "quizAttempts": {
         "QZ9565": 1,
-        "QZ8278": 2,
-        "QZ9163": 1
+        "QZ8278": 2
       },
       "quizScores": {
         "QZ8278": [
@@ -138,22 +137,10 @@
         ],
         "QZ9565": [
           100.0
-        ],
-        "QZ9163": [
-          100.0
         ]
       },
-      "completedCoursesIDs": [
-        "C185"
-      ],
-      "earnedCertificates": [
-        {
-          "studentID": "9692",
-          "courseID": "C185",
-          "certificateID": "30478",
-          "issueDate": "23-11-2025"
-        }
-      ],
+      "completedCoursesIDs": [],
+      "earnedCertificates": [],
       "userId": "9692",
       "role": "Student",
       "username": "Heba Tarek",

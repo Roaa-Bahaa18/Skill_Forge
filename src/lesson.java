@@ -44,7 +44,6 @@ public class lesson {
     public boolean isQuizPassed() { return quizPassed; }
     public void setQuizPassed(boolean quizPassed) { this.quizPassed = quizPassed; }
 
-
     @Override
     public String toString(){
         return "(" + this.lessonId + ") " + this.lessonTitle;

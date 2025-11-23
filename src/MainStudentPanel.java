@@ -184,6 +184,7 @@ public class MainStudentPanel extends JFrame {
                 availableCourses.remove(courseToEnroll);
                 updateAvailableCoursesTable();
                 updateEnrolledCoursesTable();
+                refreshCourseCombo();
                 JOptionPane.showMessageDialog(this, courseToEnroll.getCourseTitle() + " successfully enrolled! Check the 'Enrolled Courses' tab.", "Success", JOptionPane.INFORMATION_MESSAGE);
                 tabbedPane.setSelectedIndex(1);
             }
@@ -245,12 +246,11 @@ public class MainStudentPanel extends JFrame {
         for (course course : enrolledCourses) {
             model.addRow(new Object[]{course.getCourseTitle(), course.getCourseId(), sm.progressTrack(course)});
         }
-        refreshCourseCombo();
     }
 
     private void setupLessonTab() {
         refreshCourseCombo();
-        String[] colNames = {"Lesson ID", "Lesson Name", "Quiz", "Quiz Paper", "Mark"};
+        String[] colNames = {"Lesson ID", "Lesson Name", "Quiz", "Quiz Paper", "Mark","Passed"};
         DefaultTableModel lessonTableModel = new DefaultTableModel(colNames, 0) {
             @Override
             public boolean isCellEditable(int row, int col) {
@@ -281,19 +281,24 @@ public class MainStudentPanel extends JFrame {
             Quiz quiz = L.getQuiz();
             int attemptsCount = student.getQuizAttempts(quiz.getQuizId());
             Double lastScore = student.getStudentLastQuizScore(quiz.getQuizId());
+            if(lastScore==null) lastScore=0.0;
             boolean quizExists=false;
             if(quiz!=null) quizExists=true;
             String quizPaper;
             String mark;
+            boolean passed=(lastScore>=50.0)?true:false;
+            String state=passed?"Yes":"No";
             if (quiz == null) {quizPaper = ""; mark = "";
             } else if (attemptsCount == 0) {quizPaper = "Take Quiz";mark = "";
             } else {quizPaper = "View Paper";mark = (lastScore != null) ? String.format("%.2f%%", lastScore) : "N/A";}
+
             model.addRow(new Object[]{
                     L.getLessonId(),
                     L.getLessonTitle(),
                     quizExists,
                     quizPaper,
-                    mark
+                    mark,
+                    state
             });
         }
     }
@@ -483,11 +488,11 @@ public class MainStudentPanel extends JFrame {
 
         JPanel quizPanel = new JPanel();
         quizPanel.setLayout(new BoxLayout(quizPanel, BoxLayout.Y_AXIS));
-
         List<ButtonGroup> buttonGroups = new ArrayList<>();
         for (Question q : questions) {
             JPanel qPanel = new JPanel();
-            qPanel.setLayout(new BoxLayout(qPanel, BoxLayout.Y_AXIS));
+            BoxLayout box =new BoxLayout(qPanel, BoxLayout.Y_AXIS);
+            qPanel.setLayout(box);
             qPanel.setBorder(BorderFactory.createTitledBorder(q.getQuestionBody()));
             ButtonGroup bg = new ButtonGroup();
             for (int i = 0; i < q.getChoices().size(); i++) {
@@ -497,6 +502,7 @@ public class MainStudentPanel extends JFrame {
                 bg.add(rb);
                 qPanel.add(rb);
             }
+            //We need to add the paper after we submit quiz, we need to adjust size of the question
             buttonGroups.add(bg);
             quizPanel.add(qPanel);
         }
@@ -519,8 +525,10 @@ public class MainStudentPanel extends JFrame {
             double score = (selectedLesson.getQuiz().getScore() == null ) ? 0.0 : selectedLesson.getQuiz().getScore();
             selectedLesson.setQuizState(true);
             selectedLesson.setQuizState(passed);
+            String state=passed?"Yes":"No";
             model.setValueAt(score + "%", row, 4);
             model.setValueAt("View Paper", row, 3);
+            model.setValueAt(state,row,5);
             model.fireTableRowsUpdated(row, row);
             updateEnrolledCoursesTable();
             JOptionPane.showMessageDialog(dialog, (passed ? "Quiz Passed!" : "Quiz Failed!") + " Score: " + score + "%");
