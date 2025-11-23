@@ -24,6 +24,7 @@ import org.apache.pdfbox.pdmodel.font.PDType3Font;
 import org.apache.pdfbox.pdmodel.font.Standard14Fonts.FontName;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.util.Matrix;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class StudentManage {
     private Student student;
@@ -246,8 +247,7 @@ public class StudentManage {
         else return null;
     }
 
-    public void createCertificatePDF(String courseId,String mode)
-    {
+    public void createCertificatePDF(String courseId,String mode) {
         ArrayList<course> courses = courseManagement.loadCourses();
         course Course = null;
         for (course c : courses) {
@@ -267,7 +267,6 @@ public class StudentManage {
             }
         }
         if(Course == null || certificate == null) return;
-
         try(PDDocument document = new PDDocument()) {
 
             PDPage page = new PDPage(new PDRectangle(PDRectangle.A4.getHeight(),PDRectangle.A4.getWidth()));
@@ -341,7 +340,25 @@ public class StudentManage {
             }
 
             if(mode.equalsIgnoreCase("Download")) {
-                document.save("Certificate#" + certificate.getCertificateID() + ".pdf");
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Specify a file to save (PDF)");
+                FileNameExtensionFilter pdfFilter = new FileNameExtensionFilter("PDF Documents (*.pdf)", "pdf");
+                fileChooser.setFileFilter(pdfFilter);
+                fileChooser.setSelectedFile(new File("Certificate#" + certificate.getCertificateID() + ".pdf"));
+                int userSelection = fileChooser.showSaveDialog(null);
+                if (userSelection == JFileChooser.APPROVE_OPTION) {
+                    File fileToSave = fileChooser.getSelectedFile();
+                    if (!fileToSave.getAbsolutePath().toLowerCase().endsWith(".pdf")) {
+                        fileToSave = new File(fileToSave.getAbsolutePath() + ".pdf");
+                    }
+                    try {
+                        document.save(fileToSave);
+                        JOptionPane.showMessageDialog(null, "Certificate PDF successfully downloaded to:\n" + fileToSave.getAbsolutePath(), "Download Success", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(null, "Error saving PDF: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        e.printStackTrace();
+                    }
+                }
             }
             else if(mode.equalsIgnoreCase("View")) {
                 //-> logic will be: create a file"temp" -> save the certificate -> view it -> delete the file
@@ -373,13 +390,22 @@ public class StudentManage {
         JsonArray jsonArray = new JsonArray();
         jsonArray.add(gson.toJsonTree(targetcertificate,targetcertificate.getClass()));
         root.add("Certificate", jsonArray);
-        try(FileWriter fw = new FileWriter("Certificate#"+targetcertificate.getCertificateID()+".json")) {
-            gson.toJson(jsonArray,fw);
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Specify a file to save (JSON)");
+        fileChooser.setSelectedFile(new File("Certificate#" + targetcertificate.getCertificateID() + ".json"));
+
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            try (FileWriter fw = new FileWriter(fileToSave)) {
+                gson.toJson(jsonArray, fw);
+                JOptionPane.showMessageDialog(null, "Certificate JSON successfully downloaded to:\n" + fileToSave.getAbsolutePath(), "Download Success", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error saving JSON: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
         }
     }
-
 
 }

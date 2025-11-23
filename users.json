@@ -1,53 +1,31 @@
 {
   "users": [
     {
-      "enrolledCourseIds": [],
-      "lessonProgress": {},
-      "quizAttempts": {},
-      "quizScores": {},
-      "userId": "9692",
-      "role": "Student",
-      "username": "Heba Tarek",
-      "email": "heba@gmail.com",
-      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
-    },
-    {
-      "enrolledCourseIds": [],
-      "lessonProgress": {},
-      "quizAttempts": {},
-      "quizScores": {},
-      "userId": "9439",
-      "role": "Student",
-      "username": "Habiba Ahmed",
-      "email": "habiba@gmail.com",
-      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
-    },
-    {
       "createdCourses": [
         {
-          "courseId": "C148",
-          "courseTitle": "Programming 1",
-          "courseDescription": "mafesh",
+          "courseId": "C185",
+          "courseTitle": "Programming 2",
+          "courseDescription": "Nihao",
           "instructorId": "1",
           "lessons": [
             {
-              "lessonId": "L185",
+              "lessonId": "L142",
               "lessonTitle": "OOP",
-              "content": "mafesh",
+              "content": "Nihao",
               "resources": [
-                "mafesh"
+                "Nihao"
               ],
               "status": false,
               "quiz": {
-                "quizId": "QZ2175",
+                "quizId": "QZ9565",
                 "questions": [
                   {
-                    "questionBody": "Who is the shortest?",
+                    "questionBody": "Whos is the shortest?",
                     "choices": [
                       "Heba",
                       "Roaa",
-                      "Habiba",
-                      "Darine"
+                      "Darine",
+                      "Habiba"
                     ],
                     "answer": "B"
                   }
@@ -60,33 +38,23 @@
               "quizPassed": false
             },
             {
-              "lessonId": "L165",
-              "lessonTitle": "UML",
-              "content": "mafesh",
+              "lessonId": "L179",
+              "lessonTitle": "Design",
+              "content": "Nihao",
               "resources": [
-                "mafesh"
+                "Nihao"
               ],
               "status": false,
               "quiz": {
-                "quizId": "QZ3079",
+                "quizId": "QZ8278",
                 "questions": [
                   {
-                    "questionBody": "Darine\u0027s cat name?",
+                    "questionBody": "Men 5d best player in Africa this year",
                     "choices": [
-                      "Jullitee",
-                      "Romio",
-                      "Loly",
-                      "Bobo"
-                    ],
-                    "answer": "B"
-                  },
-                  {
-                    "questionBody": "My name is",
-                    "choices": [
-                      "Hebo",
-                      "HuaLing",
-                      "HuaHua",
-                      "All of the above"
+                      "Salah",
+                      "Hakemi",
+                      "Marmoush",
+                      "Heba Tarek"
                     ],
                     "answer": "D"
                   }
@@ -99,25 +67,25 @@
               "quizPassed": false
             },
             {
-              "lessonId": "L183",
-              "lessonTitle": "Design",
-              "content": "mafesh",
+              "lessonId": "L129",
+              "lessonTitle": "UML",
+              "content": "Nihao",
               "resources": [
-                "mafesh"
+                "Nihao"
               ],
               "status": false,
               "quiz": {
-                "quizId": "QZ1355",
+                "quizId": "QZ9163",
                 "questions": [
                   {
-                    "questionBody": "Men 5d best player in Africa this year?",
+                    "questionBody": "My name is ",
                     "choices": [
-                      "Marmoush",
-                      "Salah",
-                      "Hakemi",
-                      "Me7rz"
+                      "Hebo",
+                      "Hua Hua",
+                      "Hua Ling",
+                      "All of the above"
                     ],
-                    "answer": "C"
+                    "answer": "D"
                   }
                 ],
                 "score": 0.0,
@@ -128,7 +96,9 @@
               "quizPassed": false
             }
           ],
-          "studentIds": [],
+          "studentIds": [
+            "9692"
+          ],
           "status": "Approved"
         }
       ],
@@ -139,23 +109,6 @@
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     },
     {
-      "enrolledCourseIds": [],
-      "lessonProgress": {},
-      "userId": "9303",
-      "role": "Student",
-      "username": "Roaa Bahaa",
-      "email": "roaa@gmail.com",
-      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
-    },
-    {
-      "createdCourses": [],
-      "userId": "9687",
-      "role": "Instructor",
-      "username": "Darine Islam",
-      "email": "dido@gmail.com",
-      "passwordHash": "b3a8e0e1f9ab1bfe3a36f231f676f78bb30a519d2b21e6c530c0eee8ebb4a5d0"
-    },
-    {
       "userId": "2",
       "role": "Admin",
       "username": "Dr Raggal",
@@ -163,21 +116,48 @@
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     },
     {
-      "userId": "10",
-      "role": "Admin",
-      "username": "Dr Ahmed",
-      "email": "ahmed@gmail.com",
-      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
-    },
-    {
-      "enrolledCourseIds": [],
-      "lessonProgress": {},
-      "quizAttempts": {},
-      "quizScores": {},
-      "userId": "1982",
+      "enrolledCourseIds": [
+        "C185"
+      ],
+      "lessonProgress": {
+        "C185": [
+          true,
+          true,
+          true
+        ]
+      },
+      "quizAttempts": {
+        "QZ9565": 1,
+        "QZ8278": 2,
+        "QZ9163": 1
+      },
+      "quizScores": {
+        "QZ8278": [
+          0.0,
+          100.0
+        ],
+        "QZ9565": [
+          100.0
+        ],
+        "QZ9163": [
+          100.0
+        ]
+      },
+      "completedCoursesIDs": [
+        "C185"
+      ],
+      "earnedCertificates": [
+        {
+          "studentID": "9692",
+          "courseID": "C185",
+          "certificateID": "30478",
+          "issueDate": "23-11-2025"
+        }
+      ],
+      "userId": "9692",
       "role": "Student",
-      "username": "Biba Ahmed",
-      "email": "biba@gmail.com",
+      "username": "Heba Tarek",
+      "email": "heba@gmail.com",
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     }
   ]

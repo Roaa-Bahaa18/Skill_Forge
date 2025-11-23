@@ -29,8 +29,8 @@ public class MainStudentPanel extends JFrame {
     private final List<course> enrolledCourses;
     private final List<Certificate> certificates;
     private Student student = null;
-    public MainStudentPanel(Student student)
-    {
+    private static final int MAX_QUIZ_ATTEMPTS = 5;
+    public MainStudentPanel(Student student) {
         setTitle("Skill-Forge Student Main Panel");
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -106,6 +106,7 @@ public class MainStudentPanel extends JFrame {
             model.addRow(new Object[]{c.getCourseID(), c.getCertificateID(), c.getIssueDate(),"View","Download PDF","Download JSON"});
         }
     }
+
     private void setupAvailableCoursesTab() {
         String[] columnNames = {"Course Name", "Course ID", "Lessons Number"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0) {
@@ -130,6 +131,7 @@ public class MainStudentPanel extends JFrame {
             }
         });
     }
+
     private void updateAvailableCoursesTable() {
         DefaultTableModel model = (DefaultTableModel) availableCoursesTable.getModel();
         model.setRowCount(0);
@@ -138,6 +140,7 @@ public class MainStudentPanel extends JFrame {
             model.addRow(new Object[]{course.getCourseTitle(), course.getCourseId(), course.getLessons().size()});
         }
     }
+
     private void handleAvailableCourseClick(String courseId) {
         course course = availableCourses.stream()
                 .filter(c -> c.getCourseId().equals(courseId))
@@ -186,6 +189,7 @@ public class MainStudentPanel extends JFrame {
             }
         }
     }
+
     private void showSimpleLessonDetail(course course) {
         String[] lessonColumnNames = {"Lesson Name", "Lesson ID"};
         DefaultTableModel lessonModel = new DefaultTableModel(lessonColumnNames, 0) {
@@ -246,7 +250,6 @@ public class MainStudentPanel extends JFrame {
 
     private void setupLessonTab() {
         refreshCourseCombo();
-
         String[] colNames = {"Lesson ID", "Lesson Name", "Quiz", "Quiz Paper", "Mark"};
         DefaultTableModel lessonTableModel = new DefaultTableModel(colNames, 0) {
             @Override
@@ -271,16 +274,20 @@ public class MainStudentPanel extends JFrame {
 
     private void displayLessonsForCourse(course selectedCourse, DefaultTableModel model) {
         model.setRowCount(0);
-
         if (selectedCourse == null) return;
 
         List<lesson> lessons = selectedCourse.getLessons();
         for (lesson L : lessons) {
             Quiz quiz = L.getQuiz();
-            boolean attempted = L.getQuizState();
-            String quizExists = (quiz != null) ? "Yes" : "No";
-            String quizPaper = attempted ? "View" : "";
-            String mark = attempted && quiz != null ? quiz.getScore() + "%" : "";
+            int attemptsCount = student.getQuizAttempts(quiz.getQuizId());
+            Double lastScore = student.getStudentLastQuizScore(quiz.getQuizId());
+            boolean quizExists=false;
+            if(quiz!=null) quizExists=true;
+            String quizPaper;
+            String mark;
+            if (quiz == null) {quizPaper = ""; mark = "";
+            } else if (attemptsCount == 0) {quizPaper = "Take Quiz";mark = "";
+            } else {quizPaper = "View Paper";mark = (lastScore != null) ? String.format("%.2f%%", lastScore) : "N/A";}
             model.addRow(new Object[]{
                     L.getLessonId(),
                     L.getLessonTitle(),
@@ -314,9 +321,6 @@ public class MainStudentPanel extends JFrame {
     }
 
     private void installLessonTableMouseHandler() {
-        for (MouseAdapter ma : Lessontable.getListeners(MouseAdapter.class)) {
-            Lessontable.removeMouseListener(ma);
-        }
 
         Lessontable.addMouseListener(new MouseAdapter() {
             @Override
@@ -432,21 +436,36 @@ public class MainStudentPanel extends JFrame {
             JOptionPane.showMessageDialog(this, "No quiz for this lesson.");
             return;
         }
-
-        if (!selectedLesson.getQuizState()) {
-            takeMCQQuiz(selectedLesson, courseId, row, model);
-        } else {
-            if (selectedLesson.isQuizPassed()) {
+        int attemptsCount = student.getQuizAttempts(quiz.getQuizId());
+        if (attemptsCount >= MAX_QUIZ_ATTEMPTS) {
+            JOptionPane.showMessageDialog(this,
+                    "You have exceeded the limit of " + MAX_QUIZ_ATTEMPTS + " attempts for this quiz.",
+                    "Limit Reached", JOptionPane.WARNING_MESSAGE);
+            if (attemptsCount > 0) {
                 showQuizPaper(selectedLesson);
-            } else {
-                int choice = JOptionPane.showConfirmDialog(this,
-                        "You failed this quiz. Do you want to retake it?",
-                        "Retake Quiz", JOptionPane.YES_NO_OPTION);
-                if (choice == JOptionPane.YES_OPTION) {
-                    takeMCQQuiz(selectedLesson, courseId, row, model);
-                } else {
-                    showQuizPaper(selectedLesson);
-                }
+            }
+            return;
+        }
+        if (attemptsCount == 0) {
+            takeMCQQuiz(selectedLesson, courseId, row, model);
+            return;
+        }
+        if (attemptsCount > 0 && attemptsCount < MAX_QUIZ_ATTEMPTS) {
+            String message = "You have attempted this quiz " + attemptsCount + " time(s).\n\n" +
+                    "Do you want to retake the quiz or view your last attempt?";
+            Object[] options = {"Retake Quiz", "View Last Paper", "Cancel"};
+            int choice = JOptionPane.showOptionDialog(this, message,
+                    "Quiz Options",
+                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]);
+
+            if (choice == 0) {
+                takeMCQQuiz(selectedLesson, courseId, row, model);
+            } else if (choice == 1) {
+                showQuizPaper(selectedLesson);
             }
         }
     }
@@ -454,12 +473,10 @@ public class MainStudentPanel extends JFrame {
     private void takeMCQQuiz(lesson selectedLesson, String courseId, int row, DefaultTableModel model) {
         Quiz quiz = selectedLesson.getQuiz();
         List<Question> questions = quiz.getQuestions();
-
         if (questions == null || questions.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No questions in this quiz.");
             return;
         }
-
         JDialog dialog = new JDialog(this, "Take Quiz - " + selectedLesson.getLessonTitle(), true);
         dialog.setSize(600, 400);
         dialog.setLayout(new BorderLayout());
@@ -468,14 +485,11 @@ public class MainStudentPanel extends JFrame {
         quizPanel.setLayout(new BoxLayout(quizPanel, BoxLayout.Y_AXIS));
 
         List<ButtonGroup> buttonGroups = new ArrayList<>();
-
         for (Question q : questions) {
             JPanel qPanel = new JPanel();
             qPanel.setLayout(new BoxLayout(qPanel, BoxLayout.Y_AXIS));
             qPanel.setBorder(BorderFactory.createTitledBorder(q.getQuestionBody()));
-
             ButtonGroup bg = new ButtonGroup();
-
             for (int i = 0; i < q.getChoices().size(); i++) {
                 char optionChar = (char) ('A' + i);
                 JRadioButton rb = new JRadioButton(optionChar + ": " + q.getChoices().get(i));
@@ -483,17 +497,14 @@ public class MainStudentPanel extends JFrame {
                 bg.add(rb);
                 qPanel.add(rb);
             }
-
             buttonGroups.add(bg);
             quizPanel.add(qPanel);
         }
 
         JScrollPane sp = new JScrollPane(quizPanel);
         dialog.add(sp, BorderLayout.CENTER);
-
         JButton submit = new JButton("Submit Quiz");
         dialog.add(submit, BorderLayout.SOUTH);
-
         submit.addActionListener(e -> {
             List<Character> answers = new ArrayList<>();
             for (ButtonGroup bg : buttonGroups) {
@@ -504,22 +515,14 @@ public class MainStudentPanel extends JFrame {
                 answers.add(bg.getSelection().getActionCommand().charAt(0));
             }
             quiz.setUserAnswers(answers);
-
             boolean passed = sm.takeQuiz(selectedLesson, answers);
             double score = (selectedLesson.getQuiz().getScore() == null ) ? 0.0 : selectedLesson.getQuiz().getScore();
             selectedLesson.setQuizState(true);
             selectedLesson.setQuizState(passed);
-
-
             model.setValueAt(score + "%", row, 4);
-            model.setValueAt("View", row, 3);
+            model.setValueAt("View Paper", row, 3);
             model.fireTableRowsUpdated(row, row);
-         //   Lessontable.repaint();
-         //   Lessontable.revalidate();
             updateEnrolledCoursesTable();
-
-            //displayLessonsForCourse(courseManagement.getCourseByID(courseId), model);
-
             JOptionPane.showMessageDialog(dialog, (passed ? "Quiz Passed!" : "Quiz Failed!") + " Score: " + score + "%");
             dialog.dispose();
             if(sm.progressTrack(getCourse(courseId))==100f)
@@ -529,13 +532,10 @@ public class MainStudentPanel extends JFrame {
                 updateCertificateTable();
                 tabbedPane.setSelectedIndex(2);
             }
-
         });
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
-
-
 
     private void showQuizPaper(lesson selectedLesson) {
         if (selectedLesson == null) return;
@@ -601,33 +601,6 @@ public class MainStudentPanel extends JFrame {
             }
         }
         return null;
-    }
-
-    private void LessonCompletion(course course, String lessonId, DefaultTableModel lessonModel) {
-        int dialogResult = JOptionPane.showConfirmDialog(this,
-                "Do you want to complete this?",
-                "Confirm Lesson Completion", JOptionPane.YES_NO_OPTION);
-
-        if (dialogResult == JOptionPane.YES_OPTION) {
-            lesson lessonToComplete = course.getLessons().stream()
-                    .filter(l -> l.getLessonId().equals(lessonId))
-                    .findFirst()
-                    .orElse(null);
-
-            if (lessonToComplete != null && !lessonToComplete.getStatus()) {
-                lessonToComplete.setStatus(true);
-                sm.completeLesson(course,lessonToComplete);
-
-                for (int i = 0; i < lessonModel.getRowCount(); i++) {
-                    if (lessonModel.getValueAt(i, 1).equals(lessonId)) {
-                        lessonModel.setValueAt("Completed", i, 2);
-                        break;
-                    }
-                }
-                updateEnrolledCoursesTable();
-                JOptionPane.showMessageDialog(this, lessonToComplete.getLessonTitle() + " completed", "Success", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
     }
 
 }

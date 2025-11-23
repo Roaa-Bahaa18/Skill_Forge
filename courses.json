@@ -1,29 +1,29 @@
 {
   "courses": [
     {
-      "courseId": "C148",
-      "courseTitle": "Programming 1",
-      "courseDescription": "mafesh",
+      "courseId": "C185",
+      "courseTitle": "Programming 2",
+      "courseDescription": "Nihao",
       "instructorId": "1",
       "lessons": [
         {
-          "lessonId": "L185",
+          "lessonId": "L142",
           "lessonTitle": "OOP",
-          "content": "mafesh",
+          "content": "Nihao",
           "resources": [
-            "mafesh"
+            "Nihao"
           ],
-          "status": true,
+          "status": false,
           "quiz": {
-            "quizId": "QZ2175",
+            "quizId": "QZ9565",
             "questions": [
               {
-                "questionBody": "Who is the shortest?",
+                "questionBody": "Whos is the shortest?",
                 "choices": [
                   "Heba",
                   "Roaa",
-                  "Habiba",
-                  "Darine"
+                  "Darine",
+                  "Habiba"
                 ],
                 "answer": "B"
               }
@@ -31,36 +31,54 @@
             "passingScore": 50.0,
             "maxAttempts": 5
           },
-          "quizstate": false,
+          "quizstate": true,
           "quizPassed": false
         },
         {
-          "lessonId": "L165",
-          "lessonTitle": "UML",
-          "content": "mafesh",
+          "lessonId": "L179",
+          "lessonTitle": "Design",
+          "content": "Nihao",
           "resources": [
-            "mafesh"
+            "Nihao"
           ],
-          "status": true,
+          "status": false,
           "quiz": {
-            "quizId": "QZ3079",
+            "quizId": "QZ8278",
             "questions": [
               {
-                "questionBody": "Darine\u0027s cat name?",
+                "questionBody": "Men 5d best player in Africa this year",
                 "choices": [
-                  "Jullitee",
-                  "Romio",
-                  "Loly",
-                  "Bobo"
+                  "Salah",
+                  "Hakemi",
+                  "Marmoush",
+                  "Heba Tarek"
                 ],
-                "answer": "B"
-              },
+                "answer": "D"
+              }
+            ],
+            "passingScore": 50.0,
+            "maxAttempts": 5
+          },
+          "quizstate": true,
+          "quizPassed": false
+        },
+        {
+          "lessonId": "L129",
+          "lessonTitle": "UML",
+          "content": "Nihao",
+          "resources": [
+            "Nihao"
+          ],
+          "status": false,
+          "quiz": {
+            "quizId": "QZ9163",
+            "questions": [
               {
-                "questionBody": "My name is",
+                "questionBody": "My name is ",
                 "choices": [
                   "Hebo",
-                  "HuaLing",
-                  "HuaHua",
+                  "Hua Hua",
+                  "Hua Ling",
                   "All of the above"
                 ],
                 "answer": "D"
@@ -69,39 +87,13 @@
             "passingScore": 50.0,
             "maxAttempts": 5
           },
-          "quizstate": false,
-          "quizPassed": false
-        },
-        {
-          "lessonId": "L183",
-          "lessonTitle": "Design",
-          "content": "mafesh",
-          "resources": [
-            "mafesh"
-          ],
-          "status": true,
-          "quiz": {
-            "quizId": "QZ1355",
-            "questions": [
-              {
-                "questionBody": "Men 5d best player in Africa this year?",
-                "choices": [
-                  "Marmoush",
-                  "Salah",
-                  "Hakemi",
-                  "Me7rz"
-                ],
-                "answer": "C"
-              }
-            ],
-            "passingScore": 50.0,
-            "maxAttempts": 5
-          },
-          "quizstate": false,
+          "quizstate": true,
           "quizPassed": false
         }
       ],
-      "studentIds": [],
+      "studentIds": [
+        "9692"
+      ],
       "status": "Approved"
     }
   ]

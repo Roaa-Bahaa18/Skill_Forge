@@ -198,7 +198,7 @@ public abstract class courseManagement {
                     if(l.getLessonId().equals(lessonId))
                     {
                         l.setQuiz(quiz);
-                        l.setStatus(true);
+                        l.setQuizState(true);
                         flag=true;
                         break;
                     }
