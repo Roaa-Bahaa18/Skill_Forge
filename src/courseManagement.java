@@ -101,7 +101,7 @@ public abstract class courseManagement {
             for (User u : users) {
                 if (u instanceof Student) {
                     Student s = (Student) u;
-                    if(s.isCourseCompleted(courseId)) break;
+                    if(s.isCourseCompleted(courseId)) continue;
                     ArrayList<Boolean> progress = s.getProgress().get(courseId);
                     if (progress != null) {
                         progress.add(false);

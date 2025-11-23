@@ -314,6 +314,7 @@ public class InstructorManagement {
         }
         return result;
     }
+
     public float getCompletionaverage(String courseId) {
         int result = 0;
         course course = courseManagement.getCourseByID(courseId);

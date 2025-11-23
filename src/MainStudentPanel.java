@@ -275,27 +275,38 @@ public class MainStudentPanel extends JFrame {
     private void displayLessonsForCourse(course selectedCourse, DefaultTableModel model) {
         model.setRowCount(0);
         if (selectedCourse == null) return;
-
-        List<lesson> lessons = selectedCourse.getLessons();
-        for (lesson L : lessons) {
+        String courseId = selectedCourse.getCourseId();
+        ArrayList<Boolean> studentLessonStatuses = student.getProgress().get(courseId);
+        if (studentLessonStatuses == null || studentLessonStatuses.isEmpty()) {return;}
+        List<lesson> allCourseLessons = selectedCourse.getLessons();
+        for (int i = 0; i < studentLessonStatuses.size(); i++) {
+            if (i >= allCourseLessons.size()) {break;}
+            lesson L = allCourseLessons.get(i);
             Quiz quiz = L.getQuiz();
             int attemptsCount = student.getQuizAttempts(quiz.getQuizId());
             Double lastScore = student.getStudentLastQuizScore(quiz.getQuizId());
             if(lastScore==null) lastScore=0.0;
-            boolean quizExists=false;
-            if(quiz!=null) quizExists=true;
+            boolean quizExists = (quiz != null);
             String quizPaper;
             String mark;
-            Double maxScore= student.getMaxQuizScore(quiz.getQuizId());
-            boolean passed=(maxScore>=50.0)?true:false;
-            String state=passed?"Yes":"No";
-            String maxattemptedscore="";
-            if (quiz == null) {quizPaper = ""; mark = "";
-            } else if (attemptsCount == 0) {quizPaper = "Take Quiz";mark = "";maxattemptedscore="";
-            } else {quizPaper = "View Paper";mark = (lastScore != null) ? String.format("%.2f%%", lastScore) : "N/A";
-                maxattemptedscore= (maxScore != null) ? String.format("%.2f%%", maxScore) : "N/A";
+            Double maxScore = student.getMaxQuizScore(quiz.getQuizId());
+            if(maxScore==null) maxScore=0.0;
+            boolean passed = (maxScore >= 50.0);
+            String state = passed ? "Yes" : "No";
+            String maxattemptedscore;
+            if (quiz == null) {
+                quizPaper = "";
+                mark = "";
+                maxattemptedscore = "";
+            } else if (attemptsCount == 0) {
+                quizPaper = "Take Quiz";
+                mark = "";
+                maxattemptedscore = "";
+            } else {
+                quizPaper = "View Paper";
+                mark = String.format("%.2f%%", lastScore);
+                maxattemptedscore = String.format("%.2f%%", maxScore);
             }
-
             model.addRow(new Object[]{
                     L.getLessonId(),
                     L.getLessonTitle(),

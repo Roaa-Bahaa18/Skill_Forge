@@ -94,10 +94,78 @@
               },
               "quizstate": true,
               "quizPassed": false
+            },
+            {
+              "lessonId": "186",
+              "lessonTitle": "Threads",
+              "content": "Nihao",
+              "resources": [
+                "Nihao"
+              ],
+              "status": false,
+              "quiz": {
+                "quizId": "QZ6827",
+                "questions": [
+                  {
+                    "questionBody": "Fav colour",
+                    "choices": [
+                      "Blue",
+                      "White",
+                      "Green ",
+                      "Pink"
+                    ],
+                    "answer": "B"
+                  },
+                  {
+                    "questionBody": "Lon Dido\u0027s car",
+                    "choices": [
+                      "Black",
+                      "Grey",
+                      "Blue",
+                      "Red"
+                    ],
+                    "answer": "D"
+                  },
+                  {
+                    "questionBody": "Lon Biba\u0027s car",
+                    "choices": [
+                      "Red",
+                      "Black",
+                      "Grey",
+                      "Blue"
+                    ],
+                    "answer": "C"
+                  }
+                ],
+                "score": 0.0,
+                "passingScore": 50.0,
+                "maxAttempts": 5
+              },
+              "quizstate": true,
+              "quizPassed": false
+            },
+            {
+              "lessonId": "L160",
+              "lessonTitle": "Exceptions",
+              "content": "Nihao",
+              "resources": [
+                "Nihao"
+              ],
+              "status": false,
+              "quiz": {
+                "quizId": "QZ1300",
+                "questions": [],
+                "passingScore": 50.0,
+                "maxAttempts": 5
+              },
+              "quizstate": false,
+              "quizPassed": false
             }
           ],
           "studentIds": [
-            "9692"
+            "9692",
+            "9303",
+            "9439"
           ],
           "status": "Approved"
         }
@@ -162,6 +230,80 @@
       "role": "Student",
       "username": "Heba Tarek",
       "email": "heba@gmail.com",
+      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "enrolledCourseIds": [
+        "C185"
+      ],
+      "lessonProgress": {
+        "C185": [
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      "quizAttempts": {
+        "QZ9565": 2,
+        "QZ8278": 1,
+        "QZ6827": 2,
+        "QZ9163": 1
+      },
+      "quizScores": {
+        "QZ8278": [
+          100.0
+        ],
+        "QZ9565": [
+          0.0,
+          100.0
+        ],
+        "QZ6827": [
+          33.333333333333336,
+          66.66666666666667
+        ],
+        "QZ9163": [
+          100.0
+        ]
+      },
+      "completedCoursesIDs": [
+        "C185"
+      ],
+      "earnedCertificates": [
+        {
+          "studentID": "9303",
+          "courseID": "C185",
+          "certificateID": "70026",
+          "issueDate": "23-11-2025"
+        }
+      ],
+      "userId": "9303",
+      "role": "Student",
+      "username": "Roaa Bahaa",
+      "email": "roaa@gmail.com",
+      "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
+    },
+    {
+      "enrolledCourseIds": [
+        "C185"
+      ],
+      "lessonProgress": {
+        "C185": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      "quizAttempts": {},
+      "quizScores": {},
+      "completedCoursesIDs": [],
+      "earnedCertificates": [],
+      "userId": "9439",
+      "role": "Student",
+      "username": "Habiba Ahmed",
+      "email": "biba@gmail.com",
       "passwordHash": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"
     }
   ]

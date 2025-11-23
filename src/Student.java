@@ -83,6 +83,7 @@ public class Student extends User{
     }
 
     public boolean isCourseCompleted(String courseId) {
+        if(this.completedCoursesIDs.isEmpty()) return false;
         for(String key : this.completedCoursesIDs) {
             if(courseId.equals(key)) return true;
         }
