@@ -71,8 +71,7 @@ public class Student extends User{
         return null;
     }
 
-    public Double getMaxQuizScore(String quizid)
-    {
+    public Double getMaxQuizScore(String quizid) {
         List<Double> scores = quizScores.get(quizid);
         if(scores == null || scores.isEmpty()) return 0.0;
         Double max = 0.0;

@@ -250,7 +250,7 @@ public class MainStudentPanel extends JFrame {
 
     private void setupLessonTab() {
         refreshCourseCombo();
-        String[] colNames = {"Lesson ID", "Lesson Name", "Quiz", "Quiz Paper", "Mark","Passed"};
+        String[] colNames = {"Lesson ID", "Lesson Name", "Quiz", "Quiz Paper", "Mark","Max Quiz Mark","Passed"};
         DefaultTableModel lessonTableModel = new DefaultTableModel(colNames, 0) {
             @Override
             public boolean isCellEditable(int row, int col) {
@@ -286,11 +286,15 @@ public class MainStudentPanel extends JFrame {
             if(quiz!=null) quizExists=true;
             String quizPaper;
             String mark;
-            boolean passed=(lastScore>=50.0)?true:false;
+            Double maxScore= student.getMaxQuizScore(quiz.getQuizId());
+            boolean passed=(maxScore>=50.0)?true:false;
             String state=passed?"Yes":"No";
+            String maxattemptedscore="";
             if (quiz == null) {quizPaper = ""; mark = "";
-            } else if (attemptsCount == 0) {quizPaper = "Take Quiz";mark = "";
-            } else {quizPaper = "View Paper";mark = (lastScore != null) ? String.format("%.2f%%", lastScore) : "N/A";}
+            } else if (attemptsCount == 0) {quizPaper = "Take Quiz";mark = "";maxattemptedscore="";
+            } else {quizPaper = "View Paper";mark = (lastScore != null) ? String.format("%.2f%%", lastScore) : "N/A";
+                maxattemptedscore= (maxScore != null) ? String.format("%.2f%%", maxScore) : "N/A";
+            }
 
             model.addRow(new Object[]{
                     L.getLessonId(),
@@ -298,6 +302,7 @@ public class MainStudentPanel extends JFrame {
                     quizExists,
                     quizPaper,
                     mark,
+                    maxattemptedscore,
                     state
             });
         }
@@ -366,7 +371,7 @@ public class MainStudentPanel extends JFrame {
         DefaultTableModel lessonModel = new DefaultTableModel(lessonColumnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Make all cells uneditable
+                return false;
             }
         };
 
@@ -456,12 +461,12 @@ public class MainStudentPanel extends JFrame {
             return;
         }
         if (attemptsCount > 0 && attemptsCount < MAX_QUIZ_ATTEMPTS) {
-            String message = "You have attempted this quiz " + attemptsCount + " time(s).\n\n" +
-                    "Do you want to retake the quiz or view your last attempt?";
-            Object[] options = {"Retake Quiz", "View Last Paper", "Cancel"};
+            String message = "You have attempted this quiz " + attemptsCount + " times.\n\n" +
+                    "Do you want to retake the quiz?";
+            Object[] options = {"Retake Quiz", "Cancel"};
             int choice = JOptionPane.showOptionDialog(this, message,
                     "Quiz Options",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE,
                     null,
                     options,
@@ -469,8 +474,10 @@ public class MainStudentPanel extends JFrame {
 
             if (choice == 0) {
                 takeMCQQuiz(selectedLesson, courseId, row, model);
-            } else if (choice == 1) {
-                showQuizPaper(selectedLesson);
+            }
+            else
+            {
+                return;
             }
         }
     }
@@ -483,7 +490,7 @@ public class MainStudentPanel extends JFrame {
             return;
         }
         JDialog dialog = new JDialog(this, "Take Quiz - " + selectedLesson.getLessonTitle(), true);
-        dialog.setSize(600, 400);
+        dialog.setSize(800, 600);
         dialog.setLayout(new BorderLayout());
 
         JPanel quizPanel = new JPanel();
@@ -493,7 +500,7 @@ public class MainStudentPanel extends JFrame {
             JPanel qPanel = new JPanel();
             BoxLayout box =new BoxLayout(qPanel, BoxLayout.Y_AXIS);
             qPanel.setLayout(box);
-            qPanel.setBorder(BorderFactory.createTitledBorder(q.getQuestionBody()));
+            qPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
             ButtonGroup bg = new ButtonGroup();
             for (int i = 0; i < q.getChoices().size(); i++) {
                 char optionChar = (char) ('A' + i);
@@ -502,7 +509,8 @@ public class MainStudentPanel extends JFrame {
                 bg.add(rb);
                 qPanel.add(rb);
             }
-            //We need to add the paper after we submit quiz, we need to adjust size of the question
+            qPanel.setBorder(BorderFactory.createTitledBorder(q.getQuestionBody()));
+            qPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, qPanel.getPreferredSize().height));
             buttonGroups.add(bg);
             quizPanel.add(qPanel);
         }
@@ -523,16 +531,23 @@ public class MainStudentPanel extends JFrame {
             quiz.setUserAnswers(answers);
             boolean passed = sm.takeQuiz(selectedLesson, answers);
             double score = (selectedLesson.getQuiz().getScore() == null ) ? 0.0 : selectedLesson.getQuiz().getScore();
+            Double Maxscore =student.getMaxQuizScore(quiz.getQuizId());
             selectedLesson.setQuizState(true);
             selectedLesson.setQuizState(passed);
-            String state=passed?"Yes":"No";
+            String state="No";
+            if(Maxscore!=null)
+            {
+                if(Maxscore>=50) state ="Yes";
+            }
             model.setValueAt(score + "%", row, 4);
+            model.setValueAt( Maxscore + "%", row, 5);
             model.setValueAt("View Paper", row, 3);
-            model.setValueAt(state,row,5);
+            model.setValueAt(state,row,6);
             model.fireTableRowsUpdated(row, row);
             updateEnrolledCoursesTable();
             JOptionPane.showMessageDialog(dialog, (passed ? "Quiz Passed!" : "Quiz Failed!") + " Score: " + score + "%");
             dialog.dispose();
+            showQuizPaper(selectedLesson);
             if(sm.progressTrack(getCourse(courseId))==100f)
             {
                 Certificate c = sm.getCertificate(courseId);
@@ -562,7 +577,7 @@ public class MainStudentPanel extends JFrame {
         }
 
         SwingUtilities.invokeLater(() -> {
-            String[] cols = {"Question", "Correct Answer", "Your Answer"};
+            String[] cols = {"Question", "Correct Answer", "Your Answer","Grade"};
             DefaultTableModel paperModel = new DefaultTableModel(cols, 0) {
                 @Override
                 public boolean isCellEditable(int row, int column) {
@@ -572,10 +587,14 @@ public class MainStudentPanel extends JFrame {
 
             for (int i = 0; i < questions.size(); i++) {
                 Question q = questions.get(i);
+                Character correctAnswer = q.getAnswer();
+                Character studentAnswer = studentAnswers.get(i);
+                String grade = (correctAnswer.equals(studentAnswer)) ? "1/1" : "0/1";
                 paperModel.addRow(new Object[]{
                         q.getQuestionBody(),
-                        q.getAnswer(),
-                        studentAnswers.get(i)
+                        correctAnswer,
+                        studentAnswer,
+                        grade
                 });
             }
 
@@ -583,11 +602,12 @@ public class MainStudentPanel extends JFrame {
             paperTable.getTableHeader().setReorderingAllowed(false);
             JScrollPane sp = new JScrollPane(paperTable);
 
-            JLabel scoreLabel = new JLabel("Score: " + quiz.getScore() + "%");
+            JLabel scoreLabel = new JLabel("Total Score: " + quiz.getScore() + "%");
+            scoreLabel.setFont(scoreLabel.getFont().deriveFont(Font.BOLD, 14f));
             scoreLabel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
             JDialog dialog = new JDialog(this, "Quiz Paper - " + selectedLesson.getLessonTitle(), true);
-            dialog.setSize(600, 400);
+            dialog.setSize(800, 500);
             dialog.setLayout(new BorderLayout());
             dialog.add(scoreLabel, BorderLayout.NORTH);
             dialog.add(sp, BorderLayout.CENTER);
