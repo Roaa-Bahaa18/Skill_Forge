@@ -30,7 +30,6 @@
                     "answer": "B"
                   }
                 ],
-                "score": 0.0,
                 "passingScore": 50.0,
                 "maxAttempts": 5
               },
@@ -59,7 +58,6 @@
                     "answer": "D"
                   }
                 ],
-                "score": 0.0,
                 "passingScore": 50.0,
                 "maxAttempts": 5
               },
@@ -88,7 +86,6 @@
                     "answer": "D"
                   }
                 ],
-                "score": 0.0,
                 "passingScore": 50.0,
                 "maxAttempts": 5
               },
@@ -137,7 +134,6 @@
                     "answer": "C"
                   }
                 ],
-                "score": 0.0,
                 "passingScore": 50.0,
                 "maxAttempts": 5
               },
@@ -168,6 +164,24 @@
             "9439"
           ],
           "status": "Approved"
+        },
+        {
+          "courseId": "C168",
+          "courseTitle": "Electronics 2",
+          "courseDescription": "Nihao!!1",
+          "instructorId": "1",
+          "lessons": [],
+          "studentIds": [],
+          "status": "Pending"
+        },
+        {
+          "courseId": "C162",
+          "courseTitle": "Control",
+          "courseDescription": "weew",
+          "instructorId": "1",
+          "lessons": [],
+          "studentIds": [],
+          "status": "Pending"
         }
       ],
       "userId": "1",

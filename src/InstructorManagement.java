@@ -22,8 +22,7 @@ public class InstructorManagement {
         return instructor;
     }
 
-    public void addStudentToCourse(String studentId,String courseId)
-    {
+    public void addStudentToCourse(String studentId,String courseId) {
         ArrayList<course> createdCourses = instructor.getCreatedCourses();
         for(course course : createdCourses)
         {
@@ -66,18 +65,18 @@ public class InstructorManagement {
 
     public boolean editCourse(String courseId, String newTitle, String newContentDescription) {
         ArrayList<course> courses = courseManagement.loadCourses();
-        course oldCourse = null;
-
-        for(course c : courses){if(c.getCourseId().equals(courseId)){oldCourse = c;break;}}
+        course oldCourse = courseManagement.getCourseByID(courseId);
         if (oldCourse == null) {return false;}
         if (oldCourse.getStatus().equals("Pending")) {return false;}
-        if (!Validations.isValidCourseTitle(newTitle)) {return false;}
-
-        course newCourse = new course(courseId, newTitle, newContentDescription, this.instructor.getUserId(), oldCourse.getStudentIds(), oldCourse.getLessons(), "Pending");
+        if(!newTitle.equals(oldCourse.getCourseTitle())){
+        if (!Validations.isValidCourseTitle(newTitle)) {return false;}}
+        course newCourse=null;
+        if(oldCourse.getStatus().equals("Rejected")){newCourse = new course(courseId, newTitle, newContentDescription, this.instructor.getUserId(), oldCourse.getStudentIds(), oldCourse.getLessons(), "Pending");}
+        else {newCourse = new course(courseId, newTitle, newContentDescription, this.instructor.getUserId(), oldCourse.getStudentIds(), oldCourse.getLessons(), "Approved");}
         boolean flag = courseManagement.editCourse(oldCourse, newCourse);
         if(flag) {
             List<User> users = userService.loadUsers();
-            boolean flag2=false;
+            boolean instructorFound = false;
             for(User u:users) {
                 if (oldCourse.getInstructorId().equals(u.getUserId())) {
                     Instructor i = (Instructor) u;
@@ -85,17 +84,16 @@ public class InstructorManagement {
                     for (int j = 0; j < InstructorCourses.size(); j++) {
                         if (courseId.equals(InstructorCourses.get(j).getCourseId())) {
                             InstructorCourses.set(j, newCourse);
-                            flag2=true;
+                            instructorFound = true;
                             break;
                         }
-                        if(flag2) break;
                     }
+                    if (instructorFound) break;
                 }
             }
             userService.saveUsers(users);
             refreshInstructor();
         }
-        //Lazem ttzbt 3nd Student bs wait 7abba
         return flag;
     }
 
@@ -337,6 +335,5 @@ public class InstructorManagement {
         return completionaverage*100;
 
     }
-
 
 }

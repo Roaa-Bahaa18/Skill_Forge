@@ -214,7 +214,6 @@ public class MainInstructorPanel extends JFrame{
                     lessonbox.removeAllItems();
                     lessonbox.addItem("Choose a Lesson");
                     currentQuiz = null;
-
                     if (selectedCourse != null && !selectedCourse.isEmpty() && !selectedCourse.equals("Choose a Course")) {
                         String courseId = getCourseIdFromCombo(selectedCourse);
                         ArrayList<lesson> lessonsWithoutQuiz = im.getLessonsWithoutQuiz(courseId);
@@ -475,7 +474,6 @@ public class MainInstructorPanel extends JFrame{
                 }
             }
         });
-       // ActionListener actionlistener = coursepcombo.getActionListeners()[0];
 
         coursepcombo.addActionListener(new ActionListener() {
             @Override
@@ -546,7 +544,7 @@ public class MainInstructorPanel extends JFrame{
         ArrayList<course> allCourses = im.getInstructor().getCreatedCourses();
         for (course c : allCourses) {
             String courseStatus = c.getStatus();
-            if (courseStatus != null) {
+            if (courseStatus != null && (c.getStatus().equals("Approved"))) {
                 if (filterStatus == null || courseStatus.equals(filterStatus)) {
                     comboBox.addItem("(" + c.getCourseId() + ") " + c.getCourseTitle());
                 }
@@ -581,8 +579,6 @@ public class MainInstructorPanel extends JFrame{
             }
         }
     }
-
-
 
     private void setUpcoursestable() {
         String[] columnNames= {"Course ID","Course Title","Course Description","Status","Lessons Count","Number of Enrolled Students","Edit","Delete"};
@@ -622,12 +618,12 @@ public class MainInstructorPanel extends JFrame{
                                 boolean success = im.editCourse(courseId, editedTitle, editedDescription);
                                 if (success) {
                                     createdCourses = im.getInstructor().getCreatedCourses();
-                                    updateCourseTable();
                                     JOptionPane.showMessageDialog(null,"Course Edited Successfully!");
                                 } else {
                                     JOptionPane.showMessageDialog(null,"Failed to edit course.");
                                 }
                             }
+                            updateCourseTable();
                         }
                         if(column==7){
                             int option = JOptionPane.showConfirmDialog(null,"Do you want to delete "+courseTitle+" ?","Deletion Confirmation",JOptionPane.YES_NO_OPTION);
