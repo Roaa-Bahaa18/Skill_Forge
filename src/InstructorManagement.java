@@ -164,7 +164,12 @@ public class InstructorManagement {
     }
 
     public boolean editLesson(String courseId, String lessonId, String newTitle, String newContent, ArrayList<String> newResources,Boolean state){
-        if(!Validations.isValidLessonTitle(courseId,newTitle)) { return false;}
+        lesson oldlesson= courseManagement.getLessonByID(courseId,lessonId);
+        if(!oldlesson.getLessonTitle().equals(newTitle)) {
+            if (!Validations.isValidLessonTitle(courseId, newTitle)) {
+                return false;
+            }
+        }
         ArrayList<course> list = courseManagement.loadCourses();
         boolean flag = false;
         for(course c : list){

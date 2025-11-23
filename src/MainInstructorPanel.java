@@ -596,8 +596,7 @@ public class MainInstructorPanel extends JFrame{
 
         coursestable.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 1) {
+            public void mouseClicked(MouseEvent e) { if (e.getClickCount() == 1) {
                     int row = coursestable.getSelectedRow();
                     int column = coursestable.getSelectedColumn();
                     if (row >= 0) {
